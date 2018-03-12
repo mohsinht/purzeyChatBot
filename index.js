@@ -37,7 +37,7 @@ app.post('/webhook/', function(req, res){
 			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
 			}else{
-			sendText(sender, "Text echo: " + text.substring(0, 100))
+			sendText(sender, "You wrote: " + text.substring(0, 100))
 		}
 		}
 	}
