@@ -21,7 +21,7 @@ app.get('/', function(req, res){
 let token = "EAANqtvRqU5oBAGHtnynk1THZC1kXv0OYJjsZAwtSWHcBCSqhx2sGcZCNzhFP1vBUmaW8T5mTwnHaNWwZA25riQKZBBVaiCWwcV0qWpv9UyrHne9w7mMfx3zqhYC2GEVaZA3onUDyyAeUgv2ehnlBKDddEGHuccoXEtZAWybo37z0wZDZD"
 //facebook connect
 app.get('/webhook/', function(req, res){
-	if(req.query['hub.verify_token'] === 'mohsinhayat'){
+	if(req.query['hub.verify_token'] === "mohsinhayat"){
 		res.send(req.query['hub.challenge'])
 	}
 	res.send("Wrong Token")
