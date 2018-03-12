@@ -58,7 +58,7 @@ app.post('/webhook/', function(req, res){
  			const timing = firstEntity(guess, 'datetime');
 			if (timing && timing.confidence > 0.8 && (text.includes("free") || text.includes("slot"))) {
 				let time = text.substring(timing.start, timing.end)
-    			sendText(sender, "Is your timeslot " + time + "? Please wait while the campus ambassador confirms this timeslot.")
+    			sendText(sender, "We have noted down your timeslot. Please wait while the campus ambassador confirms this timeslot.")
  			} 
 
 
