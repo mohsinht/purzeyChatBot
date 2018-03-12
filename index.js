@@ -63,7 +63,7 @@ app.post('/webhook/', function(req, res){
 
 
 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
-				sendText(sender, "Walaikum-Asalam!" + sender)
+				sendText(sender, "Walaikum-Asalam!")
 			}
 			if(text.includes('?')){
 				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
