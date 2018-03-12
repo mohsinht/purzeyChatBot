@@ -36,10 +36,10 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
-			}else if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
+			}if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
 			}
-			else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 			}else{
 			sendText(sender, "You wrote: " + text.substring(0, 100))
