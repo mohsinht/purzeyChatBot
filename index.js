@@ -27,13 +27,23 @@ app.get('/webhook/', function(req, res){
 	res.send("Wrong Token")
 })
 
+function firstEntity(nlp, name) {
+  return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
+}
+
 app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = messaging_events[i]
 		let sender = event.sender.id
+
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
+			let guess = event.message.nlp
+			const greeting = firstEntity(guess, 'greetings');
+			  if (greeting && greeting.confidence > 0.8) {
+    			sendResponse('Hi there!');
+ 			} 
 			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
 			}if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
