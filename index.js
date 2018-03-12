@@ -43,10 +43,10 @@ app.post('/webhook/', function(req, res){
 				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 			}
 			else if(text.includes("comsats")){
-				sendText(sender, "Khunshan Butt is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
+				sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
 			}
 			else if(text.includes("fast university") || text.includes("fast lahore") || text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")){
-				sendText(sender, "Mohsin Hayat is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
+				sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
 			}
 
 			else{
