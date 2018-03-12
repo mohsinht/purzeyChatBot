@@ -4,8 +4,7 @@
   "description": "Bot for my page PURZEY",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"﻿
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohsin hayat",
   "license": "ISC",
