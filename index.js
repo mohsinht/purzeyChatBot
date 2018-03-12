@@ -78,9 +78,13 @@ app.post('/webhook/', function(req, res){
 				sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
 			}
 
-			else{
-			//sendText(sender, "You wrote: " + text.substring(0, 100))
-		}
+
+
+
+			const qt = firstEntity(qt, 'quantity');
+			if (quantity && quantity.confidence > 0.8) {
+    			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
+ 			} 
 		}
 	}
 	res.sendStatus(200)
