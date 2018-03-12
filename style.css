@@ -1,0 +1,11 @@
+body{
+    margin: 30px auto;
+    max-width: 800px;
+    font-family: "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+    padding: 25px 30px;
+    font-size: 70%;
+}
+div {
+    padding-bottom: 21px;
+    border-bottom: 1px dotted #dfdfdf;
+}
