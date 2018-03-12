@@ -39,7 +39,10 @@ app.post('/webhook/', function(req, res){
 			}if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
 			}
-			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+			if(text.includes("?")){
+				sendText(sender, "We have noted down your question. Please wait for our team to get online.")
+			}
+			else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 			}
 			else if(text.includes("comsats")){
