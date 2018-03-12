@@ -81,10 +81,7 @@ app.post('/webhook/', function(req, res){
 
 
 
-			const qt = firstEntity(qt, 'quantity');
-			if (quantity && quantity.confidence > 0.8) {
-    			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
- 			} 
+
 		}
 	}
 	res.sendStatus(200)
