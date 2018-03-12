@@ -33,8 +33,8 @@ app.post('/webhook/', function(req, res){
 		let event = messaging_events[i]
 		let sender = event.sender.id
 		if(event.message && event.message.text){
-			let text = event.message.text
-			if(text.includes("Happy")){
+			let text = event.message.text.toLowerCase()
+			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
 			}else{
 			sendText(sender, "Text echo: " + text.substring(0, 100))
