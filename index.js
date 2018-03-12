@@ -44,6 +44,18 @@ app.post('/webhook/', function(req, res){
 			if (greeting && greeting.confidence > 0.8) {
     			sendText(sender, "Hey!")
  			} 
+ 			const byed = firstEntity(guess, 'bye');
+			if (byed && byed.confidence > 0.8) {
+    			sendText(sender, "Thank you so much. Bye!")
+ 			} 
+
+ 			const phNum = firstEntity(guess, 'phone_number');
+			if (phNum && phNum.confidence > 0.8) {
+    			sendText(sender, "We have noted down your Phone number.")
+ 			} 
+
+
+
 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
 			}
