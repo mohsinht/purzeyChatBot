@@ -38,9 +38,9 @@ app.post('/webhook/', function(req, res){
 				sendText(sender, "I'm happy too :)")
 			}if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
-			}
+			}else if(text.includes("hi") || text.includes("hey") || text.includes("hello"))
 			if(text.includes("?")){
-				sendText(sender, "We have noted down your question. Please wait for our team to get online.")
+				sendText(sender, "Hey!")
 			}
 			else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
