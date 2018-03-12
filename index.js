@@ -52,9 +52,14 @@ app.post('/webhook/', function(req, res){
  			const phNum = firstEntity(guess, 'phone_number');
 			if (phNum && phNum.confidence > 0.8) {
 				let phn = text.substring(phNum.start, phNum.end)
-    			sendText(sender, "We have noted down your Phone number. Phone Number = " + phn)
+    			sendText(sender, "We have noted down your Phone number. \n Your Phone Number = " + phn)
  			} 
 
+ 			const timing = firstEntity(guess, 'datetime');
+			if (timing && timing.confidence > 0.8 && (text.includes("free") || text.includes("slot"))) {
+				let time = text.substring(timing.start, timing.end)
+    			sendText(sender, "Is your timeslot " + time + "? Please wait while the campus ambassador confirms this timeslot.")
+ 			} 
 
 
 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
