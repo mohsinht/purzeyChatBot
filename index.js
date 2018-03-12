@@ -27,10 +27,6 @@ app.get('/webhook/', function(req, res){
 	res.send("Wrong Token")
 })
 
-function firstEntity(nlp, name) {
-  return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
-}
-
 app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
@@ -38,11 +34,7 @@ app.post('/webhook/', function(req, res){
 		let sender = event.sender.id
 		if(event.message && event.message.text){
 			let text = event.message.text
-			const greeting = firstEntity(message.nlp, 'greetings');
-			if (greeting && greeting.confidence > 0.8) {
-				sendText(sender,'Hi there!');
-			} 
-			else if(text.includes("Happy")){
+			if(text.includes("Happy")){
 				sendText(sender, "I'm happy too :)")
 			}else{
 			sendText(sender, "Text echo: " + text.substring(0, 100))
