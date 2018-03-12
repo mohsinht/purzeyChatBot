@@ -36,6 +36,8 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
+			}else if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")   ){
+				sendText(sender, "Walaikum Aslam!")
 			}else{
 			sendText(sender, "You wrote: " + text.substring(0, 100))
 		}
