@@ -41,15 +41,11 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
-			  if (greeting && greeting.confidence > 0.8) {
-    			sendText(sender, "I'm happy too :)")
+			if (greeting && greeting.confidence > 0.8) {
+    			sendText(sender, "Hey!")
  			} 
-			if(text.includes("happy")){
-				sendText(sender, "I'm happy too :)")
-			}if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
+			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
-			}else if(text.includes("hi") || text.includes("hey") || text.includes("hello")){
-				sendText(sender, "Hey!")
 			}
 			if(text.includes('?')){
 				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
