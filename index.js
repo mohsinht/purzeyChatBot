@@ -42,7 +42,7 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			  if (greeting && greeting.confidence > 0.8) {
-    			sendResponse('Hi there!');
+    			sendText(sender, "I'm happy too :)")
  			} 
 			if(text.includes("happy")){
 				sendText(sender, "I'm happy too :)")
