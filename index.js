@@ -50,9 +50,9 @@ app.post('/webhook/', function(req, res){
  			} 
 
  			const phNum = firstEntity(guess, 'phone_number');
-			if (phNum && phNum.confidence > 0.9) {
+			if (phNum && phNum.confidence > 0.95) {
 				let phn = text.substring(phNum.start, phNum.end)
-    			sendText(sender, "We have noted down your Phone number. \n Your Phone Number = " + phn)
+    			sendText(sender, "We have noted down your Phone number. \nYour Phone Number = " + phn)
  			} 
 
  			const timing = firstEntity(guess, 'datetime');
