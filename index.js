@@ -42,7 +42,19 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			if (greeting && greeting.confidence > 0.8) {
-    			sendText(sender, "Hey!")
+				var k = Math.random()
+				if(k>8){
+					sendText(sender, "Hello! How you doing?")
+				}else if(k>6){
+					sendText(sender, "Hey! Welcome to Purzey!")
+				}else if(k>4){
+					sendText(sender, "AoA! Kya haal hai?")
+				}else if(k>2){
+					sendText(sender, "Hi! Did you see our shop?")
+				}else{
+					sendText(sender, "Purzey says: \"HELLO!\"")
+				}
+    			
  			} 
  			const byed = firstEntity(guess, 'bye');
 			if (byed && byed.confidence > 0.8) {
