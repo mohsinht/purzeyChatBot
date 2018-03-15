@@ -44,7 +44,7 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 
-			let profileData = getProfile(sender)
+			getProfile(sender)
 
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
