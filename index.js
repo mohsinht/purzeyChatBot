@@ -19,6 +19,8 @@ app.get('/', function(req, res){
 })
 
 let token = "EAACzZALUsmqYBAIeJ1IHeFXticRO0Ac7LEXbuaUe6pxwUoMZBi3EvHK4kMC4TjXAgbvZAZAudmi5qabXtGKCfJ13NZCeNk9petjkG7x48vWJZBvVgbdsEOwnAzaASwRmZCpSAtmbLHRE7jSxsYV0ZCfmSFwDUgI3zSQNZB3ZASTR1zwgZDZD"
+let ddadas = "Mohsin"
+
 //facebook connect
 app.get('/webhook/', function(req, res){
 	if(req.query['hub.verify_token'] === "mohsinhayat"){
@@ -55,7 +57,7 @@ app.post('/webhook/', function(req, res){
 				}else if(k>0.2){
 					sendText(sender, "Hi! Did you see our shop?")
 				}else{
-					sendText(sender, "Hey! :) " + profileData.first_name)
+					sendText(sender, "Hey! :) " + ddadas)
 				}
     			
  			} 
@@ -132,10 +134,9 @@ function getProfile(senderID){
 	        res.end();
 	    }
 	    else{
-	        
+	        ddadas = data.first_name;
 	    }
 	});
-	return data;
 }
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
