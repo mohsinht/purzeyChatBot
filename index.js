@@ -19,7 +19,7 @@ app.get('/', function(req, res){
 })
 
 let token = "EAACzZALUsmqYBAIeJ1IHeFXticRO0Ac7LEXbuaUe6pxwUoMZBi3EvHK4kMC4TjXAgbvZAZAudmi5qabXtGKCfJ13NZCeNk9petjkG7x48vWJZBvVgbdsEOwnAzaASwRmZCpSAtmbLHRE7jSxsYV0ZCfmSFwDUgI3zSQNZB3ZASTR1zwgZDZD"
-let ddadas = "Mohsin"
+
 
 //facebook connect
 app.get('/webhook/', function(req, res){
@@ -44,8 +44,6 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 
-			getProfile(sender)
-
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -57,7 +55,7 @@ app.post('/webhook/', function(req, res){
 				}else if(k>0.2){
 					sendText(sender, "Hi! Did you see our shop?")
 				}else{
-					sendText(sender, "Hey! :) " + ddadas)
+					sendText(sender, "Hey! :) " )
 				}
     			
  			} 
@@ -124,20 +122,6 @@ function sendText(sender, text){
 	})
 }
 
-
-function getProfile(senderID){
-	let url = "https://graph.facebook.com/v2.6/" + senderID + "?fields=first_name,last_name&access_token=" + token;
-	facebook.api(url, function(err, data){
-	    if(err){
-	        console.error(err);
-	        res.sendStatus(502);
-	        res.end();
-	    }
-	    else{
-	        ddadas = data.first_name;
-	    }
-	});
-}
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
