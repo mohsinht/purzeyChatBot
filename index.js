@@ -52,7 +52,7 @@ app.post('/webhook/', function(req, res){
 				}else if(k>0.2){
 					sendText(sender, "Hi! Did you see our shop?")
 				}else{
-					sendText(sender, "Hey! :)")
+					sendText(sender, "Hey! :)" + event.sender.firstname)
 				}
     			
  			} 
