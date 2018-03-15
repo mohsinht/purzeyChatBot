@@ -41,6 +41,9 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
+
+			let profileData = getProfile(sender)
+
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -52,7 +55,7 @@ app.post('/webhook/', function(req, res){
 				}else if(k>0.2){
 					sendText(sender, "Hi! Did you see our shop?")
 				}else{
-					sendText(sender, "Hey! :)" + event.sender.firstname)
+					sendText(sender, "Hey! :) " + profileData.first_name)
 				}
     			
  			} 
@@ -119,6 +122,20 @@ function sendText(sender, text){
 	})
 }
 
+
+function getProfile(senderID){
+	let url = "https://graph.facebook.com/v2.6/" + senderID + "?fields=first_name,last_name&access_token=" + token;
+	facebook.api(url, function(err, data){
+	    if(err){
+	        console.error(err);
+	        res.sendStatus(502);
+	        res.end();
+	    }
+	    else{
+	        return data;
+	    }
+	});
+}
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
