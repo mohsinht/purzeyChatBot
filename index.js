@@ -43,13 +43,13 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
-				if(k>8){
+				if(k>0.8){
 					sendText(sender, "Hello! How you doing?")
-				}else if(k>6){
+				}else if(k>0.6){
 					sendText(sender, "Hey! Welcome to Purzey!")
-				}else if(k>4){
+				}else if(k>0.4){
 					sendText(sender, "AoA! Kya haal hai?")
-				}else if(k>2){
+				}else if(k>0.2){
 					sendText(sender, "Hi! Did you see our shop?")
 				}else{
 					sendText(sender, "Purzey says: \"HELLO!\"")
