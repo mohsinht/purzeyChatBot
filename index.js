@@ -132,9 +132,10 @@ function getProfile(senderID){
 	        res.end();
 	    }
 	    else{
-	        return data;
+	        
 	    }
 	});
+	return data;
 }
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
