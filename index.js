@@ -67,7 +67,7 @@ app.post('/webhook/', function(req, res){
 
 
  			const prd = firstEntity(guess, 'product');
- 			 if (uni && uni.confidence > 0.8){
+ 			 if (prd && prd.confidence > 0.8){
  			 	if(guess['product_type'] && guess['product_type'].confidence > 0.8)
  				{
  					sendText(sender, "You talked about a " + guess['product_type'].value+ " " + prd.value)
