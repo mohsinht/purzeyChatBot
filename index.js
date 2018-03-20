@@ -58,7 +58,12 @@ app.post('/webhook/', function(req, res){
 					sendText(sender, "Hey! :) " )
 				}
     			
- 			} 
+ 			}
+
+ 			const uni = firstEntity(guess, 'university');
+ 			if (uni && uni.confidence > 0.8){
+ 				sendText(sender, "You talked about your university")
+ 			}
  			const byed = firstEntity(guess, 'bye');
 			if (byed && byed.confidence > 0.8) {
     			sendText(sender, "Thank you so much. Bye!")
@@ -73,7 +78,7 @@ app.post('/webhook/', function(req, res){
  			const timing = firstEntity(guess, 'datetime');
 			if (timing && timing.confidence > 0.8 && (text.includes("free") || text.includes("slot"))) {
 				let time = text.substring(timing.start, timing.end)
-    			sendText(sender, "We have noted down your timeslot. Please wait while the campus ambassador confirms this timeslot.")
+    			sendText(sender, "We have noted down your time-slot. Please wait while the campus ambassador confirms this time-slot.")
  			} 
 
 
@@ -89,7 +94,9 @@ app.post('/webhook/', function(req, res){
 			else if(text.includes("comsats")){
 				sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
 			}
-			else if(text.includes("fast university") || text.includes("fast lahore") || text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")){
+			else if(text.includes("fast university") || text.includes("fast lahore") || 
+				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
+				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
 				sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
 			}
 
