@@ -64,6 +64,17 @@ app.post('/webhook/', function(req, res){
  			if (uni && uni.confidence > 0.8){
  				sendText(sender, "You talked about your university " + uni.value)
  			}
+
+
+ 			const prd = firstEntity(guess, 'product');
+ 			 if (uni && uni.confidence > 0.8){
+ 			 	if(guess['product_type'] && guess['product_type'].confidence > 0.8)
+ 				{
+ 					sendText(sender, "You talked about a " + guess['product_type'].value+ " " + prd.value)
+ 				}else{
+ 					sendText(sender, "You talked about " + prd.value)
+ 				}
+ 			}
  			const byed = firstEntity(guess, 'bye');
 			if (byed && byed.confidence > 0.8) {
     			sendText(sender, "Thank you so much. Bye!")
