@@ -255,7 +255,7 @@ function getDataFromDB(sender, child, data){
 
 
 function getProfile(sender, userProfile){
-	var request = require('request');
+	//var request = require('request');
 
 	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
 	  if (err) {
