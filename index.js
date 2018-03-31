@@ -65,7 +65,7 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
 
-
+			var info = getProfile(sender)
 			if(text.includes("profile")){
 				let profMsg = '\nName: ' + info.first_name;
 				if(goUNI!=null){
@@ -257,4 +257,15 @@ function isEmpty(obj) {
     }
 
     return true;
+}
+
+function getProfile(sender){
+	var pData = {};
+	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
+		if (err) {
+			throw err;
+		}
+		pData = json
+	});
+	return pData;
 }
