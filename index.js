@@ -58,9 +58,10 @@ app.post('/webhook/', function(req, res){
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		var request = require('request');
+		var info = '';
 		request('https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, function (error, response, body) {
 		    if (!error && response.statusCode == 200) {
-		      var info = JSON.parse(body)
+		      info = JSON.parse(body)
 		    }
 		})
 
