@@ -36,7 +36,6 @@ app.get('/', function(req, res){
 
 let token = "EAACzZALUsmqYBAIeJ1IHeFXticRO0Ac7LEXbuaUe6pxwUoMZBi3EvHK4kMC4TjXAgbvZAZAudmi5qabXtGKCfJ13NZCeNk9petjkG7x48vWJZBvVgbdsEOwnAzaASwRmZCpSAtmbLHRE7jSxsYV0ZCfmSFwDUgI3zSQNZB3ZASTR1zwgZDZD"
 
-let info = {}
 //facebook connect
 app.get('/webhook/', function(req, res){
 	if(req.query['hub.verify_token'] === "mohsinhayat"){
@@ -57,7 +56,7 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		getProfile(sender, info)
+		let info = getDataFromDB(sender, 'Personal', dbPh)
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
@@ -65,7 +64,7 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
 			if(text.includes("profile")){
-				let profMsg = '\nName: ' + info.first_name;
+				let profMsg = '\n*Name: *' + info.first_name;
 				if(goUNI!=null){
 					profMsg += "\n*University:* " + goUNI.value
 				}
@@ -262,7 +261,9 @@ function getProfile(sender, info){
 		if (err) {
 			throw err;
 		}
-		info = json
-		sendText(sender, "YOUR NAME IS " + info.first_name)
+		let obj = getDataFromDB(sender, 'Personal', dbPh)
+		if(obj == null){
+			saveinDB(sender, 'Personal', info)
+		}
 	});
 }
