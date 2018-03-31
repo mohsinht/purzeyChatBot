@@ -54,6 +54,10 @@ app.post('/webhook/', function(req, res){
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = messaging_events[i]
 		let sender = event.sender.id
+		let dbPh = ''
+		let goUNI = getDataFromDB(sender, 'University', dbPh)
+		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
@@ -107,8 +111,7 @@ app.post('/webhook/', function(req, res){
  			const phNum = firstEntity(guess, 'phone_number');
 			if (phNum && phNum.confidence > 0.8) {
 				//let phn = text.substring(phNum.start, phNum.end)
-				let dbPh = ''
-				let goDB = getDataFromDB(sender, 'Phone', dbPh)
+
 				if(!goDB){
 					saveinDB(sender, 'Phone', phNum.value)
     				sendText(sender, "We have noted down your Phone number: " + phNum.value + ". Kindly wait while the campus ambassador contacts you.")
@@ -128,24 +131,29 @@ app.post('/webhook/', function(req, res){
 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 				sendText(sender, "Walaikum-Asalam!")
 			}
+
 			if(text.includes('?')){
 				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
 			}
-			else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
-				saveinDB(sender, 'University', 'ITU')
-				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
+			
+			if(!goUNI){
+				if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+					saveinDB(sender, 'University', 'ITU')
+					sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
+				}
+				else if(text.includes("comsats")){
+					saveinDB(sender, 'University', 'COMSATS')
+					sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
+				}
+				else if(text.includes("fast university") || text.includes("fast lahore") || 
+					text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
+					|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+					saveinDB(sender, 'University', 'Fast-NU')
+					sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
+				}
+			}else{
+				sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
 			}
-			else if(text.includes("comsats")){
-				saveinDB(sender, 'University', 'COMSATS')
-				sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
-			}
-			else if(text.includes("fast university") || text.includes("fast lahore") || 
-				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
-				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
-				saveinDB(sender, 'University', 'Fast-NU')
-				sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
-			}
-
 			const qt = firstEntity(guess, 'quantity');
 			if (qt && qt.confidence > 0.8) {
     			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
