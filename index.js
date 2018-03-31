@@ -69,7 +69,7 @@ app.post('/webhook/', function(req, res){
 			if(text.includes("profile")){
 				let profMsg = '';
 				if(userProfile.first_name != "NULL"){
-					profMsg += "\n*Name:* " + userProfile.first_name;
+					profMsg += "\n*Name:* " + userProfile.first_name
 				}
 				if(goUNI!=null){
 					profMsg += "\n*University:* " + goUNI.value
@@ -261,6 +261,7 @@ function getProfile(sender, userProfile){
 	  if (err) {
 	    throw err;
 	  }
-	  userProfile.first_name = json.first_name
+	  sendText(send, "HI " + json.first_name)
+	  //userProfile.first_name = json.first_name
 	});
 }
