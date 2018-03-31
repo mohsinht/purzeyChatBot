@@ -5,18 +5,6 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-
-//--FIREBASE
-var admin = require("firebase-admin");
-
-var serviceAccount = require("path/to/serviceAccountKey.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://purzey-b9cbd.firebaseio.com"
-});
-//----------
-
 app.set('port', (process.env.PORT || 5000))
 
 //processing the data
@@ -49,17 +37,11 @@ app.post('/webhook/', function(req, res){
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = messaging_events[i]
 		let sender = event.sender.id
-		// Get a database reference to our blog
-		var db = admin.database()
-		var ref = db.ref("customers/" + sender)
+		saveToDatabase(sender, text)
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
-			var usersRef = ref.child("users");
-			usersRef.set({
-				msg: text 
-			});
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -168,3 +150,12 @@ app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
 
+
+function saveToDatabase(sender, text){
+	var dbRef = new Firebase('https://purzey-b9cbd.firebaseio.com/customers/');
+	var spamRef = dbRef.child('C - ' + sender);
+	spamRef.push({
+		msg: text
+	});
+
+}
