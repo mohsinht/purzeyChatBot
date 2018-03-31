@@ -111,7 +111,7 @@ app.post('/webhook/', function(req, res){
 				let goDB = getDataFromDB(sender, 'Phone', dbPh)
 				if(1){
 					saveinDB(sender, 'Phone', phNum.value)
-    				sendText(sender, "We have noted down your Phone number. Kindly wait while the campus ambassador contacts you." + goDB)
+    				sendText(sender, "We have noted down your Phone number. Kindly wait while the campus ambassador contacts you." + goDB.value)
  				}
  				else{
  					sendText(sender, "We have already saved your Phone Number: " + dbPh.value)
@@ -205,7 +205,7 @@ function saveinDB(sender, child, data){
 function getDataFromDB(sender, child, data){
 	// Get a database reference to our posts
 	var db = admin.database();
-	var ref = db.ref("server/messenger/customer " + sender + "/" + child + "/value");
+	var ref = db.ref("server/messenger/customer " + sender + "/" + child);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
 	ref.on("value", function(snapshot) {
