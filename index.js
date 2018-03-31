@@ -67,8 +67,12 @@ app.post('/webhook/', function(req, res){
 
 			if(text.includes("profile")){
 				let profMsg = '';
+				if(goUNI.value != undefined){
 					profMsg += "\nUniversity: " + goUNI.value
+				}
+				if(goDB.value != undefined){
 					profMsg += "\nPhone Number: " + goDB.value
+				}
 				profMsg = profMsg + "\nOrder Count: 0"
 				sendText(sender, "We have your profile saved with us: " + profMsg)
 			}
