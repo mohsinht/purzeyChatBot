@@ -122,7 +122,7 @@ app.post('/webhook/', function(req, res){
  			} 
 
  			const phNum = firstEntity(guess, 'phone_number');
-			if (phNum && phNum.confidence > 0.8 && phNum.length > 10 && phNum.length < 15) {
+			if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
 				//let phn = text.substring(phNum.start, phNum.end)
 
 				if(!goDB){
