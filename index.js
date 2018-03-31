@@ -107,8 +107,14 @@ app.post('/webhook/', function(req, res){
  			const phNum = firstEntity(guess, 'phone_number');
 			if (phNum && phNum.confidence > 0.8) {
 				//let phn = text.substring(phNum.start, phNum.end)
+				let dbPh = getDataFromDB(sender, 'Phone')
+				if(!dbPh){
 				saveinDB(sender, 'Phone', phNum.value)
     			sendText(sender, "We have noted down your Phone number. Kindly wait while the campus ambassador contacts you.")
+ 				}
+ 				else{
+ 					sendText(sender, "We have already saved your Phone Number: " + dbPh)
+ 				}
  			} 
 
  			const timing = firstEntity(guess, 'datetime');
@@ -193,4 +199,20 @@ function saveinDB(sender, child, data){
 	custRef.set({
 	  value: data
 	});
+}
+
+function getDataFromDB(sender, child){
+	// Get a database reference to our posts
+	var db = admin.database();
+	var ref = db.ref("server/messenger");
+	var custRef = ref.child("customer " + sender + "/" + child);
+	let returnvalue;
+	// Attach an asynchronous callback to read the data at our posts reference
+	custRef.on("value", function(snapshot) {
+	  returnvalue = snapshot.value.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+
+	return returnvalue;
 }
