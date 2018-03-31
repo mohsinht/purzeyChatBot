@@ -61,6 +61,8 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 
 
+			saveDataInDatabase(sender, text)
+
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -168,3 +170,17 @@ function sendText(sender, text){
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
+
+
+
+function saveDataInDatabase(sender, text){
+	var db = admin.database();
+	var ref = db.ref("server/messenger");
+
+	var postsRef = ref.child("customer " + sender + "/chat");
+
+	var newPostRef = postsRef.push();
+	newPostRef.set({
+	  msg: text
+	});
+}
