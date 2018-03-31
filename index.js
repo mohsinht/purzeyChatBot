@@ -268,7 +268,7 @@ function getProfile(sender, info){
 		}
 		let obj = getDataFromDB(sender, 'Personal', dbPh)
 		if(obj == null){
-			saveinDB(sender, 'Personal', json)
+			saveinDB(sender, 'Personal', first_name)
 		}
 	});
 }
