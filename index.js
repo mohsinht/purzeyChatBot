@@ -59,10 +59,7 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
-
-
 			saveDataInDatabase(sender, text)
-
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -127,14 +124,17 @@ app.post('/webhook/', function(req, res){
 				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
 			}
 			else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+				saveinDB(sender, 'University', 'ITU')
 				sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 			}
 			else if(text.includes("comsats")){
+				saveinDB(sender, 'University', 'COMSATS')
 				sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
 			}
 			else if(text.includes("fast university") || text.includes("fast lahore") || 
 				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
 				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+				saveinDB(sender, 'University', 'Fast-NU')
 				sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
 			}
 
@@ -177,10 +177,22 @@ function saveDataInDatabase(sender, text){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
 
-	var postsRef = ref.child("customer " + sender + "/chat");
+	var senderRef = ref.child("customer " + sender + "/chat");
 
-	var newPostRef = postsRef.push();
-	newPostRef.set({
+	var chatRef = senderRef.push();
+	chatRef.set({
 	  msg: text
+	});
+}
+
+function saveinDB(sender, child, data){
+	var db = admin.database();
+	var ref = db.ref("server/messenger");
+
+	var custRef = ref.child("customer " + sender);
+
+	var childRef = custRef.push();
+	childRef.set({
+	  child: data
 	});
 }
