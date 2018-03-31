@@ -152,7 +152,8 @@ app.listen(app.get('port'), function(){
 
 
 function getProfile(sender){
-	getUserName = function(response) {
+	var request = require('request'); // make http call
+	let getUserName = function(response) {
 	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
 	request({
 	    url: usersPublicProfile,
