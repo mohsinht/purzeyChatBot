@@ -67,10 +67,10 @@ app.post('/webhook/', function(req, res){
 
 			if(text.includes("profile")){
 				let profMsg = '';
-				if(!isEmpty(goUNI)){
+				if(goUNI!=null){
 					profMsg += "\nUniversity: " + goUNI.value
 				}
-				if(!isEmpty(goDB)){
+				if(goDB!=null){
 					profMsg += "\nPhone Number: " + goDB.value
 				}
 				profMsg = profMsg + "\nOrder Count: 0"
