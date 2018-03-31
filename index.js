@@ -71,7 +71,7 @@ app.post('/webhook/', function(req, res){
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
- 					if(prd.value == 'Handsfree' && prd_t == 'Samsung'){
+ 					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
  						sendText(sender, "The price of Samsung Handsfree is 70PKR only. Kindly send us complete order to generate a receipt.")
  					}
  					sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
