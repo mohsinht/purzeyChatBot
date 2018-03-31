@@ -39,14 +39,13 @@ app.post('/webhook/', function(req, res){
 		let event = messaging_events[i]
 		let sender = event.sender.id
 
-		//let userprofile = getProfile(sender)
+		let userprofile = getProfile(sender)
 
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
-			let userprofile = getProfile(sender)
 
 			sendText(sender, "Hello! " + userprofile.first_name)
 			if (greeting && greeting.confidence > 0.8) {
@@ -153,18 +152,15 @@ app.listen(app.get('port'), function(){
 
 
 function getProfile(sender){
-	var request = require('request');
-
-	var options = {
-	    url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token
+	getUserName = function(response, convo) {
+	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + user + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+	request({
+	    url: usersPublicProfile,
+	    json: true // parse
+	}, function (error, response, body) {
+	        if (!error && response.statusCode === 200) {
+	            return body;
+	        }
+	    });
 	};
-
-	function callback(error, response, body) {
-	    if (!error && response.statusCode == 200) {
-	        console.log(body);
-	    }
-	}
-
-	request(options, callback);
-	return options;
 }
