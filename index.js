@@ -8,17 +8,14 @@ const app = express()
 
 //------FIREBASE SETUP ----
 /** Firebase **/
-var firebase = require("firebase");
-// Set the configuration for your app
-var firebaseConfig = {
-  apiKey: "FIREBASE_API_KEY",  // Firebase Console > Project > Settings > Web API Key
-  authDomain: "purzey-b9cbd.firebaseapp.com",
-  databaseURL: "https://purzey-b9cbd.firebaseio.com",	// This chatbot only utilizes Firebase RTDB
-  storageBucket: "purzey-b9cbd.appspot.com"
-};
-firebase.initializeApp(firebaseConfig);
-// Get a reference to the database service
-var database = firebase.database();
+var admin = require('firebase-admin');
+
+var serviceAccount = require('/purzeyServiceAccount.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://purzey-b9cbd.firebaseio.com'
+});
 
 //----------
 
@@ -61,7 +58,6 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 
-			writeUserData(text, sender)
 
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
@@ -170,11 +166,3 @@ function sendText(sender, text){
 app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
-
-
-
-					function writeUserData(text, sender) {
-					  firebase.database().ref('users/' + sender).set({
-					  	msg: text
-					  });
-					}
