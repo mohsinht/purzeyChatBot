@@ -149,24 +149,35 @@ app.post('/webhook/', function(req, res){
 				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
 			}
 			
-			if(!goUNI){
-				if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+			
+			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+				if(!goUNI){
 					saveinDB(sender, 'University', 'ITU')
 					sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 				}
-				else if(text.includes("comsats")){
+				else{
+					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
+				}		
+			}
+			else if(text.includes("comsats")){
+				if(!goUNI){
 					saveinDB(sender, 'University', 'COMSATS')
 					sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
-				}
-				else if(text.includes("fast university") || text.includes("fast lahore") || 
-					text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
-					|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+				}else{
+					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
+				}		
+			}
+			else if(text.includes("fast university") || text.includes("fast lahore") || 
+				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
+				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+				if(!goUNI){
 					saveinDB(sender, 'University', 'Fast-NU')
 					sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
-				}
-			}else{
-				sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
+				}else{
+					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
+				}		
 			}
+
 			const qt = firstEntity(guess, 'quantity');
 			if (qt && qt.confidence > 0.8) {
     			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
