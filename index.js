@@ -10,8 +10,6 @@ const app = express()
 /** Firebase **/
 var admin = require('firebase-admin');
 
-var serviceAccount = require('/purzeyServiceAccount.json');
-
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: 'purzey-b9cbd',
