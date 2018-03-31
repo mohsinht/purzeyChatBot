@@ -71,7 +71,7 @@ app.post('/webhook/', function(req, res){
 					profMsg += "\nUniversity: " + goUNI.value
 				}
 				if(goDB!=null){
-					profMsg += "\nPhone Number: " + goDB.value
+					profMsg += "\nPhone #: " + goDB.value
 				}
 				profMsg = profMsg + "\nOrder Count: 0"
 				sendText(sender, "We have your profile saved with us: " + profMsg)
@@ -122,7 +122,7 @@ app.post('/webhook/', function(req, res){
  			} 
 
  			const phNum = firstEntity(guess, 'phone_number');
-			if (phNum && phNum.confidence > 0.8) {
+			if (phNum && phNum.confidence > 0.8 && phNum.length > 10 && phNum.length < 15) {
 				//let phn = text.substring(phNum.start, phNum.end)
 
 				if(!goDB){
