@@ -152,15 +152,16 @@ app.listen(app.get('port'), function(){
 
 
 function getProfile(sender){
-	getUserName = function(response, convo) {
-	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + user + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+	getUserName = function(response) {
+	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
 	request({
 	    url: usersPublicProfile,
 	    json: true // parse
 	}, function (error, response, body) {
 	        if (!error && response.statusCode === 200) {
-	            return body;
+	            console.log('WORKS!')
 	        }
 	    });
 	};
+	return body;
 }
