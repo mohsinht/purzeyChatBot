@@ -190,9 +190,7 @@ function saveinDB(sender, child, data){
 	var ref = db.ref("server/messenger");
 
 	var custRef = ref.child("customer " + sender);
-
-	var childRef = custRef.push();
-	childRef.set({
+	custRef.set({
 	  child: data
 	});
 }
