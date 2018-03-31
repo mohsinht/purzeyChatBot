@@ -151,7 +151,7 @@ app.post('/webhook/', function(req, res){
 			
 			
 			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
-				if(!goUNI){
+				if(goUNI == null){
 					saveinDB(sender, 'University', 'ITU')
 					sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
 				}
@@ -160,7 +160,7 @@ app.post('/webhook/', function(req, res){
 				}		
 			}
 			else if(text.includes("comsats")){
-				if(!goUNI){
+				if(goUNI == null){
 					saveinDB(sender, 'University', 'COMSATS')
 					sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
 				}else{
@@ -170,7 +170,7 @@ app.post('/webhook/', function(req, res){
 			else if(text.includes("fast university") || text.includes("fast lahore") || 
 				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
 				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
-				if(!goUNI){
+				if(goUNI == null){
 					saveinDB(sender, 'University', 'Fast-NU')
 					sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
 				}else{
