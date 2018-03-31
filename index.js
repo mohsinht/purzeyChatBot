@@ -109,12 +109,12 @@ app.post('/webhook/', function(req, res){
 				//let phn = text.substring(phNum.start, phNum.end)
 				let dbPh = ''
 				let goDB = getDataFromDB(sender, 'Phone', dbPh)
-				if(1){
+				if(!goDB){
 					saveinDB(sender, 'Phone', phNum.value)
-    				sendText(sender, "We have noted down your Phone number. Kindly wait while the campus ambassador contacts you." + goDB.value)
+    				sendText(sender, "We have noted down your Phone number: " + phNum.value + ". Kindly wait while the campus ambassador contacts you.")
  				}
  				else{
- 					sendText(sender, "We have already saved your Phone Number: " + dbPh.value)
+ 					sendText(sender, "We have already saved your Phone Number: " + goDB.value)
  				}
  			} 
 
