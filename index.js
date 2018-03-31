@@ -57,14 +57,6 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		var request = require('request');
-		var info = '';
-		request('https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, function (error, response, body) {
-		    if (!error && response.statusCode == 200) {
-		      info = JSON.parse(body)
-		    }
-		})
-
 
 
 		if(event.message && event.message.text){
@@ -72,6 +64,14 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
+
+			request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
+			  if (err) {
+			    throw err;
+			  }
+			  sendText(sender, "Hello " + json.first_name)
+			});
+
 
 			if(text.includes("profile")){
 				let profMsg = '\nName: ' + info.first_name;
