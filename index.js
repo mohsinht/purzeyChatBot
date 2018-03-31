@@ -188,9 +188,8 @@ function saveDataInDatabase(sender, text){
 function saveinDB(sender, child, data){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
-
-	var custRef = ref.child("customer " + sender);
+	var custRef = ref.child("customer " + sender + "/" + child);
 	custRef.set({
-	  child: data
+	  value: data
 	});
 }
