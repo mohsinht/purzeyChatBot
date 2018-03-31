@@ -106,7 +106,8 @@ app.post('/webhook/', function(req, res){
 
  			const phNum = firstEntity(guess, 'phone_number');
 			if (phNum && phNum.confidence > 0.8) {
-				let phn = text.substring(phNum.start, phNum.end)
+				//let phn = text.substring(phNum.start, phNum.end)
+				saveinDB(sender, 'Phone', phNum.value)
     			sendText(sender, "We have noted down your Phone number. Kindly wait while the campus ambassador contacts you.")
  			} 
 
