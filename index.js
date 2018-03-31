@@ -64,6 +64,19 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
+
+			if(text.includes("profile")){
+				let profMsg = '';
+				if(goUNI){
+					profMsg = profMsg + "\nUniversity: " + goUNI.value
+				}
+				if(goDB){
+					profMsg = profMsg + "\nPhone Number: " + goDB.value
+				}
+				profMsg = profMsg + "\nOrder Count: 0"
+				sendText(sender, "We have your profile saved with us: " + profMsg)
+			}
+
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
