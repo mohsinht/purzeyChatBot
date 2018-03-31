@@ -65,13 +65,6 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
 
-			request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
-			  if (err) {
-			    throw err;
-			  }
-			  sendText(sender, "Hello " + json.first_name)
-			});
-
 
 			if(text.includes("profile")){
 				let profMsg = '\nName: ' + info.first_name;
