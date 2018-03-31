@@ -46,7 +46,7 @@ app.get('/webhook/', function(req, res){
 })
 
 function firstEntity(nlp, name) {
-	return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
+  return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
 }
 
 app.post('/webhook/', function(req, res){
@@ -57,8 +57,7 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		var userProfile.first_name = "NULL"
-		getProfile(sender, userProfile)
+
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
@@ -68,9 +67,6 @@ app.post('/webhook/', function(req, res){
 
 			if(text.includes("profile")){
 				let profMsg = '';
-				if(userProfile.first_name != "NULL"){
-					profMsg += "\n*Name:* " + userProfile.first_name
-				}
 				if(goUNI!=null){
 					profMsg += "\n*University:* " + goUNI.value
 				}
@@ -253,15 +249,3 @@ function getDataFromDB(sender, child, data){
 }
 
 
-
-function getProfile(sender, userProfile){
-	var request = require('request');
-
-	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
-	  if (err) {
-	    throw err;
-	  }
-	  sendText(sender, "HI " + json.first_name)
-	  //userProfile.first_name = json.first_name
-	});
-}
