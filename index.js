@@ -39,7 +39,7 @@ app.post('/webhook/', function(req, res){
 		let event = messaging_events[i]
 		let sender = event.sender.id
 
-		let userprofile = getProfile(sender)
+	
 
 
 		if(event.message && event.message.text){
@@ -150,19 +150,3 @@ app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
 
-
-function getProfile(sender){
-	var request = require('request'); // make http call
-	let getUserName = function(response) {
-	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
-	request({
-	    url: usersPublicProfile,
-	    json: true // parse
-	}, function (error, response, body) {
-	        if (!error && response.statusCode === 200) {
-	            console.log('WORKS!')
-	        }
-	    });
-	};
-	return body;
-}
