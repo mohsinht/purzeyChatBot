@@ -57,6 +57,13 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+		var request = require('request');
+		request('https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, function (error, response, body) {
+		    if (!error && response.statusCode == 200) {
+		      var info = JSON.parse(body)
+		    }
+		})
+
 
 
 		if(event.message && event.message.text){
@@ -66,7 +73,7 @@ app.post('/webhook/', function(req, res){
 			saveDataInDatabase(sender, text)
 
 			if(text.includes("profile")){
-				let profMsg = '';
+				let profMsg = '\nName: ' + info.first_name;
 				if(goUNI!=null){
 					profMsg += "\nUniversity: " + goUNI.value
 				}
