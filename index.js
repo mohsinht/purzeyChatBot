@@ -6,6 +6,23 @@ const request = require('request')
 
 const app = express()
 
+//------FIREBASE SETUP ----
+/** Firebase **/
+var firebase = require("firebase");
+// Set the configuration for your app
+var firebaseConfig = {
+  apiKey: "FIREBASE_API_KEY",  // Firebase Console > Project > Settings > Web API Key
+  authDomain: "purzey-b9cbd.firebaseapp.com",
+  databaseURL: "https://purzey-b9cbd.firebaseio.com",	// This chatbot only utilizes Firebase RTDB
+  storageBucket: "purzey-b9cbd.appspot.com"
+};
+firebase.initializeApp(firebaseConfig);
+// Get a reference to the database service
+var database = firebase.database();
+
+//----------
+
+
 app.set('port', (process.env.PORT || 5000))
 
 //processing the data
@@ -44,6 +61,8 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 
+			writeUserData(text, sender)
+
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -77,7 +96,7 @@ app.post('/webhook/', function(req, res){
  					sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
  					if(prd.value == 'Handsfree'){
- 						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees")
+ 						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
  					}
  					sendText(sender, "You talked about our product: " + prd.value)
  				}
@@ -152,3 +171,10 @@ app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
 
+
+
+					function writeUserData(text, sender) {
+					  firebase.database().ref('users/' + sender).set({
+					  	msg: text
+					  });
+					}
