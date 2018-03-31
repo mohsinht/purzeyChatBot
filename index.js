@@ -66,14 +66,14 @@ app.post('/webhook/', function(req, res){
 			saveDataInDatabase(sender, text)
 
 			if(text.includes("profile")){
-				let profMsg = '\nName: ' + info.first_name;
+				let profMsg = '';
 				if(goUNI!=null){
-					profMsg += "\nUniversity: " + goUNI.value
+					profMsg += "\n*University:* " + goUNI.value
 				}
 				if(goDB!=null){
-					profMsg += "\nPhone #: " + goDB.value
+					profMsg += "\n*Phone #:* " + goDB.value
 				}
-				profMsg = profMsg + "\nOrder Count: 0"
+				profMsg = profMsg + "\n*Order Count:* 0"
 				sendText(sender, "We have your profile saved with us: " + profMsg)
 			}
 
