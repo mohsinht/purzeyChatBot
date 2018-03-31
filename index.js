@@ -36,6 +36,7 @@ app.get('/', function(req, res){
 
 let token = "EAACzZALUsmqYBAIeJ1IHeFXticRO0Ac7LEXbuaUe6pxwUoMZBi3EvHK4kMC4TjXAgbvZAZAudmi5qabXtGKCfJ13NZCeNk9petjkG7x48vWJZBvVgbdsEOwnAzaASwRmZCpSAtmbLHRE7jSxsYV0ZCfmSFwDUgI3zSQNZB3ZASTR1zwgZDZD"
 
+
 //facebook connect
 app.get('/webhook/', function(req, res){
 	if(req.query['hub.verify_token'] === "mohsinhayat"){
@@ -56,26 +57,24 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		getProfile(sender)
-		let info = getDataFromDB(sender, 'Personal', dbPh)
+
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
+
+			var info = getProfile(sender)
 			if(text.includes("profile")){
-				let profMsg = ''
-				if(info!=null){
-					profMsg += '\n*Name: *' + info.first_name + " " + info.last_name;
-				}
+				let profMsg = '\nName: ' + info.first_name;
 				if(goUNI!=null){
-					profMsg += "\n*University:* " + goUNI.value
+					profMsg += "\nUniversity: " + goUNI.value
 				}
 				if(goDB!=null){
-					profMsg += "\n*Phone #:* " + goDB.value
+					profMsg += "\nPhone #: " + goDB.value
 				}
-				profMsg = profMsg + "\n*Order Count*: 0"
+				profMsg = profMsg + "\nOrder Count: 0"
 				sendText(sender, "We have your profile saved with us: " + profMsg)
 			}
 
@@ -262,12 +261,9 @@ function isEmpty(obj) {
 
 function getProfile(sender){
 	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
-		if (err) {
-			throw err;
-		}
-		let obj = getDataFromDB(sender, 'Personal', dbPh)
-		if(obj == null){
-			saveinDB(sender, 'Personal', json.first_name)
-		}
+	if (err) {
+		throw err;
+	}
+		sendText(sender, "Hello " + json.first_name)
 	});
 }
