@@ -39,15 +39,11 @@ app.post('/webhook/', function(req, res){
 		let event = messaging_events[i]
 		let sender = event.sender.id
 
-	
-
-
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 
-			sendText(sender, "Hello! " + userprofile.first_name)
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
