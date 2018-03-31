@@ -64,8 +64,8 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
-
-			var info = getProfile(sender);
+			let info;
+			getProfile(sender, info);
 			if(text.includes("profile")){
 				let profMsg = '\nName: ' + info.first_name;
 				if(goUNI!=null){
@@ -259,13 +259,11 @@ function isEmpty(obj) {
     return true;
 }
 
-function getProfile(sender){
-	let pData = {};
-	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
+function getProfile(sender, pData){
+	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json, pData) {
 		if (err) {
 			throw err;
 		}
 		pData = json
 	});
-	return pData;
 }
