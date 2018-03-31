@@ -67,10 +67,10 @@ app.post('/webhook/', function(req, res){
 
 			if(text.includes("profile")){
 				let profMsg = '';
-				if(goUNI.value != undefined){
+				if(!isEmpty(goUNI)){
 					profMsg += "\nUniversity: " + goUNI.value
 				}
-				if(goDB.value != undefined){
+				if(!isEmpty(goDB)){
 					profMsg += "\nPhone Number: " + goDB.value
 				}
 				profMsg = profMsg + "\nOrder Count: 0"
@@ -235,4 +235,14 @@ function getDataFromDB(sender, child, data){
 	  console.log("The read failed: " + errorObject.code);
 	});
 	return rData;
+}
+
+
+function isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
 }
