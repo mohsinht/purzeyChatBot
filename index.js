@@ -3,6 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+
 const app = express()
 
 app.set('port', (process.env.PORT || 5000))
@@ -37,11 +38,12 @@ app.post('/webhook/', function(req, res){
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = messaging_events[i]
 		let sender = event.sender.id
-		saveToDatabase(sender, text)
+
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
+
 			if (greeting && greeting.confidence > 0.8) {
 				var k = Math.random()
 				if(k>0.8){
@@ -150,12 +152,3 @@ app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
 
-
-function saveToDatabase(sender, text){
-	var dbRef = new Firebase('https://purzey-b9cbd.firebaseio.com/customers/');
-	var spamRef = dbRef.child('C - ' + sender);
-	spamRef.push({
-		msg: text
-	});
-
-}
