@@ -56,8 +56,7 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		let info2 = ''
-		getProfile(sender, info2)
+		getProfile(sender)
 		let info = getDataFromDB(sender, 'Personal', dbPh)
 
 		if(event.message && event.message.text){
@@ -261,14 +260,14 @@ function isEmpty(obj) {
     return true;
 }
 
-function getProfile(sender, info){
+function getProfile(sender){
 	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
 		if (err) {
 			throw err;
 		}
 		let obj = getDataFromDB(sender, 'Personal', dbPh)
 		if(obj == null){
-			saveinDB(sender, 'Personal', first_name)
+			saveinDB(sender, 'Personal', json.first_name)
 		}
 	});
 }
