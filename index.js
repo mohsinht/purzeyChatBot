@@ -56,6 +56,8 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+		let info2 = ''
+		getProfile(sender, info2)
 		let info = getDataFromDB(sender, 'Personal', dbPh)
 
 		if(event.message && event.message.text){
@@ -64,7 +66,10 @@ app.post('/webhook/', function(req, res){
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
 			if(text.includes("profile")){
-				let profMsg = '\n*Name: *' + info.first_name;
+				let profMsg = ''
+				if(info!=null){
+					profMsg += '\n*Name: *' + info.first_name + " " + info.last_name;
+				}
 				if(goUNI!=null){
 					profMsg += "\n*University:* " + goUNI.value
 				}
@@ -263,7 +268,7 @@ function getProfile(sender, info){
 		}
 		let obj = getDataFromDB(sender, 'Personal', dbPh)
 		if(obj == null){
-			saveinDB(sender, 'Personal', info)
+			saveinDB(sender, 'Personal', json)
 		}
 	});
 }
