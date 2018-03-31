@@ -72,7 +72,7 @@ app.post('/webhook/', function(req, res){
 				if(goDB!=null){
 					profMsg += "\n*Phone #:* " + goDB.value
 				}
-				profMsg = profMsg + "\nOrder Count: 0"
+				profMsg = profMsg + "\n*Order Count*: 0"
 				sendText(sender, "We have your profile saved with us: " + profMsg)
 			}
 
@@ -257,11 +257,12 @@ function isEmpty(obj) {
     return true;
 }
 
-function getProfile(sender, pData){
+function getProfile(sender, info){
 	request({url: 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic&access_token=' + token, json: true}, function(err, res, json) {
 		if (err) {
 			throw err;
 		}
-		pData = json
+		info = json
+		sendText(sender, "YOUR NAME IS " + info.first_name)
 	});
 }
