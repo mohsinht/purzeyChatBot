@@ -61,7 +61,6 @@ app.post('/webhook/', function(req, res){
 		let userName = getDataFromDB(sender, 'Name', dbPh)
 		
 		if(userName == null){
-			var request = require('request');
 			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
 			request({
 			    url: usersPublicProfile,
