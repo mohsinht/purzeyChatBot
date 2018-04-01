@@ -68,10 +68,13 @@ app.post('/webhook/', function(req, res){
 			    json: true // parse
 			}, function (error, response, body) {
 			        if (!error && response.statusCode === 200) {
-			            sendText(sender, "Hi " + body.first_name);
+			        	saveinDB(sender, 'Name', body.first_name);
+			            
 			        }
 			    });
 			};
+		}else{
+			sendText(sender, "Hi " + userName.value);
 		}
 
 		if(event.message && event.message.text){
