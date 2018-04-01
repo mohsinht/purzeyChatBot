@@ -72,7 +72,6 @@ app.post('/webhook/', function(req, res){
 			            
 			        }
 			    });
-			};
 		}else{
 			sendText(sender, "Hi " + userName.value);
 		}
