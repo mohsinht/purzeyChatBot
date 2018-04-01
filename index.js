@@ -52,7 +52,7 @@ function firstEntity(nlp, name) {
 app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
-		let event = messaging_events[i]
+		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
@@ -74,7 +74,11 @@ app.post('/webhook/', function(req, res){
 			        }
 			    });
 		}
-		
+		if (event.postback) {
+  	    	let text = JSON.stringify(event.postback)
+  	    	sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	continue
+      	}
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
@@ -232,12 +236,6 @@ app.post('/webhook/', function(req, res){
  			} 
 
 		}
-
-	  if (event.postback) {
-  	    let text = JSON.stringify(event.postback)
-  	    sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
-  	    continue
-      }
 	}
 	res.sendStatus(200)
 })
