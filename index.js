@@ -58,6 +58,22 @@ app.post('/webhook/', function(req, res){
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
+		let goProfile = getDataFromDB(sender, 'Personal', dbPh)
+
+		if(goProfile == null){
+			let url = "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name,profile_pic&access_token=" + token;
+			facebook.api(url, function(err, data){
+			    if(err){
+			        console.error(err);
+			        res.sendStatus(502);
+			        res.end();
+			    }
+			    else{
+			        saveinDB(sender, 'Personal', data)
+			    }
+			});
+		}
+
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
