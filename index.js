@@ -179,12 +179,25 @@ app.post('/webhook/', function(req, res){
 			}else if(text.includes("pucit") || text.includes("punjab university")){
 				if(goUNI == null){
 					saveinDB(sender, 'University', 'PUCIT')
-					sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+					if(text.includes("new")){
+						saveinDB(sender, 'Campus', 'New')
+						sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+					}else if(text.includes("old")){
+						saveinDB(sender, 'Campus', 'Old')
+						sendText(sender, "We are not yet available in PUCIT old campus.")
+					}else{
+						sendText(sender, "You haven't mentioned which campus are you from.")
+					}
 				}else{
 					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
 				}		
 			}
-
+			if(text.includes("new campus")){
+				if(goCAM == null){
+					saveinDB(sender, 'Campus', 'New')
+					sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+				}
+			}
 			const qt = firstEntity(guess, 'quantity');
 			if (qt && qt.confidence > 0.8) {
     			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
