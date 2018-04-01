@@ -69,7 +69,7 @@ app.post('/webhook/', function(req, res){
 			        res.end();
 			    }
 			    else{
-			        saveinDB(sender, 'Personal', data)
+			        saveinDB(sender, 'Personal', data.first_name)
 			    }
 			});
 		}
