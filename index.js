@@ -3,6 +3,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+var tools = require('./order.js')
+
 
 const app = express()
 
@@ -172,7 +174,7 @@ app.post('/webhook/', function(req, res){
 			}
 
 			if(text.includes('?')){
-				sendText(sender, "Your question has been noted down. We'll reply you in a while.")
+				//sendText(sender, "Your question has been noted down. We'll reply you in a while.")
 			}
 			
 			
