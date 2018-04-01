@@ -58,7 +58,21 @@ app.post('/webhook/', function(req, res){
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
-
+		let userName = getDataFromDB(sender, 'Name', dbPh)
+		
+		if(userName == null){
+			var request = require('request');
+			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+			request({
+			    url: usersPublicProfile,
+			    json: true // parse
+			}, function (error, response, body) {
+			        if (!error && response.statusCode === 200) {
+			            sendText(sender, "Hi " + body.first_name);
+			        }
+			    });
+			};
+		}
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
