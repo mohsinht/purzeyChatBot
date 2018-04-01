@@ -57,7 +57,7 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-
+		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
@@ -150,7 +150,7 @@ app.post('/webhook/', function(req, res){
 			}
 			
 			
-			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+			if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9") && !text.includes("not")){
 				if(goUNI == null){
 					saveinDB(sender, 'University', 'ITU')
 					sendText(sender, "Mubeen Ikram is our campus ambassador at ITU, Lahore. He'll handover your order to you.")
@@ -159,7 +159,7 @@ app.post('/webhook/', function(req, res){
 					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
 				}		
 			}
-			else if(text.includes("comsats")){
+			else if(text.includes("comsats") && !text.includes("not")){
 				if(goUNI == null){
 					saveinDB(sender, 'University', 'COMSATS')
 					sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")
@@ -169,7 +169,7 @@ app.post('/webhook/', function(req, res){
 			}
 			else if(text.includes("fast university") || text.includes("fast lahore") || 
 				text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
-				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+				|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) ) && !text.includes("not")){
 				if(goUNI == null){
 					saveinDB(sender, 'University', 'Fast-NU')
 					sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")
@@ -177,7 +177,27 @@ app.post('/webhook/', function(req, res){
 					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
 				}		
 			}
-
+			else if(text.includes("pucit") || text.includes("punjab university") && !text.includes("not")){
+				if(goUNI == null){
+					saveinDB(sender, 'University', 'PUCIT')
+					if(text.includes("new")){
+						saveinDB(sender, 'Campus', 'New')
+						sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+					}else{
+						sendText(sender, "Which campus are you from?")
+					}
+					
+				}else{
+					if(goCAM == null){
+						if(text.includes("new") && text.includes("campus")){
+							saveinDB(sender, 'Campus', 'New')
+							sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+						}
+					}else{
+						sendText(sender, "We have already saved that you are from " + goUNI.value + " " + goCAM.value ".")
+					}
+				}		
+			}
 			const qt = firstEntity(guess, 'quantity');
 			if (qt && qt.confidence > 0.8) {
     			sendText(sender, "Noted. You want " + qt.value + " " + qt.product)
