@@ -80,7 +80,10 @@ app.post('/webhook/', function(req, res){
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
 			saveDataInDatabase(sender, text)
-
+			if (text === 'generic') {
+			    sendGenericMessage(sender)
+		    	continue
+		    }
 			if(text.includes("profile")){
 				let profMsg = '';
 				if(userName!=null){
