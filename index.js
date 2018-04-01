@@ -61,20 +61,19 @@ app.post('/webhook/', function(req, res){
 		let userName = getDataFromDB(sender, 'Name', dbPh)
 		
 		if(userName == null){
+			var request = require('request');
 			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
 			request({
 			    url: usersPublicProfile,
 			    json: true // parse
 			}, function (error, response, body) {
 			        if (!error && response.statusCode === 200) {
-			        	saveinDB(sender, 'Name', body.first_name);
-			            
+			        	saveinDB(sender, 'Name', body.first_name + body.last_name);
+			            saveinDB(sender, 'dp', body.profile_pic);
+			            saveinDB(sender, 'Gender', body.gender);
 			        }
 			    });
-		}else{
-			sendText(sender, "Hi " + userName.value);
 		}
-
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
@@ -83,6 +82,9 @@ app.post('/webhook/', function(req, res){
 
 			if(text.includes("profile")){
 				let profMsg = '';
+				if(userName!=null){
+					profMsg += "\n*Name:* " + userName.value
+				}
 				if(goUNI!=null){
 					profMsg += "\n*University:* " + goUNI.value
 				}
