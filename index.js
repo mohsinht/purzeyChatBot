@@ -192,13 +192,13 @@ app.post('/webhook/', function(req, res){
 					sendText(sender, "We have already saved that you are from " + goUNI.value + ".")
 				}		
 			}
-			if(text.includes("new campus")){
+			else if(text.includes("new campus")){
 				if(goCAM == null){
 					saveinDB(sender, 'Campus', 'New')
 					sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
 				}
 			}
-			if(text.includes("old campus")){
+			else if(text.includes("old campus")){
 				if(goCAM == null){
 					saveinDB(sender, 'Campus', 'Old')		
 				}
