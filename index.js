@@ -68,12 +68,13 @@ app.post('/webhook/', function(req, res){
 			    json: true // parse
 			}, function (error, response, body) {
 			        if (!error && response.statusCode === 200) {
-			        	saveinDB(sender, 'Name', body.first_name + body.last_name);
+			        	saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
 			            saveinDB(sender, 'dp', body.profile_pic);
 			            saveinDB(sender, 'Gender', body.gender);
 			        }
 			    });
 		}
+		
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
