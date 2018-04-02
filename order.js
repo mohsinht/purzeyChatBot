@@ -3,5 +3,3 @@ function checkOrder(sender, text){
 		sendText(sender, "You talked about handsfree :)")
 	}
 }
-
-module.exports = order;
