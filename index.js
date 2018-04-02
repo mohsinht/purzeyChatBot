@@ -129,21 +129,27 @@ app.post('/webhook/', function(req, res){
  			const prd = firstEntity(guess, 'product');
  			 if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
- 			 	let prdINFO = getProduct("j5hf")
- 			 	let hhhhh  = JSON.stringify(prdINFO)
- 			 	sendText(sender, "Received: " + hhhhh + " ..")
+ 			 	let prID = 'noID'
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
  					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
- 						sendText(sender, "The price of Samsung Handsfree is 70PKR only. Kindly send us complete order to generate a receipt.")
+ 						prID = 'j5hf'
  					}
- 					sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
+ 					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
  					if(prd.value == 'Handsfree'){
  						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
  					}
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
+ 				if(prID != 'noID'){
+ 					let prdINFO = getProduct(prID)
+ 					while(prdINFO == null){
+ 						prdINFO = getProduct(prID)
+ 					}
+ 					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
+ 				}
+ 				
  			}
 
  			const byed = firstEntity(guess, 'bye');
