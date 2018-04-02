@@ -61,20 +61,7 @@ app.post('/webhook/', function(req, res){
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 		let userName = getDataFromDB(sender, 'Name', dbPh)
 		
-		if(userName == null){
-			var request = require('request');
-			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
-			request({
-			    url: usersPublicProfile,
-			    json: true // parse
-			}, function (error, response, body) {
-			        if (!error && response.statusCode === 200) {
-			        	saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-			            saveinDB(sender, 'dp', body.profile_pic);
-			            saveinDB(sender, 'Gender', body.gender);
-			        }
-			    });
-		}
+		getProfile(userName, sender)
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
   	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
@@ -340,4 +327,22 @@ function sendGenericMessage(sender) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+getProfile(userName, sender){
+			if(userName == null){
+			var request = require('request');
+			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+			request({
+			    url: usersPublicProfile,
+			    json: true // parse
+			}, function (error, response, body) {
+			        if (!error && response.statusCode === 200) {
+			        	saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
+			            saveinDB(sender, 'dp', body.profile_pic);
+			            saveinDB(sender, 'Gender', body.gender);
+			        }
+			    });
+		}
 }
