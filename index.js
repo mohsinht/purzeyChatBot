@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 
+
 const app = express()
 
 //------FIREBASE SETUP ----
@@ -76,17 +77,7 @@ app.post('/webhook/', function(req, res){
 		}
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
-  	    	let rvalue = event.postback.payload
-  	    	let prdResponse = rvalue.split("_")
-  	    	let userName = getDataFromDB(sender, prdResponse[0], dbPh)
-  	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
-
-  	    	if(event.postback.payload == "j5HF"){
-  	    		sendText(sender, "J5 handsfree has been added to your order list.")
-  	    		pushOrder(sender, "j5HF")
-  	    	}else if(event.postback.payload == "j7HF_no"){
-  	    		sendText(sender, "J5 handsfree not added. :)")
-  	    	}
+  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
   	    	continue
       	}
 		if(event.message && event.message.text){
@@ -137,16 +128,13 @@ app.post('/webhook/', function(req, res){
 
  			const prd = firstEntity(guess, 'product');
  			 if (prd && prd.confidence > 0.8){
- 			 	let detailsOfProduct = getProduct('j5hf')
- 			 	sendText(sender, "The price of " + detailsOfProduct.name + " is " + detailsOfProduct.price + "PKR only.")
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
  					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
- 						sendText(sender, "The price of Samsung Handsfree is 70PKR only.")
- 						sendYesNo(sender, "Do you want to add it to your order list?", "j7HF") 
+ 						sendText(sender, "The price of Samsung Handsfree is 70PKR only. Kindly send us complete order to generate a receipt.")
  					}
- 					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
+ 					sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
  					if(prd.value == 'Handsfree'){
  						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
@@ -314,20 +302,6 @@ function getDataFromDB(sender, child, data){
 }
 
 
-function getProduct(prdName){
-	// Get a database reference to our posts
-	var db = admin.database();
-	var ref = db.ref("server/products/" + prdName);
-	let rData = '';
-	// Attach an asynchronous callback to read the data at our posts reference
-	ref.on("value", function(snapshot) {
-	  rData = snapshot.val();
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
-	});
-	return rData;
-}
-
 
 
 
@@ -347,45 +321,6 @@ function sendGenericMessage(sender) {
 					    "type": "postback",
 					    "title": "No",
 					    "payload": "button2",
-				    }]
-		    }
-	    }
-    }
-    request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    message: messageData,
-	    }
-    }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
-    })
-}
-
-
-
-function sendYesNo(sender, msg, product) {
-    let messageData = {
-	    "attachment": {
-		    "type": "template",
-		    "payload": {
-				"template_type": "button",
-				"text": msg,
-			    "buttons": [
-			    	{
-					    "type": "postback",
-					    "payload": product+"_yes",
-					    "title": "Yes"
-				    }, {
-					    "type": "postback",
-					    "title": "No",
-					    "payload": product+"_no",
 				    }]
 		    }
 	    }
