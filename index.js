@@ -144,13 +144,14 @@ app.post('/webhook/', function(req, res){
  							prID = "c7hf"
  						}
  					}
+
  				}else{
  					if(prd.value == 'Handsfree'){
  						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
  					}
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
- 				if(prdINFO!=null && prdID!='empty'){
+ 				if(prdID!='empty'){
  					let prdINFO = getProduct(prdID)
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
