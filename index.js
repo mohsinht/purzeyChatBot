@@ -136,13 +136,27 @@ app.post('/webhook/', function(req, res){
 
 
  			const prd = firstEntity(guess, 'product');
- 			 if (prd && prd.confidence > 0.8){
+ 			prdInfo = 'empty';
+ 			let prID = 'empty';
+ 			if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
- 					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
- 						sendText(sender, "The price of Samsung Handsfree is 70PKR only.")
- 						sendYesNo(sender, "Do you want to add it to your order list?", "j7HF") 
+ 					if(prd.value == 'Handsfree'){
+ 						if(prd_t.value == 'Samsung'){
+ 							prID = "j5hf"
+ 						}
+ 						if(prd_t.value == 'AKG'){
+ 							prID = "akghf"
+ 						}
+ 						if(prd_t.value == 'c7'){
+ 							prID = "c7hf"
+ 						}
+ 					}
+ 					if(prID!='empty'){
+ 						prdInfo = getProduct(prID) 
+ 						sendText(sender, "The price of " + prdInfo.name + " is " + prdInfo.price + "PKR only.")
+ 						sendYesNo(sender, "Do you want to add it to your order list?", prID) 
  					}
  					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
@@ -408,7 +422,7 @@ function sendYesNo(sender, msg, product) {
 
 function pushOrder(sender, prdID){
 	var db = admin.database();
-	var ref = db.ref("server");
+	var ref = db.ref("server/messenger");
 	var custRef = ref.child("customer/" + sender + "/order");
 	custRef.set({
 	  product: prdID
