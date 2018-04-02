@@ -149,11 +149,7 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					let prdINFO = getProduct(prID)
- 					while(prdINFO===undefined){
-						prdINFO = getProduct(prID)
- 					}
- 					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
+ 					sendProduct(prID, sender)
  				}
  				
  			}
@@ -370,7 +366,7 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID){
+function getProduct(prID, sender){
 	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
@@ -380,5 +376,6 @@ function getProduct(prID){
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
 	});
-	return rData;
+
+	sendText(sender, "The price of " + rData.name + " is " + rData.price + "PKR only.")
 }
