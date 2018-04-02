@@ -359,7 +359,7 @@ function pushOrder(sender, prdID){
 
 function getProduct(prID){
 	var db = admin.database();
-	var ref = db.ref("server/products/ " + prID);
+	var ref = db.ref("server/products/" + prID);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
 	ref.on("value", function(snapshot) {
