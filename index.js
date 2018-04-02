@@ -135,6 +135,12 @@ app.post('/webhook/', function(req, res){
  					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
  						prID = 'j5hf'
  					}
+ 					 if(prd.value == 'Handsfree' && prd_t.value == 'c7'){
+ 						prID = 'c7hf'
+ 					}
+ 					if(prd.value == 'Handsfree' && prd_t.value == 'AKG'){
+ 						prID = 'akghf'
+ 					}
  					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
  					if(prd.value == 'Handsfree'){
@@ -144,7 +150,7 @@ app.post('/webhook/', function(req, res){
  				}
  				if(prID != 'noID'){
  					let prdINFO = getProduct(prID)
- 					while(prdINFO == null){
+ 					while(prdINFO.name == null){
  						prdINFO = getProduct(prID)
  					}
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
