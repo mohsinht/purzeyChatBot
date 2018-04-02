@@ -76,11 +76,16 @@ app.post('/webhook/', function(req, res){
 		}
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
+  	    	let rvalue = event.postback.payload
+  	    	let userResponse = rvalue.split("_")
+  	    	let prdInfo = getProduct(userResponse[0])
   	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
-  	    	if(event.postback.payload == "j7HF_yes"){
-  	    		sendText(sender, "J7 handsfree has been added to your order list.")
+
+  	    	if(userResponse[1] == "Yes"){
+  	    		sendText(sender, prdInfo.name + " has been added to your order list.")
+  	    		pushOrder(sender, userResponse[0])
   	    	}else if(event.postback.payload == "j7HF_no"){
-  	    		sendText(sender, "J7 handsfree not added. :)")
+  	    		sendText(sender, "J5 handsfree not added. :)")
   	    	}
   	    	continue
       	}
@@ -307,6 +312,20 @@ function getDataFromDB(sender, child, data){
 }
 
 
+function getProduct(prdName){
+	// Get a database reference to our posts
+	var db = admin.database();
+	var ref = db.ref("server/products/" + prdName);
+	let rData = '';
+	// Attach an asynchronous callback to read the data at our posts reference
+	ref.on("value", function(snapshot) {
+	  rData = snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+	return rData;
+}
+
 
 
 
@@ -384,4 +403,14 @@ function sendYesNo(sender, msg, product) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+function pushOrder(sender, prdID){
+	var db = admin.database();
+	var ref = db.ref("server");
+	var custRef = ref.child("customer/" + sender + "/order");
+	custRef.set({
+	  product: prdID
+	});
 }
