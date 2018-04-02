@@ -134,15 +134,24 @@ app.post('/webhook/', function(req, res){
  				//sendText(sender, "You talked about your university " + uni.value)
  			}
 
+ 			prdInfo = 'empty';
+ 			let prID = 'empty';
 
  			const prd = firstEntity(guess, 'product');
  			 if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
- 					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
- 						sendText(sender, "The price of Samsung Handsfree is 70PKR only.")
- 						sendYesNo(sender, "Do you want to add it to your order list?", "j5hf") 
+ 					if(prd.value == 'Handsfree'){
+ 						if(prd_t.value == 'Samsung'){
+ 							prID = "j5hf"
+ 						}
+ 						if(prd_t.value == 'AKG'){
+ 							prID = "akghf"
+ 						}
+ 						if(prd_t.value == 'c7'){
+ 							prID = "c7hf"
+ 						}
  					}
  					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
@@ -150,6 +159,11 @@ app.post('/webhook/', function(req, res){
  						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
  					}
  					//sendText(sender, "You talked about our product: " + prd.value)
+ 				}
+ 				if(prID!='empty'){
+ 					prdInfo = getProduct(prID) 
+ 					sendText(sender, "The price of " + prdInfo.name + " is " + prdInfo.price + "PKR only.")
+ 					sendYesNo(sender, "Do you want to add it to your order list?", prID) 
  				}
  			}
 
