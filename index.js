@@ -60,7 +60,7 @@ app.post('/webhook/', function(req, res){
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 		let userName = getDataFromDB(sender, 'Name', dbPh)
-		
+		let prdINFO = getProduct("akghf")
 		if(userName == null){
 			var request = require('request');
 			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
@@ -149,7 +149,8 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					sendProduct(prID, sender)
+ 					prdINFO = getProduct(prID)
+ 					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
  			}
@@ -366,7 +367,7 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function sendProduct(prID, sender){
+function getProduct(prID){
 	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
@@ -376,6 +377,5 @@ function sendProduct(prID, sender){
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
 	});
-
-	sendText(sender, "The price of " + rData.name + " is " + rData.price + "PKR only.")
+	return rData;
 }
