@@ -150,7 +150,7 @@ app.post('/webhook/', function(req, res){
  				}
  				if(prID != 'noID'){
  					let prdINFO = getProduct(prID)
- 					while(prdINFO.name==null);
+ 					while(prdINFO==null);
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
