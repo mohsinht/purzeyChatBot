@@ -81,10 +81,10 @@ app.post('/webhook/', function(req, res){
   	    	let prdInfo = getProduct(userResponse[0])
   	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
 
-  	    	if(userResponse[1] == "Yes"){
+  	    	if(userResponse[1] == "yes"){
   	    		sendText(sender, prdInfo.name + " has been added to your order list.")
   	    		pushOrder(sender, userResponse[0])
-  	    	}else if(event.postback.payload == "j7HF_no"){
+  	    	}else if(event.postback.payload == "j5HF_no"){
   	    		sendText(sender, "J5 handsfree not added. :)")
   	    	}
   	    	continue
