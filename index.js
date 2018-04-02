@@ -75,12 +75,6 @@ app.post('/webhook/', function(req, res){
 			        }
 			    });
 		}
-
-		
-		
-
-
-
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
   	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
@@ -95,7 +89,7 @@ app.post('/webhook/', function(req, res){
 			    sendGenericMessage(sender)
 		    	continue
 		    }
-		    checkOrders(sender, text)
+
 			if(text.includes("profile")){
 				let profMsg = '';
 				if(userName!=null){
@@ -328,68 +322,6 @@ function sendGenericMessage(sender) {
 					    "type": "postback",
 					    "title": "No",
 					    "payload": "button2",
-				    }]
-		    }
-	    }
-    }
-    request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    message: messageData,
-	    }
-    }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
-    })
-}
-
-
-
-function checkOrders(sender, text){
- 	const prd = firstEntity(guess, 'product');
- 	const intent = firstEntity(guess, 'intent');
- 	if (prd && prd.confidence > 0.8){
- 		const prd_t = firstEntity(guess, 'product_type');
- 			if(prd_t && prd_t.confidence > 0.8)
- 			{
- 				if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
- 					sendText(sender, "The price of Samsung Handsfree is 70PKR only. ")
- 					sendYesNo(sender, 'SamsungHF')
- 				}
- 				sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
- 			}else{
- 				if(prd.value == 'Handsfree'){
- 					sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
- 			}
- 			//sendText(sender, "You talked about our product: " + prd.value)
- 		}
- 	}
-}
-
-
-
-function sendYesNo(sender, product) {
-    let messageData = {
-	    "attachment": {
-		    "type": "template",
-		    "payload": {
-				"template_type": "button",
-				"text":"Do you want to add it to your order list?",
-			    "buttons": [
-			    	{
-					    "type": "postback",
-					    "payload": product+ "1",
-					    "title": "Yes"
-				    }, {
-					    "type": "postback",
-					    "title": "No",
-					    "payload": product+"2",
 				    }]
 		    }
 	    }
