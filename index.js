@@ -77,7 +77,7 @@ app.post('/webhook/', function(req, res){
 		}
 
 		
-		checkOrders(sender, text)
+		
 
 
 
@@ -95,6 +95,7 @@ app.post('/webhook/', function(req, res){
 			    sendGenericMessage(sender)
 		    	continue
 		    }
+		    checkOrders(sender, text)
 			if(text.includes("profile")){
 				let profMsg = '';
 				if(userName!=null){
