@@ -77,17 +77,17 @@ app.post('/webhook/', function(req, res){
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
   	    	let rvalue = event.postback.payload
-  	    	let userResponse = rvalue.split("_")
-  	    	let prdInfo = getProduct(userResponse[0])
+  	    	let prdResponse = rvalue.split("_")
+  	    	let userName = getDataFromDB(sender, prdResponse[0], dbPh)
   	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
 
-  	    	if(userResponse[1] == "yes"){
-  	    		sendText(sender, prdInfo.name + " has been added to your order list.")
-  	    		pushOrder(sender, userResponse[0])
-  	    	}else if(event.postback.payload == "j5HF_no"){
+  	    	if(event.postback.payload == "j5HF"){
+  	    		sendText(sender, "J5 handsfree has been added to your order list.")
+  	    		pushOrder(sender, "j5HF")
+  	    	}else if(event.postback.payload == "j7HF_no"){
   	    		sendText(sender, "J5 handsfree not added. :)")
   	    	}
-  	    	//continue
+  	    	continue
       	}
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
@@ -134,24 +134,17 @@ app.post('/webhook/', function(req, res){
  				//sendText(sender, "You talked about your university " + uni.value)
  			}
 
- 			prdInfo = 'empty';
- 			let prID = 'empty';
 
  			const prd = firstEntity(guess, 'product');
  			 if (prd && prd.confidence > 0.8){
+ 			 	let detailsOfProduct = getProduct('j5hf')
+ 			 	sendText(sender, "The price of " + detailsOfProduct.name + " is " + detailsOfProduct.price + "PKR only.")
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
- 					if(prd.value == 'Handsfree'){
- 						if(prd_t.value == 'Samsung'){
- 							prID = "j5hf"
- 						}
- 						if(prd_t.value == 'AKG'){
- 							prID = "akghf"
- 						}
- 						if(prd_t.value == 'c7'){
- 							prID = "c7hf"
- 						}
+ 					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
+ 						sendText(sender, "The price of Samsung Handsfree is 70PKR only.")
+ 						sendYesNo(sender, "Do you want to add it to your order list?", "j7HF") 
  					}
  					//sendText(sender, "You talked about our product: " + prd_t.value + " " + prd.value)
  				}else{
@@ -159,11 +152,6 @@ app.post('/webhook/', function(req, res){
  						sendText(sender, "You haven't mentioned which handsfree do you want. We have 3 kinds of handsfrees.")
  					}
  					//sendText(sender, "You talked about our product: " + prd.value)
- 				}
- 				if(prID!='empty'){
- 					prdInfo = getProduct(prID) 
- 					sendText(sender, "The price of " + prdInfo.name + " is " + prdInfo.price + "PKR only.")
- 					sendYesNo(sender, "Do you want to add it to your order list?", prID) 
  				}
  			}
 
@@ -417,14 +405,4 @@ function sendYesNo(sender, msg, product) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
-}
-
-
-function pushOrder(sender, prdID){
-	var db = admin.database();
-	var ref = db.ref("server/messenger");
-	var custRef = ref.child("customer/" + sender + "/order");
-	custRef.set({
-	  product: prdID
-	});
 }
