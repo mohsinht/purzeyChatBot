@@ -129,6 +129,8 @@ app.post('/webhook/', function(req, res){
  			const prd = firstEntity(guess, 'product');
  			 if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
+ 			 	let prdINFO = getProduct("j5hf")
+ 			 	sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
  					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
@@ -340,4 +342,30 @@ function sendGenericMessage(sender) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+
+
+
+function pushOrder(sender, prdID){
+	var db = admin.database();
+	var ref = db.ref("server/messenger");
+	var custRef = ref.child("customer/" + sender + "/order");
+	custRef.set({
+	  product: prdID
+	});
+}
+
+function getProduct(prID){
+	var db = admin.database();
+	var ref = db.ref("server/products/ " + prID);
+	let rData = '';
+	// Attach an asynchronous callback to read the data at our posts reference
+	ref.on("value", function(snapshot) {
+	  rData = snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+	return rData;
 }
