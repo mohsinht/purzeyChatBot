@@ -366,7 +366,7 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID, sender){
+function sendProduct(prID, sender){
 	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
