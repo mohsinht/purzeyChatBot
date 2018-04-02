@@ -130,8 +130,7 @@ app.post('/webhook/', function(req, res){
  			 if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
  			 	let prdINFO = getProduct("j5hf")
- 			 	let hhhhh  = JSON.stringify(prdINFO)
- 			 	sendText(sender, "Received: " + hhhhh + " ..")
+ 			 	//sendText(sender, "Received: " + hhhhh + " ..")
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
  					if(prd.value == 'Handsfree' && prd_t.value == 'Samsung'){
