@@ -76,7 +76,12 @@ app.post('/webhook/', function(req, res){
 		}
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
-  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	if(event.postback.payload == "j7HF_yes"){
+  	    		sendText(sender, "J7 handsfree has been added to your order list.")
+  	    	}else if(event.postback.payload == "j7HF_no"){
+  	    		sendText(sender, "J7 handsfree not added. :)")
+  	    	}
   	    	continue
       	}
 		if(event.message && event.message.text){
