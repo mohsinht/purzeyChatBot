@@ -87,7 +87,7 @@ app.post('/webhook/', function(req, res){
   	    	}else if(event.postback.payload == "j5HF_no"){
   	    		sendText(sender, "J5 handsfree not added. :)")
   	    	}
-  	    	continue
+  	    	//continue
       	}
 		if(event.message && event.message.text){
 			let text = event.message.text.toLowerCase()
