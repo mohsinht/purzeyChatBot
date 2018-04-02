@@ -128,9 +128,8 @@ app.post('/webhook/', function(req, res){
 
  			const prd = firstEntity(guess, 'product');
  			let prdID = 'empty';
- 			 if (prd && prd.confidence > 0.8){
+ 			if (prd && prd.confidence > 0.8){
  			 	const prd_t = firstEntity(guess, 'product_type');
- 			 	let prdINFO = getProduct("j5hf")
  			 	
  			 	if(prd_t && prd_t.confidence > 0.8)
  				{
@@ -152,7 +151,7 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prdINFO!=null && prdID!='empty'){
- 					let prdINFO = getProduct("j5hf")
+ 					let prdINFO = getProduct(prdID)
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  			}
