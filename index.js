@@ -56,7 +56,11 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let dbPh = ''
-		let goUNI = getDataFromDB(sender, 'University', dbPh)
+		let goUNI; 
+		getDataFromDB(sender, 'University', dbPh)
+		.then((prdINFO) => {
+			goUNI = prdINFO
+		})
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 		let userName = getDataFromDB(sender, 'Name', dbPh)
@@ -311,14 +315,13 @@ function getDataFromDB(sender, child, data){
 	// Get a database reference to our posts
 	var db = admin.database();
 	var ref = db.ref("server/messenger/customer " + sender + "/" + child);
-	let rData = '';
+	//let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
-	ref.on("value", function(snapshot) {
-	  rData = snapshot.val();
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
-	});
-	return rData;
+    return ref.once('value')
+    .then((snapshot) => {
+        return snapshot.val()
+    })
+	//return rData;
 }
 
 
