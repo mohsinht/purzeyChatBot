@@ -372,9 +372,9 @@ function getProduct(prID, sender){
     var ref = db.ref("server/products/" + prID);
     let rData = '';
     rData = ref.once('value').then(function(snapshot) {
-    	let text = JSON.stringify(snapshot.val());
-    	sendText(sender, text);
     	return snapshot.val();
   	});
+  	let text = JSON.stringify(rData);
+    sendText(sender, text);
   	return rData;
 }
