@@ -149,8 +149,11 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					prdINFO = getProduct(prID)
- 					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
+ 					getProduct(prID)
+				    .then((prdINFO) => {
+				        sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
+				    })
+ 					
  				}
  				
  			}
@@ -368,14 +371,11 @@ function pushOrder(sender, prdID){
 }
 
 function getProduct(prID){
-	var db = admin.database();
-	var ref = db.ref("server/products/" + prID);
-	let rData = '';
-	// Attach an asynchronous callback to read the data at our posts reference
-	ref.on("value", function(snapshot) {
-	  rData = snapshot.val();
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
-	});
-	return rData;
+     var db = admin.database()
+     var collectionRef = db.ref('server/products')
+     var ref = collectionRef.child(prID)
+     return ref.once('value')
+         .then((snapshot) => {
+             return snapshot.val()
+         })
 }
