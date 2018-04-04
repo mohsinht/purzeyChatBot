@@ -56,12 +56,8 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let dbPh = ''
-		var goUNI; 
-		getDataFromDB(sender, 'University', dbPh)
-		.then((prdINFO) => {
-			goUNI = prdINFO
-		})
-		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+
+		var goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 		let userName = getDataFromDB(sender, 'Name', dbPh)
 		let prdINFO = getProduct("akghf")
@@ -85,6 +81,13 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
 		if(event.message && event.message.text){
+				var goUNI;
+				getDataFromDB(sender, 'University', dbPh)
+				.then((prdINFO) => {
+					goUNI = prdINFO
+				})
+
+
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
