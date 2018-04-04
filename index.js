@@ -399,10 +399,12 @@ function getProduct(prID) {
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
-	ref.on("value", function(snapshot) {
+
+	ref.once('value').then(function(snapshot) {
+	  // The Promise was "fulfilled" (it succeeded).
 	  rData = snapshot.val();
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
+	}, function(error) {
+	  // The Promise was rejected.
+	  console.error(error);
 	});
-	return rData;
 }
