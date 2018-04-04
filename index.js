@@ -150,6 +150,8 @@ app.post('/webhook/', function(req, res){
  				}
  				if(prID != 'noID'){
  					prdINFO = getProduct(prID)
+ 					let ccd = JSON.stringify(prdINFO)
+ 					sendText(sender, "text received: ccd")
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
