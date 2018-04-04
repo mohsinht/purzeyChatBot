@@ -149,10 +149,7 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					prdINFO = getProduct(prID).then(function(data) {
- 						let ccd = JSON.stringify(data)
-						   sendText(sender, "text received: " + ccd)
-						});
+ 					prdINFO = getProduct(prID)
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
@@ -370,9 +367,8 @@ function pushOrder(sender, prdID){
 	});
 }
 
-/*function getProduct(prID){
-
-	var db = admin.database();
+function getProductPromise(prID){
+	/*var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
@@ -381,28 +377,17 @@ function pushOrder(sender, prdID){
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
 	});
-	return rData;
-
-
-	ref.child("server/products/" + prID).once('value').then(function(snapshot) {
-  // The Promise was "fulfilled" (it succeeded).
-	  rData = snapshot.val();
-	}, function(error) {
-	  console.log("The read failed: " + errorObject.code);
-	  console.error(error);
-	});
-	return rData;
-}
-*/
-
-function getProduct(prID) {
+	return rData;*/
 	var db = admin.database();
-	var ref = db.ref("server/products/" + prID);
-	let rData = '';
-	return new Promise(function(resolve, reject) { 
-	   ref.once('value', function(snapshot) {
-	       	rData = snapshot.val();
-	      	resolve(rData);
-	      });
-	  });
+	var ref = db.ref("server/products");
+	return ref.child(prID).once('value').then(function(snapshot) {
+    	return snapshot.val();
+  	});
+}
+
+function getProduct(prID){
+	var getPrdInfo = getProductPromise(prID);
+	return getPrdInfo.then(function(body) {
+  		return body;
+	});
 }
