@@ -368,14 +368,9 @@ function pushOrder(sender, prdID){
 }
 
 function getProduct(prID){
-	var db = admin.database();
-	var ref = db.ref("server/products/" + prID);
-	let rData = '';
-	// Attach an asynchronous callback to read the data at our posts reference
-	ref.on("value", function(snapshot) {
-	  rData = snapshot.val();
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
-	});
-	return rData;
+    var db = admin.database();
+    var ref = db.ref("server/products/" + id);
+    return ref.once('value').then(function(snapshot) {
+    	return snapshot.val();
+  });
 }
