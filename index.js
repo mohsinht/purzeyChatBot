@@ -367,20 +367,33 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID){
+/*function getProduct(prID){
+
 	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
-		return new Promise(function(resolve, reject) {
-        	// Do async job
-        	ref.on("value", function(snapshot) {
-	  			resolve(snapshot.val());
-			}, function (errorObject) {
-	 			 reject(errorObject.code)
-	 		});
-        })
-
 	// Attach an asynchronous callback to read the data at our posts reference
-
+	ref.on("value", function(snapshot) {
+	  rData = snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
 	return rData;
+
+
+	ref.child("server/products/" + prID).once('value').then(function(snapshot) {
+  // The Promise was "fulfilled" (it succeeded).
+	  rData = snapshot.val();
+	}, function(error) {
+	  console.log("The read failed: " + errorObject.code);
+	  console.error(error);
+	});
+	return rData;
+}
+*/
+
+function getProduct(id) {
+  return ref.child('server/products').child(prID).once('value').then(function(snapshot) {
+    return snapshot.val();
+  });
 }
