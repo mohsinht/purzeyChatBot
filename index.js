@@ -387,7 +387,7 @@ function getProductPromise(prID){
 }
 
 function getProduct(prID) {
-  return firebase.database().ref('server/products' + prID).once('value').then(function(snapshot) {
+  return firebase.database().ref('server/products/' + prID).once('value').then(function(snapshot) {
     // ...
     return snapshot.val();
   });
