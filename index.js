@@ -58,7 +58,7 @@ app.post('/webhook/', function(req, res){
 		let dbPh = ''
 		let goUNI = getDataFromDB(sender, 'University', dbPh)
 				    .then((returnedResult) => {
-				        return returnedResult
+				        goUNI = returnedResult
 				    })
 		let goDB = getDataFromDB(sender, 'Phone', dbPh).then((returnedResult) => {
 				        return returnedResult
