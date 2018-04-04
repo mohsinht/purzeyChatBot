@@ -371,10 +371,10 @@ function getProduct(prID, sender){
     var db = admin.database();
     var ref = db.ref("server/products/" + prID);
     let rData = '';
-    ref.once('value').then(function(snapshot) {
+    rData = ref.once('value').then(function(snapshot) {
     	let text = JSON.stringify(snapshot.val());
     	sendText(sender, text);
-    	rData = snapshot.val();
-  });
-  return rData;
+    	return snapshot.val();
+  	});
+  	return rData;
 }
