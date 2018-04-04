@@ -367,8 +367,8 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProductPromise(prID){
-	/*var db = admin.database();
+function getProduct(prID){
+	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
@@ -377,19 +377,5 @@ function getProductPromise(prID){
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
 	});
-	return rData;*/
-	var db = admin.database();
-	var ref = db.ref("server/products");
-	return ref.child(prID).once('value').then(function(snapshot) {
-    	return snapshot.val();
-  	});
-
+	return rData;
 }
-
-function getProduct(prID) {
-  return admin.database().ref('server/products/' + prID).once('value').then(function(snapshot) {
-    // ...
-    return snapshot.val();
-  });
-}
-
