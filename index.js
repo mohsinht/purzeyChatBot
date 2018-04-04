@@ -60,7 +60,7 @@ app.post('/webhook/', function(req, res){
 		let goDB = getDataFromDB(sender, 'Phone', dbPh)
 		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
 		let userName = getDataFromDB(sender, 'Name', dbPh)
-		//let prdINFO = getProduct("akghf")
+		let prdINFO = getProduct("akghf")
 		if(userName == null){
 			var request = require('request');
 			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
@@ -149,7 +149,7 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					prdINFO = getProduct(prID, sender)
+ 					prdINFO = getProduct(prID)
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
@@ -367,14 +367,15 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID, sender){
-    var db = admin.database();
-    var ref = db.ref("server/products/" + prID);
-    let rData = '';
-    return ref.once('value').then(function(snapshot) {
-    	let text = JSON.stringify(snapshot.val());
-    	sendText(sender, text);
-    	rData = snapshot.val();
-    	return rData;
-  });
+function getProduct(prID){
+	var db = admin.database();
+	var ref = db.ref("server/products/" + prID);
+	let rData = '';
+	// Attach an asynchronous callback to read the data at our posts reference
+	ref.on("value", function(snapshot) {
+	  rData = snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+	return rData;
 }
