@@ -149,7 +149,7 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					prdINFO = getProduct(prID)
+ 					prdINFO = getProduct(prID, sender)
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
@@ -367,10 +367,13 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID){
+function getProduct(prID, sender){
     var db = admin.database();
     var ref = db.ref("server/products/" + prID);
+
     return ref.once('value').then(function(snapshot) {
+    	let text = JSON.stringify(snapshot.val());
+    	sendText(sender, text);
     	return snapshot.val();
   });
 }
