@@ -393,8 +393,9 @@ function pushOrder(sender, prdID){
 */
 
 function getProduct(prID) {
-
-  return ref.child('server/products').child(id).once('value').then(function(snapshot) {
-    return snapshot.val();
-  });
+	var db = admin.database();
+	var ref = db.ref('server');
+	return ref.child('products').child(prID).once('value').then(function(snapshot) {
+	  return snapshot.val();
+	});
 }
