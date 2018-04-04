@@ -56,7 +56,8 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let dbPh = ''
-		let goUNI = getDataFromDB(sender, 'University', dbPh)
+		let goUNI = 'null'
+			getDataFromDB(sender, 'University', dbPh)
 				    .then((returnedResult) => {
 				        goUNI = returnedResult
 				    })
