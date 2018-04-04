@@ -383,11 +383,13 @@ function getProductPromise(prID){
 	return ref.child(prID).once('value').then(function(snapshot) {
     	return snapshot.val();
   	});
+
 }
 
-function getProduct(prID){
-	var getPrdInfo = getProductPromise(prID);
-	return getPrdInfo.then(function(body) {
-  		return body;
-	});
+function getProduct(prID) {
+  return firebase.database().ref('server/products' + prID).once('value').then(function(snapshot) {
+    // ...
+    return snapshot.val();
+  });
 }
+
