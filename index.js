@@ -148,6 +148,11 @@ app.post('/webhook/', function(req, res){
  					}
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
+ 				if(prd.value == 'Mouse Pad'){
+ 					prID = 'lgmp'
+ 				}
+
+
  				if(prID != 'noID'){
  					getProduct(prID)
 				    .then((prdINFO) => {
