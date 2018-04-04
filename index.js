@@ -399,14 +399,15 @@ function getProduct(prID) {
 	var ref = db.ref("server/products/" + prID);
 	let rData = 'empty';
 	// Attach an asynchronous callback to read the data at our posts reference
-
-	ref.once('value').then(function(snapshot) {
-	  // The Promise was "fulfilled" (it succeeded).
-	  rData = snapshot.val();
-	  return rData;
-	}, function(error) {
-	  // The Promise was rejected.
-	  console.error(error);
-	});
+	while(rData == 'empty'){
+		ref.once('value').then(function(snapshot) {
+		  // The Promise was "fulfilled" (it succeeded).
+		  rData = snapshot.val();
+		  //return rData;
+		}, function(error) {
+		  // The Promise was rejected.
+		  console.error(error);
+		});
+	}
 	return rData;
 }
