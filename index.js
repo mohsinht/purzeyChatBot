@@ -407,4 +407,5 @@ function getProduct(prID) {
 	  // The Promise was rejected.
 	  console.error(error);
 	});
+	return rData;
 }
