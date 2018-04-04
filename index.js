@@ -399,7 +399,7 @@ function getProduct(prID) {
 	var ref = db.ref("server/products/" + prID);
 	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
-	ref.once("value", function(snapshot) {
+	ref.on("value", function(snapshot) {
 	  rData = snapshot.val();
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
