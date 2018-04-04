@@ -149,9 +149,10 @@ app.post('/webhook/', function(req, res){
  					//sendText(sender, "You talked about our product: " + prd.value)
  				}
  				if(prID != 'noID'){
- 					prdINFO = getProduct(prID)
- 					let ccd = JSON.stringify(prdINFO)
- 					sendText(sender, "text received: " + ccd)
+ 					prdINFO = getProduct(prID).then(function(data) {
+ 						let ccd = JSON.stringify(data)
+						   sendText(sender, "text received: " + ccd)
+						});
  					sendText(sender, "The price of " + prdINFO.name + " is " + prdINFO.price + "PKR only.")
  				}
  				
@@ -397,17 +398,11 @@ function pushOrder(sender, prdID){
 function getProduct(prID) {
 	var db = admin.database();
 	var ref = db.ref("server/products/" + prID);
-	let rData = 'empty';
-	// Attach an asynchronous callback to read the data at our posts reference
-	while(rData == 'empty'){
-		ref.once('value').then(function(snapshot) {
-		  // The Promise was "fulfilled" (it succeeded).
-		  rData = snapshot.val();
-		  //return rData;
-		}, function(error) {
-		  // The Promise was rejected.
-		  console.error(error);
-		});
-	}
-	return rData;
+	let rData = '';
+	return new Promise(function(resolve, reject) { 
+	   ref.once('value', function(snapshot) {
+	       	rData = snapshot.val();
+	      	resolve(rData);
+	      });
+	  });
 }
