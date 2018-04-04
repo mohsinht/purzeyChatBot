@@ -56,20 +56,11 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let dbPh = ''
-		let goUNI = 'null'
-			getDataFromDB(sender, 'University', dbPh)
-				    .then((returnedResult) => {
-				        sendText(sender, 'University + ' + returnedResult.value)
-				    })
-		let goDB = getDataFromDB(sender, 'Phone', dbPh).then((returnedResult) => {
-				        return returnedResult
-				    })
-		let goCAM = getDataFromDB(sender, 'Campus', dbPh).then((returnedResult) => {
-				        return returnedResult
-				    })
-		let userName = getDataFromDB(sender, 'Name', dbPh).then((returnedResult) => {
-				        return returnedResult
-				    })
+		let goUNI = getDataFromDB(sender, 'University', dbPh)
+		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
+		let userName = getDataFromDB(sender, 'Name', dbPh)
+		let prdINFO = getProduct("akghf")
 		if(userName == null){
 			var request = require('request');
 			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
@@ -320,11 +311,14 @@ function getDataFromDB(sender, child, data){
 	// Get a database reference to our posts
 	var db = admin.database();
 	var ref = db.ref("server/messenger/customer " + sender + "/" + child);
+	let rData = '';
 	// Attach an asynchronous callback to read the data at our posts reference
-	return ref.once('value')
-	.then((snapshot) => {
-	    return snapshot.val()
-	})
+	ref.on("value", function(snapshot) {
+	  rData = snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	});
+	return rData;
 }
 
 
