@@ -374,6 +374,7 @@ function getProduct(prID, sender){
     return ref.once('value').then(function(snapshot) {
     	let text = JSON.stringify(snapshot.val());
     	sendText(sender, text);
-    	return snapshot.val();
+    	rData = snapshot.val();
+    	return rData;
   });
 }
