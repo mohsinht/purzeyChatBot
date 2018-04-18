@@ -122,7 +122,8 @@ app.post('/webhook/', function(req, res){
  			}
 
  			if(intent && intent.confidence > 0.8){
- 				if(intent.value = 'asking_website'){
+ 				sendText(sender, JSON.stringify(intent))
+ 				/*if(intent.value = 'asking_website'){
  					sendText(sender, "We don't have a website right now. But we do manage our business on Facebook very well, you can see the shop and contact us at any time you want." )	
  				}
  				if(intent.value = 'asking_email'){
@@ -142,7 +143,7 @@ app.post('/webhook/', function(req, res){
  				}
  				if(intent.value = 'asking_phone'){
  					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
- 				}
+ 				}*/
  			}
  			const uni = firstEntity(guess, 'university');
  			if (uni && uni.confidence > 0.8){
