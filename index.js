@@ -84,6 +84,7 @@ app.post('/webhook/', function(req, res){
 			let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const greeting = firstEntity(guess, 'greetings');
+			const intent = firstEntity(guess, 'intent');
 			saveDataInDatabase(sender, text)
 			if (text === 'generic') {
 			    sendGenericMessage(sender)
@@ -120,6 +121,11 @@ app.post('/webhook/', function(req, res){
     			
  			}
 
+ 			if(intent && intent.confidence > 0.8){
+ 				if(intent.value = 'asking_website'){
+ 					sendText(sender, "We don't have a website right now. But we do manage our business on Facebook very well, you can see the shop and contact us any at time you want." )	
+ 				}
+ 			}
  			const uni = firstEntity(guess, 'university');
  			if (uni && uni.confidence > 0.8){
  				//sendText(sender, "You talked about your university " + uni.value)
