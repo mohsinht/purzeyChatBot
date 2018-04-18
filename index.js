@@ -123,12 +123,13 @@ app.post('/webhook/', function(req, res){
 
  			if(intent && intent.confidence > 0.8){
  				sendText(sender, JSON.stringify(intent))
- 				/*if(intent.value = 'asking_website'){
+ 				if(intent.value = 'asking_website'){
  					sendText(sender, "We don't have a website right now. But we do manage our business on Facebook very well, you can see the shop and contact us at any time you want." )	
  				}
  				if(intent.value = 'asking_email'){
  					sendText(sender, "You can email us at our email address: purzey2018@gmail.com")
  				}
+ 				/*
  				if(intent.value = 'slang'){
  					sendText(sender, ":D :P")
  				}
