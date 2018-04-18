@@ -122,29 +122,27 @@ app.post('/webhook/', function(req, res){
  			}
 
  			if(intent && intent.confidence > 0.8){
- 				sendText(sender, JSON.stringify(intent))
- 				if(intent.value = "asking_website"){
+ 				if(intent.value == "asking_website"){
  					sendText(sender, "We don't have a website right now. But we do manage our business on Facebook very well, you can see the shop and contact us at any time you want." )	
  				}
- 				if(intent.value = "asking_email"){
+ 				if(intent.value == "asking_email"){
  					sendText(sender, "You can email us at our email address: purzey2018@gmail.com")
  				}
- 				/*
- 				if(intent.value = 'slang'){
+ 				if(intent.value == 'slang'){
  					sendText(sender, ":D :P")
  				}
- 				if(intent.value = 'product_inquiry'){
+ 				if(intent.value == 'product_inquiry'){
  					sendText(sender, "Your question about the product has been noted. We'll let you know after confirmation")
  				}
- 				if(intent.value = 'abuse'){
+ 				if(intent.value == 'abuse'){
  					sendText(sender, "Abusing will cause a permanent ban.")
  				}
- 				if(intent.value = 'order_received'){
+ 				if(intent.value == 'order_received'){
  					sendText(sender, "Have a good day :) Kindly rate our services and share Purzey with your friends.")
  				}
- 				if(intent.value = 'asking_phone'){
+ 				if(intent.value == 'asking_phone'){
  					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
- 				}*/
+ 				}
  			}
  			const uni = firstEntity(guess, 'university');
  			if (uni && uni.confidence > 0.8){
