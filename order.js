@@ -1,7 +1,8 @@
 const index = require('index')
 
-function sendAMsg(k){
-	if(k == 1){
+ module.exports.sendAMsg = function(k){
+	if(k === 1){
 		return 'Received a message from order.js'
 	}
 }
+
