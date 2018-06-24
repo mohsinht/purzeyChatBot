@@ -91,17 +91,6 @@ app.post('/webhook/', function(req, res){
 							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
 								saveinDB(sender, 'University', 'Fast-NU')
 								sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")	
-						}else if(text.includes("pucit") || text.includes("punjab university")){
-								saveinDB(sender, 'University', 'PUCIT')
-								if(text.includes("new")){
-									saveinDB(sender, 'Campus', 'New')
-									sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
-								}else if(text.includes("old")){
-									saveinDB(sender, 'Campus', 'Old')
-									sendText(sender, "We are not yet available in PUCIT old campus.")
-								}else{
-									sendText(sender, "You haven't mentioned which campus are you from?")
-								}	
 						}
 					}
 				}
