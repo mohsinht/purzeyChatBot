@@ -64,8 +64,8 @@ app.post('/webhook/', function(req, res){
 
 		if(event.message && event.message.text){
  			getUserProfile(sender)
-			.then((user) => {
-				sendText(sender, "Hello Mr. " + user.Name)
+			.then((cuser) => {
+				sendText(sender, "Hello Mr. " + cuser.Name)
 				})		
  			}
 
@@ -465,7 +465,8 @@ function getProduct(prID){
 
 function getUserProfile(senderID){
 	 var db = admin.database()
-     var ref = db.ref("server/messenger/customer " + senderID);
+     var msgnrRef = db.ref('server/messenger');
+     var ref = msgnrRef.child('customer ' + senderID)
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
