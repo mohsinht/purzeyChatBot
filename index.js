@@ -65,7 +65,7 @@ app.post('/webhook/', function(req, res){
 		if(event.message && event.message.text){
  			getUserProfile(sender)
 			.then((cuser) => {
-				sendText(sender, "Hello Mr. " + cuser.Name)
+				sendText(sender, "Hello Mr. " + cuser.Name + " => " cuser.University)
 				})		
  			}
 
