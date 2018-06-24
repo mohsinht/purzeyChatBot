@@ -60,20 +60,7 @@ app.post('/webhook/', function(req, res){
 			.then((cuser) => {
 				sendText(sender, "Hello Mr. " + cuser.Name.value)
 				})		
-			.catch(() => {
-				sendText(sender, "Purzey main khush-aamdid! Mayaar ko barqarar rkhnay k liye apki profile bnayi jaye gi. Brah-e-Mehrbani, hamaray Bot ko sahi se jawab dijiye.")
-				var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
-					request({
-					    url: usersPublicProfile,
-					    json: true // parse
-					}, function (error, response, body) {
-					   if (!error && response.statusCode === 200) {
-					    saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-					    saveinDB(sender, 'dp', body.profile_pic);
-					    saveinDB(sender, 'Gender', body.gender);
-					    }
-					});
-				})
+			continue;
 
  			}
 
