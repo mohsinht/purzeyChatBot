@@ -87,11 +87,13 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'University', 'ITU')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
+								askMobileNumber(sender)
 						}
 						else if(text.includes("comsats")){
 								saveinDB(sender, 'University', 'COMSATS')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")	
+								askMobileNumber(sender)
 						}
 						else if(text.includes("fast university") || text.includes("fast lahore") || 
 							text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
@@ -99,11 +101,13 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'University', 'Fast-NU')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")	
+								askMobileNumber(sender)
 						}else{
 							askUniversity(sender)
 						}
 					}
 					if(cuser.Progress.value === 1){
+
 						const phNum = firstEntity(guess, 'phone_number');
 						if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
 							//let phn = text.substring(phNum.start, phNum.end)
