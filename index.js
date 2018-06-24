@@ -59,13 +59,26 @@ app.post('/webhook/', function(req, res){
  			getUserProfile(event.sender.id+5)
 			.then((cuser) => {
 				if(cuser === null){
-					sendText(sender, "Not HEllo :)")
+					sendText(sender, "Purzey main khush-aamdid! Kuch order krnay k liye apko kuch sawalat kay jawab denay hongay.")
+					var request = require('request');
+					var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender +
+					'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='
+					+ token;
+					request({
+					    url: usersPublicProfile,
+					    json: true // parse
+					}, function (error, response, body) {
+					        if (!error && response.statusCode === 200) {
+					        saveinDB(sender+5, 'Name', body.first_name + ' ' + body.last_name);
+					            saveinDB(sender+5, 'dp', body.profile_pic);
+					            saveinDB(sender+5, 'Gender', body.gender);
+					        }
+					    });
 				}else{
-				sendText(sender, "Hello Mr. " + cuser.Name.value)
+					sendText(sender, "Hello Mr. " + cuser.Name.value)
 				}
 			})		
 			continue;
-
  		}
 
 	}
