@@ -54,10 +54,10 @@ app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = req.body.entry[0].messaging[i]
-		let sender = event.sender.id
+		let sender = event.sender.id + 5
 		let text = event.message.text.toLowerCase()
 		if(event.message && event.message.text){
- 			getUserProfile(event.sender.id+5)
+ 			getUserProfile(event.sender.id)
 			.then((cuser) => {
 				if(cuser === null){
 					askShuruKrain(sender)
@@ -70,11 +70,11 @@ app.post('/webhook/', function(req, res){
 					    json: true // parse
 					}, function (error, response, body) {
 					        if (!error && response.statusCode === 200) {
-					        saveinDB(sender+5, 'Name', body.first_name + ' ' + body.last_name);
-					            saveinDB(sender+5, 'dp', body.profile_pic);
-					            saveinDB(sender+5, 'Gender', body.gender);
-					            saveinDB(sender+5, 'University', 'none');
-					            saveinDB(sender+5, 'Phone', 'none');
+					        saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
+					            saveinDB(sender, 'dp', body.profile_pic);
+					            saveinDB(sender, 'Gender', body.gender);
+					            saveinDB(sender, 'University', 'none');
+					            saveinDB(sender, 'Phone', 'none');
 
 					        }
 					    });
@@ -98,7 +98,7 @@ app.post('/webhook/', function(req, res){
 						}else{
 							askUniversity(sender)
 						}
-					}else if(cuser.University.value === 'none'){
+					}else if(cuser.Phone.value === 'none'){
 						askMobileNumber(sender)
 					}
 				}
