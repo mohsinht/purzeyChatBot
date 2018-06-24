@@ -82,7 +82,6 @@ app.post('/webhook/', function(req, res){
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
 
 					if(cuser.University.value === 'none'){
-						askUniversity(sender)
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
 								sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
@@ -96,6 +95,8 @@ app.post('/webhook/', function(req, res){
 							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
 								saveinDB(sender, 'University', 'Fast-NU')
 								sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")	
+						}else{
+							askUniversity(sender)
 						}
 					}
 				}
