@@ -55,6 +55,7 @@ app.post('/webhook/', function(req, res){
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
+		let text = event.message.text.toLowerCase()
 		if(event.message && event.message.text){
  			getUserProfile(event.sender.id+5)
 			.then((cuser) => {
