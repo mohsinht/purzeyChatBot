@@ -114,7 +114,8 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'Phone', phNum.value)
 			    				sendText(sender, "We have noted down your Phone number: " + phNum.value + ". Kindly wait while the campus ambassador contacts you.")
 			 			}else{
-			 				askMobileNumber(sender)
+			 				
+			 				setTimeout(askMobileNumber(sender), 3000)
 			 			}
 					}
 				}
