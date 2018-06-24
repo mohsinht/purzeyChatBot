@@ -109,10 +109,6 @@ app.listen(app.get('port'), function(){
 	console.log("RUNNING: port")
 })
 
-
-function askUniversity(sender){
-
-}
 function saveDataInDatabase(sender, text){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
