@@ -72,12 +72,15 @@ app.post('/webhook/', function(req, res){
 					        saveinDB(sender+5, 'Name', body.first_name + ' ' + body.last_name);
 					            saveinDB(sender+5, 'dp', body.profile_pic);
 					            saveinDB(sender+5, 'Gender', body.gender);
+					            saveinDB(sender+5, 'University', 'none');
+					            saveinDB(sender+5, 'Phone', 'none');
+
 					        }
 					    });
 				}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
 
-					if(cuser.University === null){
+					if(cuser.University.value === 'none'){
 						askUniversity(sender)
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
