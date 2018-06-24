@@ -59,7 +59,7 @@ app.post('/webhook/', function(req, res){
  			getUserProfile(event.sender.id+5)
 			.then((cuser) => {
 				if(cuser === null){
-					sendText(sender, "Purzey main khushaamdid! Agar aap Purzey se kuch order krna chahtay hain, to chand sawalat k jawab de kr order confirm kr dein.")
+					askShuruKrain(sender)
 					var request = require('request');
 					var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender +
 					'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='
@@ -74,10 +74,11 @@ app.post('/webhook/', function(req, res){
 					            saveinDB(sender+5, 'Gender', body.gender);
 					        }
 					    });
-					askUniversity(sender)
 				}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
+
 					if(cuser.University.value === null){
+						askUniversity(sender)
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
 								sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
@@ -166,7 +167,7 @@ function getDataFromDB(sender, child, data){
 
 function askUniversity(sender) {
     let messageData = {
-	     "text": "Here is a quick reply!",
+	     "text": "Apni university ka naam btayen?",
 	    "quick_replies":[
 	      {
 	        "content_type":"text",
@@ -216,7 +217,33 @@ function askUniversity(sender) {
 	    }
     })
 }
-
+function askShuruKrain(sender) {
+    let messageData = {
+	     "text": "Purzey main khushaamdid! Agar aap Purzey se kuch order krna chahtay hain, to chand sawalat k jawab de kr order confirm kr dein.",
+	    "quick_replies":[
+	      {
+	        "content_type":"text",
+	        "title":"Shuru Krain",
+	        "payload":"shuru",
+	      }
+	    ]
+	}
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
 
 
 
