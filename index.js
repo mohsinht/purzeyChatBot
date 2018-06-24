@@ -77,7 +77,7 @@ app.post('/webhook/', function(req, res){
 				}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
 
-					if(cuser.University.value === null){
+					if(cuser.University === null){
 						askUniversity(sender)
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
