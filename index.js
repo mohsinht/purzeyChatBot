@@ -56,6 +56,7 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		let text = event.message.text.toLowerCase()
+		let guess = event.message.nlp
 		if(event.message && event.message.text){
  			getUserProfile(event.sender.id)
 			.then((cuser) => {
