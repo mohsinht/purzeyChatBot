@@ -59,7 +59,7 @@ app.post('/webhook/', function(req, res){
  			getUserProfile(event.sender.id+5)
 			.then((cuser) => {
 				if(cuser === null){
-					sendText(sender, "Purzey main khush-aamdid! Kuch order krnay k liye apko kuch sawalat kay jawab denay hongay.")
+					sendText(sender, "Purzey main khushaamdid! Agar aap Purzey se kuch order krna chahtay hain, to chand sawalat k jawab de kr order confirm kr dein.")
 					var request = require('request');
 					var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender +
 					'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='
@@ -74,6 +74,7 @@ app.post('/webhook/', function(req, res){
 					            saveinDB(sender+5, 'Gender', body.gender);
 					        }
 					    });
+					askUniversity(sender)
 				}else{
 					sendText(sender, "Hello Mr. " + cuser.Name.value)
 				}
@@ -109,7 +110,9 @@ app.listen(app.get('port'), function(){
 })
 
 
+function askUniversity(sender){
 
+}
 function saveDataInDatabase(sender, text){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
@@ -149,71 +152,41 @@ function getDataFromDB(sender, child, data){
 
 
 
-function sendGenericMessage(sender) {
+function askUniversity(sender) {
     let messageData = {
-	    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "list",
-        "top_element_style": "compact",
-        "elements": [
-          {
-            "title": "Classic T-Shirt Collection",
-            "subtitle": "See all our colors",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
-            "buttons": [
-              {
-                "title": "View",
-                "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/collection",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
-              }
-            ]
-          },
-          {
-            "title": "Classic White T-Shirt",
-            "subtitle": "See all our colors",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-              "messenger_extensions": false,
-              "webview_height_ratio": "tall"
-            }
-          },
-          {
-            "title": "Classic Blue T-Shirt",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-            "subtitle": "100% Cotton, 200% Comfortable",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-              "messenger_extensions": true,
-              "webview_height_ratio": "tall",
-              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-            },
-            "buttons": [
-              {
-                "title": "Shop Now",
-                "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
-              }
-            ]        
-          }
-        ],
-         "buttons": [
-          {
-            "title": "View More",
-            "type": "postback",
-            "payload": "payload"            
-          }
-        ]  
-      }
-    }
+	     "text": "Here is a quick reply!",
+	    "quick_replies":[
+	      {
+	        "content_type":"text",
+	        "title":"ITU",
+	        "payload":"uni_ITU",
+	      },
+	      {
+	        "content_type":"text",
+	        "title":"FAST-NU",
+	        "payload":"uni_NU",
+	      },
+	      {
+	        "content_type":"text",
+	        "title":"COMSATS",
+	        "payload":"uni_COM",
+	      },
+	      {
+	        "content_type":"text",
+	        "title":"PUCIT - NEW",
+	        "payload":"uni_PUnew",
+	      },
+	      {
+	        "content_type":"text",
+	        "title":"UMT",
+	        "payload":"uni_UMT",
+	      },
+	      {
+	        "content_type":"text",
+	        "title":"Inmay se koi nai",
+	        "payload":"uni_none",
+	      }
+	    ]
 	}
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
