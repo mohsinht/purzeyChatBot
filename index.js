@@ -56,15 +56,19 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		if(event.message && event.message.text){
- 			getUserProfile(event.sender.id)
+ 			getUserProfile(event.sender.id+5)
 			.then((cuser) => {
+				if(cuser === null){
+					sendText(sender, "Not HEllo :)")
+				}else{
 				sendText(sender, "Hello Mr. " + cuser.Name.value)
-				})		
+				}
+			})		
 			continue;
 
- 			}
+ 		}
 
-		}
+	}
 	res.sendStatus(200)
 })
 
