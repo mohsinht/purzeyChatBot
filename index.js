@@ -76,7 +76,34 @@ app.post('/webhook/', function(req, res){
 					    });
 					askUniversity(sender)
 				}else{
-					sendText(sender, "Hello Mr. " + cuser.Name.value)
+					//sendText(sender, "Hello Mr. " + cuser.Name.value)
+					if(cuser.University.value === null){
+						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+								saveinDB(sender, 'University', 'ITU')
+								sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
+						}
+						else if(text.includes("comsats")){
+								saveinDB(sender, 'University', 'COMSATS')
+								sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")	
+						}
+						else if(text.includes("fast university") || text.includes("fast lahore") || 
+							text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
+							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+								saveinDB(sender, 'University', 'Fast-NU')
+								sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")	
+						}else if(text.includes("pucit") || text.includes("punjab university")){
+								saveinDB(sender, 'University', 'PUCIT')
+								if(text.includes("new")){
+									saveinDB(sender, 'Campus', 'New')
+									sendText(sender, "Mustaghees Butt is our campus ambassador at PUCIT, New Campus, Lahore. He'll handover your order to you.")
+								}else if(text.includes("old")){
+									saveinDB(sender, 'Campus', 'Old')
+									sendText(sender, "We are not yet available in PUCIT old campus.")
+								}else{
+									sendText(sender, "You haven't mentioned which campus are you from?")
+								}	
+						}
+					}
 				}
 			})		
 			continue;
