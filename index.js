@@ -55,18 +55,14 @@ app.post('/webhook/', function(req, res){
 	for(let i = 0; i<messaging_events.length; i++){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
-		let dbPh = ''
-		let goUNI = getDataFromDB(sender, 'University', dbPh)
-		let goDB = getDataFromDB(sender, 'Phone', dbPh)
-		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
-		let userName = getDataFromDB(sender, 'Name', dbPh)
-		let prdINFO = getProduct("akghf")
-
 		if(event.message && event.message.text){
- 			getUserProfile(event.sender.id)
+ 			getUserProfile(event.sender.id +5 )
 			.then((cuser) => {
 				sendText(sender, "Hello Mr. " + cuser.Name.value)
 				})		
+			.catch(() => {
+				sendText(sender, "You have no profile here.")
+				})
  			}
 
 		if(userName == null){
