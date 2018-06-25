@@ -84,9 +84,9 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
       	if(event.message && event.message.text){
+      		sendMarkSeen(sender)
       		setTimeout(sendTypingOn(sender), 2000)
       		sendTypingOff(sender)
-      		sendMarkSeen(sender)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
  			getUserProfile(event.sender.id)
