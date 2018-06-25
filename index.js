@@ -57,6 +57,13 @@ app.post('/webhook/', function(req, res){
 		let sender = event.sender.id
 		let text = event.message.text.toLowerCase()
 		let guess = event.message.nlp
+
+		if (event.postback) {
+  	    	let text = JSON.stringify(event.postback)
+  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	continue
+      	}
+
 		if(event.message && event.message.text){
  			getUserProfile(event.sender.id)
 			.then((cuser) => {
@@ -92,17 +99,22 @@ app.post('/webhook/', function(req, res){
 						else if(text.includes("comsats")){
 								saveinDB(sender, 'University', 'COMSATS')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-								sendText(sender, "Khunshan Butt is our campus ambassador at COMSATS, Lahore. He'll handover your order to you.")	
+								sendText(sender, "COMSATS University save kr li gyi hai. Apko apka order Khunshan Butt pohncha dengay.")	
 								askMobileNumber(sender)
 						}
 						else if(text.includes("fast university") || text.includes("fast lahore") || 
 							text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
 							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
 								saveinDB(sender, 'University', 'Fast-NU')
-							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-								sendText(sender, "Mohsin Hayat is our campus ambassador at FAST-NU, Lahore. He'll handover your order to you.")	
+								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
+								sendText(sender, "FAST University save kr li gyi hai. Apko apka order Mohsin Hayat pohncha dengay.")	
 								askMobileNumber(sender)
-						}else{
+						}
+						else if(text.includes("pucit - new") || text.includes("punjab university")){
+							saveinDB(sender, 'University', 'PUCIT (New)')
+							sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
+						}
+						else{
 							askUniversity(sender)
 						}
 					}
@@ -118,6 +130,48 @@ app.post('/webhook/', function(req, res){
 			 				setTimeout(askMobileNumber(sender), 3000)
 			 			}
 					}
+					const greeting = firstEntity(guess, 'greetings');
+					if (greeting && greeting.confidence > 0.8) {
+						var k = Math.random()
+						if(k>0.8){
+							sendText(sender, "Hello! How you doing?")
+						}else if(k>0.6){
+							sendText(sender, "Hey! Welcome to Purzey!")
+						}else if(k>0.4){
+							sendText(sender, "AoA! Kya haal hai?")
+						}else if(k>0.2){
+							sendText(sender, "Hi! Did you see our shop?")
+						}else{
+							sendText(sender, "Hey! :) " )
+						}
+		 			}
+		 			const byed = firstEntity(guess, 'bye');
+					if (byed && byed.confidence > 0.8) {
+			    		sendText(sender, "Shukria. Khuda Hafiz!")
+			 		}
+			 		if(intent && intent.confidence > 0.8){
+		 				if(intent.value == "asking_website"){
+		 					sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
+		 				}
+		 				if(intent.value == "asking_email"){
+		 					sendText(sender, "You can email us at our email address: info@purzey.pk")
+		 				}
+		 				if(intent.value == 'slang'){
+		 					sendText(sender, ":D :P")
+		 				}
+		 				if(intent.value == 'product_inquiry'){
+		 					sendText(sender, "Aapka sawal darj kr lia gya, brah-e-mehrbani intazar farmaiye.")
+		 				}
+		 				if(intent.value == 'abuse'){
+		 					sendText(sender, "Abusing will cause a permanent ban.")
+		 				}
+		 				if(intent.value == 'order_received'){
+		 					sendText(sender, "Have a good day :) Kindly rate our services and share Purzey with your friends.")
+		 				}
+		 				if(intent.value == 'asking_phone'){
+		 					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
+		 				}
+		 			} 
 				}
 			})		
 			continue;
