@@ -59,6 +59,7 @@ app.post('/webhook/', function(req, res){
 		let guess = event.message.nlp
 
 		if (event.postback) {
+			sendText(sender, "MMM")
   	    	let text = JSON.stringify(event.postback)
   	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
   	    	continue
