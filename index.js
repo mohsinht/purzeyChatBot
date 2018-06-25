@@ -57,6 +57,13 @@ app.post('/webhook/', function(req, res){
 		let sender = event.sender.id
 		let text = event.message.text.toLowerCase()
 		let guess = event.message.nlp
+
+		if (event.postback) {
+  	    	let text = JSON.stringify(event.postback)
+  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	continue
+      	}
+
 		if(event.message && event.message.text){
  			getUserProfile(event.sender.id)
 			.then((cuser) => {
@@ -118,7 +125,7 @@ app.post('/webhook/', function(req, res){
 							//let phn = text.substring(phNum.start, phNum.end)
 								saveinDB(sender, 'Phone', phNum.value)
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi")
+			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
 			 			}else{
 			 				
 			 				setTimeout(askMobileNumber(sender), 3000)
@@ -165,23 +172,12 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value == 'asking_phone'){
 		 					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
 		 				}
-		 			}
-		 			if(text === 'contact info'){
-		 				sendText(sender, "Contact Info btata hun")
-		 			}
-		 			if (text === 'generic') {
-					    sendGenericMessage(sender)
-				    	continue
-				    }
+		 			} 
 				}
 			})		
 			continue;
  		}
- 		if (event.postback) {
-	  	    let text = JSON.stringify(event.postback)
-	  	    sendText(sender, "Postback received: "+text.substring(0, 200), token)
-	  	    continue
-	    }
+
 	}
 	res.sendStatus(200)
 })
@@ -382,42 +378,4 @@ function getUserProfile(senderID){
          .then((snapshot) => {
              return snapshot.val()
          })
-}
-
-
-function sendGenericMessage(sender) {
-    let messageData = {
-	    "attachment": {
-		    "type": "template",
-		    "payload": {
-				"template_type": "button",
-				"text":"Are you satisfied with our service?",
-			    "buttons": [
-			    	{
-					    "type": "postback",
-					    "payload": "button1",
-					    "title": "Yes"
-				    }, {
-					    "type": "postback",
-					    "title": "No",
-					    "payload": "button2",
-				    }]
-		    }
-	    }
-    }
-    request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    message: messageData,
-	    }
-    }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
-    })
 }
