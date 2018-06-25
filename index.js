@@ -69,7 +69,7 @@ app.post('/webhook/', function(req, res){
 						profMsg += "\n*Name:* " + cuser.Name.value
 					}
 					if(cuser.University.value!=null){
-						profMsg += "\n*University:* " + cuser.Phone.value
+						profMsg += "\n*University:* " + cuser.University.value
 					}
 					if(cuser.Phone.value!=null){
 						profMsg += "\n*Phone #:* " + cuser.Phone.value
@@ -77,6 +77,9 @@ app.post('/webhook/', function(req, res){
 					profMsg = profMsg + "\n*Order Count:* 0"
 					sendText(sender, "We have your profile saved with us: " + profMsg)	
 				})
+  	    	}
+  	    	if(event.postback.payload === 'HISTORY_PAYLOAD'){
+  	    		sendText(sender, "Ye feature abhi testing k marahil main hai.")
   	    	}
   	    	continue
       	}
