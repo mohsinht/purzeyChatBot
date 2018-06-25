@@ -87,8 +87,6 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
       	if(event.message && event.message.text){
-      		let att = JSON.stringify(event.message)
-      		sendText(sender, att)
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
       		sendTypingOff(sender)
