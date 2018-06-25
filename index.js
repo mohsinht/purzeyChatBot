@@ -56,9 +56,11 @@ app.post('/webhook/', function(req, res){
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		if (event.postback) {
-			sendText(sender, "MMM")
   	    	let text = JSON.stringify(event.postback)
-  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
+  	    		sendText(sender, "Contact bhejta hun wait kro.")
+  	    	}
   	    	continue
       	}
       	if(event.message && event.message.text){
