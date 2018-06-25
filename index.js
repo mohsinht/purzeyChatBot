@@ -175,6 +175,9 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value == 'asking_phone'){
 		 					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
 		 				}
+		 			}
+		 			if(text === 'contact info'){
+		 				sendText(sender, "Contact Info btata hun")
 		 			} 
 				}
 			})		
