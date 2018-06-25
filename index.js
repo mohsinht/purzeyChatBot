@@ -53,12 +53,29 @@ function firstEntity(nlp, name) {
 app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
-		let event = req.body.entry[0].messaging[i]
+let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
-		let text = event.message.text.toLowerCase()
-		let guess = event.message.nlp
+		let dbPh = ''
+		let goUNI = getDataFromDB(sender, 'University', dbPh)
+		let goDB = getDataFromDB(sender, 'Phone', dbPh)
+		let goCAM = getDataFromDB(sender, 'Campus', dbPh)
+		let userName = getDataFromDB(sender, 'Name', dbPh)
+		let prdINFO = getProduct("akghf")
+		if(userName == null){
+			var request = require('request');
+			var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender + '?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token;
+			request({
+			    url: usersPublicProfile,
+			    json: true // parse
+			}, function (error, response, body) {
+			        if (!error && response.statusCode === 200) {
+			        	saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
+			            saveinDB(sender, 'dp', body.profile_pic);
+			            saveinDB(sender, 'Gender', body.gender);
+			        }
+			    });
+		}
 		if (event.postback) {
-			sendText(sender, "MMM")
   	    	let text = JSON.stringify(event.postback)
   	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
   	    	continue
