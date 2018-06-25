@@ -60,7 +60,10 @@ app.post('/webhook/', function(req, res){
 
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
-  	    	sendText(sender, "Postback received: "+text.substring(0, 200), token)
+  	    	//sendText(sender, "Postback received: "+ text.substring(0, 200))
+  	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
+  	    		sendText(sender, "Contact Info btata hun")
+  	    	}
   	    	continue
       	}
 
@@ -125,7 +128,7 @@ app.post('/webhook/', function(req, res){
 							//let phn = text.substring(phNum.start, phNum.end)
 								saveinDB(sender, 'Phone', phNum.value)
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-			    				sendText(sender, "We have noted down your Phone number: " + phNum.value + ". Kindly wait while the campus ambassador contacts you.")
+			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi")
 			 			}else{
 			 				
 			 				setTimeout(askMobileNumber(sender), 3000)
