@@ -87,6 +87,7 @@ app.post('/webhook/', function(req, res){
       		sendMarkSeen(sender)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
+			const intent = firstEntity(guess, 'intent')
  			getUserProfile(event.sender.id)
 			.then((cuser) => {
 				if(cuser === null){
@@ -113,8 +114,6 @@ app.post('/webhook/', function(req, res){
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
-					let np = JSON.stringify(guess)
-					sendText(sender, "NLP: "+np.substring(0, 200), token)
 					if(cuser.University.value === 'none'){
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
