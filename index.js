@@ -57,16 +57,6 @@ app.post('/webhook/', function(req, res){
 		let sender = event.sender.id
 		let text = event.message.text.toLowerCase()
 		let guess = event.message.nlp
-
-		if (event.postback) {
-  	    	let text = JSON.stringify(event.postback)
-  	    	//sendText(sender, "Postback received: "+ text.substring(0, 200))
-  	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
-  	    		sendText(sender, "Contact Info btata hun")
-  	    	}
-  	    	continue
-      	}
-
 		if(event.message && event.message.text){
  			getUserProfile(event.sender.id)
 			.then((cuser) => {
@@ -183,7 +173,11 @@ app.post('/webhook/', function(req, res){
 			})		
 			continue;
  		}
-
+ 		if (event.postback) {
+	  	    let text = JSON.stringify(event.postback)
+	  	    sendText(sender, "Postback received: "+text.substring(0, 200), token)
+	  	    continue
+	    }
 	}
 	res.sendStatus(200)
 })
