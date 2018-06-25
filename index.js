@@ -168,7 +168,11 @@ app.post('/webhook/', function(req, res){
 		 			}
 		 			if(text === 'contact info'){
 		 				sendText(sender, "Contact Info btata hun")
-		 			} 
+		 			}
+		 			if (text === 'generic') {
+					    sendGenericMessage(sender)
+				    	continue
+				    }
 				}
 			})		
 			continue;
@@ -378,4 +382,42 @@ function getUserProfile(senderID){
          .then((snapshot) => {
              return snapshot.val()
          })
+}
+
+
+function sendGenericMessage(sender) {
+    let messageData = {
+	    "attachment": {
+		    "type": "template",
+		    "payload": {
+				"template_type": "button",
+				"text":"Are you satisfied with our service?",
+			    "buttons": [
+			    	{
+					    "type": "postback",
+					    "payload": "button1",
+					    "title": "Yes"
+				    }, {
+					    "type": "postback",
+					    "title": "No",
+					    "payload": "button2",
+				    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
 }
