@@ -84,8 +84,9 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
       	if(event.message && event.message.text){
-      		setTimeout(sendTypingOn(sender), 3000)
-      		setTimeout(sendTypingOn(sender), 3000)
+      		setTimeout(sendTypingOn(sender), 2000)
+      		sendTypingOff(sender)
+      		sendMarkSeen(sender)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
  			getUserProfile(event.sender.id)
@@ -497,6 +498,42 @@ function sendTypingOn(sender){
 	    json: {
 		    recipient: {id:sender},
 		    sender_action: "typing_on",
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+function sendTypingOff(sender){
+	request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    sender_action: "typing_off",
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+function sendMarkSeen(sender){
+	request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    sender_action: "mark_seen",
 	    }
     }, function(error, response, body) {
 	    if (error) {
