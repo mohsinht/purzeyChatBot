@@ -59,7 +59,7 @@ app.post('/webhook/', function(req, res){
   	    	let text = JSON.stringify(event.postback)
   	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
-  	    		sendText(sender, "Contact bhejta hun wait kro.")
+  	    		sendContactInfo(sender)
   	    	}
   	    	continue
       	}
@@ -411,6 +411,43 @@ function sendGenericMessage(sender) {
 					    "payload": "Payload for second element in a generic bubble",
 				    }],
 			    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+
+
+function sendContactInfo(sender) {
+    let messageData = {
+	    	"attachment":{
+		      "type":"template",
+		      "payload":{
+		        "template_type":"button",
+		        "text":"Hamaray se rabta krnay k liye:\nEmail: info@purzey.pk\nPhone: 0321 4441444 or 0336 4256811\n\nYa issi chat k zariye rabta krein.",
+		        "buttons":[
+		          {
+		            "type":"phone_number",
+		            "title":"Call Purzey Representative",
+		            "payload":"+15105551234"
+		          }
+		        ]
+		      }
 		    }
 	    }
     }
