@@ -61,6 +61,9 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
+  	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
+
+  	    	}
   	    	continue
       	}
       	if(event.message && event.message.text){
@@ -449,7 +452,6 @@ function sendContactInfo(sender) {
 		        ]
 		      }
 		    }
-	    }
     }
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
