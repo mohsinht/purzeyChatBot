@@ -84,6 +84,8 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
       	if(event.message && event.message.text){
+      		setTimeout(sendTypingOn(sender), 3000)
+      		setTimeout(sendTypingOn(sender), 3000)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
  			getUserProfile(event.sender.id)
@@ -477,6 +479,24 @@ function sendContactInfo(sender) {
 	    json: {
 		    recipient: {id:sender},
 		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+function sendTypingOn(sender){
+	request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    sender_action: "typing_on",
 	    }
     }, function(error, response, body) {
 	    if (error) {
