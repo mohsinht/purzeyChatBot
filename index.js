@@ -124,6 +124,7 @@ app.post('/webhook/', function(req, res){
 						if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
 							//let phn = text.substring(phNum.start, phNum.end)
 								saveinDB(sender, 'Phone', phNum.value)
+								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 			    				sendText(sender, "We have noted down your Phone number: " + phNum.value + ". Kindly wait while the campus ambassador contacts you.")
 			 			}else{
 			 				
