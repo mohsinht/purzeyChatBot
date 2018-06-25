@@ -57,6 +57,9 @@ app.post('/webhook/', function(req, res){
 		let sender = event.sender.id
 		if (event.postback) {
   	    	let text = JSON.stringify(event.postback)
+  	    	sendMarkSeen(sender)
+      		sendTypingOn(sender)
+      		sendTypingOff(sender)
   	    	//sendText(sender, "Postback received: "+text.substring(0, 200), token)
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
@@ -84,6 +87,8 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
       	if(event.message && event.message.text){
+      		let att = JSON.stringify(event.message)
+      		sendText(sender, att)
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
       		sendTypingOff(sender)
