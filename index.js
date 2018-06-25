@@ -85,6 +85,8 @@ app.post('/webhook/', function(req, res){
       	}
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
+      		sendTypingOn(sender)
+      		sendTypingOff(sender)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const intent = firstEntity(guess, 'intent')
@@ -195,7 +197,7 @@ app.post('/webhook/', function(req, res){
 		 					sendText(sender, "Have a good day :) Kindly rate our services and share Purzey with your friends.")
 		 				}
 		 				if(intent.value == 'asking_phone'){
-		 					sendText(sender, "Kindly contact Khunshan: 0321 4441444")
+		 					sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
 		 				}
 		 			} 
 				}
