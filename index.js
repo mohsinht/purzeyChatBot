@@ -61,8 +61,22 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
-  	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
-
+  	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
+  	    		getUserProfile(event.sender.id)
+				.then((cuser) => {
+					let profMsg = '';
+					if(cuser.Name.value!=null){
+						profMsg += "\n*Name:* " + cuser.Name.value
+					}
+					if(cuser.University.value!=null){
+						profMsg += "\n*University:* " + cuser.Phone.value
+					}
+					if(cuser.Phone.value!=null){
+						profMsg += "\n*Phone #:* " + cuser.Phone.value
+					}
+					profMsg = profMsg + "\n*Order Count:* 0"
+					sendText(sender, "We have your profile saved with us: " + profMsg)	
+				})
   	    	}
   	    	continue
       	}
