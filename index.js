@@ -85,7 +85,6 @@ app.post('/webhook/', function(req, res){
       	}
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
-      		
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
  			getUserProfile(event.sender.id)
@@ -114,6 +113,8 @@ app.post('/webhook/', function(req, res){
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
+					let np = JSON.stringify(guess)
+					sendText(sender, "NLP: "+np.substring(0, 200), token)
 					if(cuser.University.value === 'none'){
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
@@ -461,7 +462,7 @@ function sendContactInfo(sender) {
 		      "type":"template",
 		      "payload":{
 		        "template_type":"button",
-		        "text":"Hamaray se rabta krnay k liye:\nEmail: info@purzey.pk\nPhone: 0321 4441444 or 0336 4256811\n\nYa issi chat k zariye rabta krein.",
+		        "text":"Hamaray se rabta krnay k liye:\nEmail: info@purzey.pk\nPhone: 03214441444 or 03364256811\n\nYa issi chat k zariye rabta krein.",
 		        "buttons":[
 		          {
 		            "type":"phone_number",
