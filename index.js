@@ -87,10 +87,11 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
     	if(event.message.attachments){
-    		sendText(sender, "Adding: " + event.message.attachments[0].title)
+    		//sendText(sender, "Adding: " + event.message.attachments[0].title)
     		getProduct(event.message.attachments[0].title)
 			.then((prd) => {
 				if(prd !== null){
+					sendText(sender, "PRODUCT PRICE: " + prd.price)
 					productOffer(sender, prd)
 				}
 			})
