@@ -91,8 +91,7 @@ app.post('/webhook/', function(req, res){
     		getProduct(event.message.attachments[0].title)
 			.then((prd) => {
 				if(prd !== null){
-					sendText(sender, "PRODUCT PRICE: " + prd.price)
-					//productOffer(sender, prd)
+					productOffer(sender, prd)
 				}
 			})
 		} 
@@ -419,6 +418,46 @@ function getUserProfile(senderID){
          .then((snapshot) => {
              return snapshot.val()
          })
+}
+
+function productOffer(sender, prd) {
+    let messageData = {
+	    "attachment": {
+		    "type": "template",
+		    "payload": {
+				"template_type": "generic",
+			    "elements": [{
+					"title": prd.name,
+				    "subtitle": prd.price + ".00rs only",
+				    "image_url": prd.img,
+				    "buttons": [{
+					    "type": "web_url",
+					    "url": prd.link,
+					    "title": "View"
+				    }, {
+					    "type": "postback",
+					    "title": "Order",
+					    "payload": "ordering a product",
+				    }],
+			    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
 }
 
 
