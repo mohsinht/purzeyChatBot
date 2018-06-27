@@ -88,13 +88,6 @@ app.post('/webhook/', function(req, res){
       	}
     	if(event.message.attachments){
     		sendText(sender, "Adding: " + event.message.attachments[0].title)
-    		getProduct(event.message.attachments[0].title)
-			.then((prd) => {
-				if(prd !== null){
-					sendText(sender, "PRODUCT PRICE: " + prd.price)
-					productOffer(sender, prd)
-				}
-			})
 		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
@@ -401,9 +394,10 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prdName){
+function getProduct(prID){
      var db = admin.database()
-     var ref = db.ref('products/' + prdName)
+     var collectionRef = db.ref('server/products')
+     var ref = collectionRef.child(prID)
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
@@ -430,7 +424,7 @@ function sendGenericMessage(sender) {
 			    "elements": [{
 					"title": "UGREEN Data Cable 3 Meter Long",
 				    "subtitle": "This 3 meter long cable allows you to reach your phone all the way from your bed.",
-				    "image_url": "https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-9/c0.0.425.425/27056474_1406878782772888_7643004048236347392_n.jpg?_nc_cat=0&oh=9784a47565044bf2b7f58f4e9f9a6a70&oe=5BA66062",
+				    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
 				    "buttons": [{
 					    "type": "web_url",
 					    "url": "https://www.facebook.com/commerce/products/1811144608910173/",
@@ -471,45 +465,6 @@ function sendGenericMessage(sender) {
 }
 
 
-function productOffer(sender, product){
-	 let messageData = {
-	    "attachment": {
-		    "type": "template",
-		    "payload": {
-				"template_type": "generic",
-			    "elements": [{
-					"title": product.name,
-				    "subtitle": product.price + ".00rs only",
-				    "image_url": product.img,
-				    "buttons": [{
-					    "type": "web_url",
-					    "url": product.link,
-					    "title": "View"
-				    }, {
-					    "type": "postback",
-					    "title": "Add to Order",
-					    "payload": "Payload for first element in a generic bubble",
-				    }],
-			    }
-		    }
-	    }
-    }
-    request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    message: messageData,
-	    }
-    }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
-    })
-}
 
 function sendContactInfo(sender) {
     let messageData = {
