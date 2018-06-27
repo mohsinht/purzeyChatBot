@@ -90,7 +90,6 @@ app.post('/webhook/', function(req, res){
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
       		sendTypingOff(sender)
-      		sendText(sender, JSON.stringify(event.message.attachments.title))
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const intent = firstEntity(guess, 'intent')
@@ -205,8 +204,7 @@ app.post('/webhook/', function(req, res){
 		 				}
 		 			}
 		 			if(event.message.attachments){
-		 				let title = event.message.attachments.title
-		 				if(title === 'Two Channel Aux Cable'){
+		 				if(event.message.attachments.title === "Two Channel Aux Cable"){
 		 					sendText(sender, "Do you want to add that to your cart?")
 		 				}
 		 			} 
