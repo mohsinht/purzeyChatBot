@@ -88,6 +88,10 @@ app.post('/webhook/', function(req, res){
       	}
     	if(event.message.attachments){
     		sendText(sender, "Adding: " + event.message.attachments[0].title)
+    		getProduct(event.message.attachments[0].title)
+			.then((prd) => {
+				productOffer(sender, prd)
+			})
 		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
@@ -394,9 +398,9 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID){
+function getProduct(prdName){
      var db = admin.database()
-     var collectionRef = db.ref('server/products')
+     var collectionRef = db.ref('products/prdName')
      var ref = collectionRef.child(prID)
      return ref.once('value')
          .then((snapshot) => {
@@ -465,6 +469,54 @@ function sendGenericMessage(sender) {
 }
 
 
+function productOffer(sender, product){
+	 let messageData = {
+	    "attachment": {
+		    "type": "template",
+		    "payload": {
+				"template_type": "generic",
+			    "elements": [{
+					"title": product.name,
+				    "subtitle": product.price + ".00rs only",
+				    "image_url": product.img,
+				    "buttons": [{
+					    "type": "web_url",
+					    "url": product.link,
+					    "title": "web url"
+				    }, {
+					    "type": "postback",
+					    "title": "Postback",
+					    "payload": "Payload for first element in a generic bubble",
+				    }],
+			    }, {
+				    "title": "Second card",
+				    "subtitle": "Element #2 of an hscroll",
+				    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+				    "buttons": [{
+					    "type": "postback",
+					    "title": "Postback",
+					    "payload": "Payload for second element in a generic bubble",
+				    }],
+			    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
 
 function sendContactInfo(sender) {
     let messageData = {
