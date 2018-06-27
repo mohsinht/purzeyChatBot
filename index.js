@@ -87,7 +87,7 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
     	if(event.message.attachments){
-    		sendText(sender, "Adding: " + event.message.attachments.title)
+    		sendText(sender, "Adding: " + event.message.attachments[0].title)
 		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
