@@ -90,7 +90,7 @@ app.post('/webhook/', function(req, res){
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
       		sendTypingOff(sender)
-      		sendText(sender, JSON.stringify(event.message.attachments))
+      		sendText(sender, JSON.stringify(event.message.attachments.title))
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const intent = firstEntity(guess, 'intent')
