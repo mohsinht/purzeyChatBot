@@ -87,7 +87,7 @@ app.post('/webhook/', function(req, res){
   	    	continue
       	}
     	if(event.message.attachments){
-    		//sendText(sender, "Adding: " + event.message.attachments[0].title)
+    		sendText(sender, "Adding: " + event.message.attachments[0].title)
     		getProduct(event.message.attachments[0].title)
 			.then((prd) => {
 				if(prd !== null){
@@ -403,7 +403,7 @@ function pushOrder(sender, prdID){
 
 function getProduct(prdName){
      var db = admin.database()
-     var ref = db.ref('products/prdName')
+     var ref = db.ref('products/' + prdName)
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
