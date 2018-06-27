@@ -90,7 +90,9 @@ app.post('/webhook/', function(req, res){
     		sendText(sender, "Adding: " + event.message.attachments[0].title)
     		getProduct(event.message.attachments[0].title)
 			.then((prd) => {
-				productOffer(sender, prd)
+				if(prd !== null){
+					productOffer(sender, prd)
+				}
 			})
 		} 
       	if(event.message && event.message.text){
@@ -482,22 +484,13 @@ function productOffer(sender, product){
 				    "buttons": [{
 					    "type": "web_url",
 					    "url": product.link,
-					    "title": "web url"
+					    "title": "View"
 				    }, {
 					    "type": "postback",
-					    "title": "Postback",
+					    "title": "Add to Order",
 					    "payload": "Payload for first element in a generic bubble",
 				    }],
-			    }, {
-				    "title": "Second card",
-				    "subtitle": "Element #2 of an hscroll",
-				    "image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
-				    "buttons": [{
-					    "type": "postback",
-					    "title": "Postback",
-					    "payload": "Payload for second element in a generic bubble",
-				    }],
-			    }]
+			    }
 		    }
 	    }
     }
