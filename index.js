@@ -88,6 +88,13 @@ app.post('/webhook/', function(req, res){
       	}
     	if(event.message.attachments){
     		sendText(sender, "Adding: " + event.message.attachments[0].title)
+    		getProduct(event.message.attachments[0].title)
+			.then((prd) => {
+				if(prd !== null){
+					sendText(sender, "PRODUCT PRICE: " + prd.price)
+					//productOffer(sender, prd)
+				}
+			})
 		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
@@ -394,10 +401,10 @@ function pushOrder(sender, prdID){
 	});
 }
 
-function getProduct(prID){
+function getProduct(prdName){
      var db = admin.database()
-     var collectionRef = db.ref('server/products')
-     var ref = collectionRef.child(prID)
+     var collectionRef = db.ref('products')
+     var ref = collectionRef.child(prdName)
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
