@@ -92,7 +92,6 @@ app.post('/webhook/', function(req, res){
 			.then((prd) => {
 				if(prd !== null){
 					productOffer(sender, prd)
-					continue
 				}
 			})
 		} 
