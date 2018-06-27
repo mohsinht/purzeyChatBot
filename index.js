@@ -203,8 +203,8 @@ app.post('/webhook/', function(req, res){
 		 					sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
 		 				}
 		 			}
-		 			if(event.attachments){
-		 				let title = event.attachments.title
+		 			if(event.message.attachments){
+		 				let title = event.message.attachments.title
 		 				if(title === 'Two Channel Aux Cable'){
 		 					sendText(sender, "Do you want to add that to your cart?")
 		 				}
