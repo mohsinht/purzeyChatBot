@@ -146,6 +146,9 @@ app.post('/webhook/', function(req, res){
 						else if(text.includes("pucit - new") || text.includes("punjab university")){
 							saveinDB(sender, 'University', 'PUCIT (New)')
 							sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
+						}else if(text === "Inmay se koi nai"){
+							saveinDB(sender, 'University', 'no university')
+							sendText(sender, "Aapki University jald shamil kr li jayegi. Filhal 5 universities cover ki ja rhi hain. :)")
 						}
 						else{
 							askUniversity(sender)
