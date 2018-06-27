@@ -86,6 +86,9 @@ app.post('/webhook/', function(req, res){
   	    	}
   	    	continue
       	}
+    	if(event.message.attachments){
+    		sendText(sender, "Adding: " + event.message.attachments.title)
+		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
@@ -203,11 +206,6 @@ app.post('/webhook/', function(req, res){
 		 					sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
 		 				}
 		 			}
-		 			if(event.message.attachments){
-		 				if(event.message.attachments.title === "Two Channel Aux Cable"){
-		 					sendText(sender, "Do you want to add that to your cart?")
-		 				}
-		 			} 
 				}
 			})		
  		}
