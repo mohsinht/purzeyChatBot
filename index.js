@@ -403,8 +403,7 @@ function pushOrder(sender, prdID){
 
 function getProduct(prdName){
      var db = admin.database()
-     var collectionRef = db.ref('products/prdName')
-     var ref = collectionRef.child(prID)
+     var ref = db.ref('products/prdName')
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
