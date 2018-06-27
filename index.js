@@ -202,6 +202,12 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value == 'asking_phone'){
 		 					sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
 		 				}
+		 			}
+		 			if(event.attachments){
+		 				let title = event.attachments.title
+		 				if(title === 'Two Channel Aux Cable'){
+		 					sendText(sender, "Do you want to add that to your cart?")
+		 				}
 		 			} 
 				}
 			})		
