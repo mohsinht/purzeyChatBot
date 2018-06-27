@@ -422,12 +422,12 @@ function sendGenericMessage(sender) {
 		    "payload": {
 				"template_type": "generic",
 			    "elements": [{
-					"title": "First card",
-				    "subtitle": "Element #1 of an hscroll",
-				    "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+					"title": "UGREEN Data Cable 3 Meter Long",
+				    "subtitle": "This 3 meter long cable allows you to reach your phone all the way from your bed.",
+				    "image_url": "https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-9/c0.0.425.425/27056474_1406878782772888_7643004048236347392_n.jpg?_nc_cat=0&oh=9784a47565044bf2b7f58f4e9f9a6a70&oe=5BA66062",
 				    "buttons": [{
 					    "type": "web_url",
-					    "url": "https://www.messenger.com",
+					    "url": "https://www.facebook.com/commerce/products/1811144608910173/",
 					    "title": "web url"
 				    }, {
 					    "type": "postback",
