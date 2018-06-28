@@ -256,6 +256,12 @@ app.post('/webhook/', function(req, res){
 		 					orderKrain(sender)
 		 					
 		 				}
+		 				if(intent.value == 'asking_botName'){
+		 					sendText(sender, "Main BOT hun bhai. BOT ko aap jo marzi bula lo. BOT Khan kaisa naam hai? :P")
+		 				}
+		 				if(intent.value == 'asking_botAge'){
+		 					sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
+		 				}
 		 			}
 		 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 						sendText(sender, "Walaikum-Asalam!")
