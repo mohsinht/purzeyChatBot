@@ -133,21 +133,21 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'University', 'ITU')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
-								askMobileNumber(sender)
+								setTimeout(askMobileNumber(sender), 3000)
 						}
 						else if(text.includes("comsats")){
 								saveinDB(sender, 'University', 'COMSATS')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "COMSATS University save kr li gyi hai. Apko apka order Khunshan Butt pohncha dengay.")	
-								askMobileNumber(sender)
+								setTimeout(askMobileNumber(sender), 3000)
 						}
 						else if(text.includes("fast university") || text.includes("fast lahore") || 
 							text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
-							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) )){
+							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) || text === 'fast')){
 								saveinDB(sender, 'University', 'Fast-NU')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "FAST University save kr li gyi hai. Apko apka order Mohsin Hayat pohncha dengay.")	
-								askMobileNumber(sender)
+								setTimeout(askMobileNumber(sender), 3000)
 						}
 						else if(text.includes("pucit - new") || text.includes("punjab university")){
 							saveinDB(sender, 'University', 'PUCIT (New)')
@@ -169,7 +169,8 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
 			 			}else{
-			 				sleep(3000, askMobileNumber(sender))
+			 				
+			 				setTimeout(askMobileNumber(sender), 3000)
 			 			}
 					}
 					const greeting = firstEntity(guess, 'greetings');
@@ -597,13 +598,4 @@ function sendMarkSeen(sender){
 		    console.log('Error: ', response.body.error)
 	    }
     })
-}
-
-
-function sleep(time, callback) {
-    var stop = new Date().getTime();
-    while(new Date().getTime() < stop + time) {
-        ;
-    }
-    callback();
 }
