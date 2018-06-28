@@ -169,8 +169,7 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
 			 			}else{
-			 				
-			 				setTimeout(askMobileNumber(sender), 3000)
+			 				sleep(3000, askMobileNumber(sender))
 			 			}
 					}
 					const greeting = firstEntity(guess, 'greetings');
@@ -598,4 +597,13 @@ function sendMarkSeen(sender){
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+function sleep(time, callback) {
+    var stop = new Date().getTime();
+    while(new Date().getTime() < stop + time) {
+        ;
+    }
+    callback();
 }
