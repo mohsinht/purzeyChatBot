@@ -128,7 +128,7 @@ app.post('/webhook/', function(req, res){
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
-					if(cuser.University.value === 'none'){
+					if(cuser.Progress.value === 0){
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 								saveinDB(sender, 'University', 'ITU')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
@@ -147,13 +147,16 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'University', 'Fast-NU')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "FAST University save kr li gyi hai. Apko apka order Mohsin Hayat pohncha dengay.")	
-								setTimeout(askMobileNumber(sender), 3000)
+								setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}
 						else if(text.includes("pucit - new") || text.includes("punjab university")){
 							saveinDB(sender, 'University', 'PUCIT (New)')
+							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
-						}else if(text === "Inmay se koi nai"){
+							setTimeout(askMobileNumber(sender), 3000)
+						}else if(text === "inmay se koi nai"){
 							saveinDB(sender, 'University', 'no university')
+							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapki University jald shamil kr li jayegi. Filhal 5 universities cover ki ja rhi hain. :)")
 						}
 						else{
@@ -170,7 +173,7 @@ app.post('/webhook/', function(req, res){
 			    				sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
 			 			}else{
 			 				
-			 				setTimeout(askMobileNumber(sender), 3000)
+			 				askMobileNumber(sender)
 			 			}
 					}
 					const greeting = firstEntity(guess, 'greetings');
