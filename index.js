@@ -244,7 +244,7 @@ app.post('/webhook/', function(req, res){
 		 				}
 		 				if(intent.value == 'asking_ca'){
 		 					var CAM = ""
-		 					if(cuser.University.value === "FAST-NU"){CAM = "Mohsin Hayat"}
+		 					if(cuser.University.value === "Fast-NU"){CAM = "Mohsin Hayat"}
 		 					if(cuser.University.value === "ITU"){CAM = "Mubeen Ikram"}
 		 					if(cuser.University.value === "COMSATS"){CAM = "Khunshan Butt"}
 		 					if(cuser.University.value === "PUCIT (New)"){CAM = "Mustaghees Butt"}	
