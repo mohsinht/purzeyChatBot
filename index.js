@@ -265,6 +265,13 @@ app.post('/webhook/', function(req, res){
 		 					sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
 		 				}
 		 			}
+
+		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
+		 				if(intent.value === 'order'){
+		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
+		 				}
+		 			}
+
 		 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
 						sendText(sender, "Walaikum-Asalam!")
 					}
