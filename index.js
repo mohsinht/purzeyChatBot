@@ -247,8 +247,14 @@ app.post('/webhook/', function(req, res){
 		 					if(cuser.University.value === "Fast-NU"){CAM = "Mohsin Hayat"}
 		 					if(cuser.University.value === "ITU"){CAM = "Mubeen Ikram"}
 		 					if(cuser.University.value === "COMSATS"){CAM = "Khunshan Butt"}
-		 					if(cuser.University.value === "PUCIT (New)"){CAM = "Mustaghees Butt"}	
-		 					sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
+		 					if(cuser.University.value === "PUCIT (New)"){CAM = "Mustaghees Butt"}
+		 					if(CAM !== ""){	
+		 						sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
+		 					}
+		 				}
+		 				if(intent.value == 'asking_howtoorder'){
+		 					orderKrain(sender)
+		 					
 		 				}
 		 			}
 		 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
@@ -328,6 +334,41 @@ let messageData = {
 			"content_type":"user_phone_number"
 	      }
 	    ]
+	}
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+function orderKrain(sender) {
+    let messageData = {
+	 "attachment":{
+	      "type":"template",
+	      "payload":{
+	        "template_type":"button",
+	        "text":"Order krnay k liye hamari shop pr jayen aur koi product select kr k humain msg krain.",
+	        "buttons":[
+	          {
+	            "type":"web_url",
+	            "url":"https://www.facebook.com/purzey/shop",
+	            "title":"Goto Shop",
+	            "webview_height_ratio": "full"
+	          }
+	        ]
+	      }
+	    }
 	}
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
