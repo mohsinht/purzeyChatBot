@@ -88,12 +88,14 @@ app.post('/webhook/', function(req, res){
       	}
     	if(event.message.attachments){
     		//sendText(sender, "Adding: " + event.message.attachments[0].title)
-    		getProduct(event.message.attachments[0].title)
-			.then((prd) => {
-				if(prd !== null){
-					productOffer(sender, prd)
-				}
-			})
+    		if(event.message.attachments[0].title){
+	    		getProduct(event.message.attachments[0].title)
+				.then((prd) => {
+					if(prd !== null){
+						productOffer(sender, prd)
+					}
+				})
+			}
 		} 
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
