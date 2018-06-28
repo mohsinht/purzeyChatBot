@@ -98,7 +98,7 @@ app.post('/webhook/', function(req, res){
       	if(event.message && event.message.text){
       		sendMarkSeen(sender)
       		sendTypingOn(sender)
-      		sendTypingOff(sender)
+      		setTimeout(function() { sendTypingOff(sender) }, 1000)
       		let text = event.message.text.toLowerCase()
 			let guess = event.message.nlp
 			const intent = firstEntity(guess, 'intent')
@@ -139,7 +139,7 @@ app.post('/webhook/', function(req, res){
 								saveinDB(sender, 'University', 'COMSATS')
 								saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 								sendText(sender, "COMSATS University save kr li gyi hai. Apko apka order Khunshan Butt pohncha dengay.")	
-								setTimeout(askMobileNumber(sender), 3000)
+								setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}
 						else if(text.includes("fast university") || text.includes("fast lahore") || 
 							text.includes("fast-nu") || text.includes("nuces") || text.includes("fastnu")
@@ -153,11 +153,12 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'PUCIT (New)')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
-							setTimeout(askMobileNumber(sender), 3000)
+							setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}else if(text === "inmay se koi nai"){
 							saveinDB(sender, 'University', 'no university')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapki University jald shamil kr li jayegi. Filhal 5 universities cover ki ja rhi hain. :)")
+							setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}
 						else{
 							askUniversity(sender)
