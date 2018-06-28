@@ -218,7 +218,42 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value == 'asking_phone'){
 		 					sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
 		 				}
+		 				if(intent.value == 'wantsToBecomeCA'){
+		 					sendText(sender, "Agar aap campus ambassador bnna chahtay hain to apna cnic, phone number, university ka naam aur aik chotay se paragraph jismay ap btayen k aap Purzey kiun join krna chahtay hain, humain chat pr bhejain. Aap ko reply kr dia jayega :)")
+		 				}
+		 				if(intent.value == 'asking_selfName'){
+		 					sendText(sender, "Aapka naam " + cuser.Name.value + " hai.")
+		 				}
+		 				if(intent.value == 'asking_delivery'){
+		 					sendText(sender, "Aap ko aapki delivery " + cuser.University.value + " main tehh krda time pr pohncha di jayegi. Wait kijiye :)")
+		 				}
+		 				if(intent.value == 'order_cancel'){
+		 					sendText(sender, "Kya aap order cancel krna chahtay hain?")
+		 				}
+		 				if(intent.value == 'product_inquiry'){
+		 					sendText(sender, "Iss product k baray main apka sawal note kr lia gya hai. Brah-e-mehrbani wait kijiye :)")
+		 				}
+		 				if(intent.value == 'custom_order'){
+		 					sendText(sender, "Custom Order main apni product ka naam aur identification main asani ki liye koi link ya picture bhej dein. Hum aapko apki tafseelat jald muhayya krein gay. Shukria :)")
+		 				}
+		 				if(intent.value == 'greeting_answer'){
+		 					sendText(sender, "How may I help you? :)")
+		 				}
+		 				if(intent.value == 'shouting_name'){
+		 					sendText(sender, "Puurrrzeeeey!!!")
+		 				}
+		 				if(intent.value == 'asking_ca'){
+		 					var CAM = ""
+		 					if(cuser.University.value === "FAST-NU"){CAM = "Mohsin Hayat"}
+		 					if(cuser.University.value === "ITU"){CAM = "Mubeen Ikram"}
+		 					if(cuser.University.value === "COMSATS"){CAM = "Khunshan Butt"}
+		 					if(cuser.University.value === "PUCIT (New)"){CAM = "Mustaghees Butt"}	
+		 					sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
+		 				}
 		 			}
+		 			if(text.includes("aoa") || text.includes("salam") || text.includes("aslam") || text.includes("aslamualaikum")){
+						sendText(sender, "Walaikum-Asalam!")
+					}
 				}
 			})		
  		}
