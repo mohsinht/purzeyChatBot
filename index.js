@@ -284,6 +284,22 @@ app.post('/webhook/', function(req, res){
 		 						sendText(sender, "Aap shop se pasand kr k btayiye please.")
 		 					}
 		 				}
+		 				if(intent.value == 'showproduct_cheapest'){
+		 					const gproduct = firstEntity(guess, 'product')
+		 					if(gproduct){
+		 						if(gproduct.value === 'Handsfree'){
+		 							getProduct('Samsung Handsfree')
+									.then((prd) => {
+										if(prd !== null){
+											sendText(sender, "Sab say sasti handsfree hamaray pas Samsung Handsfree hai.")
+											productOffer(sender, prd)
+										}
+									})
+		 						}
+		 					}else{
+		 						sendText(sender, "Aap shop se pasand kr k btayiye please.")
+		 					}
+		 				}
 		 			}
 
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
