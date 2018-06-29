@@ -85,7 +85,7 @@ app.post('/webhook/', function(req, res){
   	    		sendText(sender, "Ye feature abhi testing k marahil main hai.")
   	    	}
   	    	if(event.postback.title === 'Get Started'){
-  	    		sendText(sender, "Purzey ko choose krnay ka shukria.")
+  	    		//sendText(sender, "Purzey ko choose krnay ka shukria.")
   	    		askShuruKrain(sender)
   	    	}
   	    	continue
@@ -202,7 +202,7 @@ app.post('/webhook/', function(req, res){
 					if (byed && byed.confidence > 0.8) {
 			    		sendText(sender, "Shukria. Khuda Hafiz!")
 			 		}
-			 		if(intent && intent.confidence > 0.8){
+			 		if(intent && intent.confidence > 0.7){
 		 				if(intent.value == "asking_website"){
 		 					sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
 		 				}
