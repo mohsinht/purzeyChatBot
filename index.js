@@ -275,7 +275,7 @@ app.post('/webhook/', function(req, res){
 		 							getProduct('AKG Earphones')
 									.then((prd) => {
 										if(prd !== null){
-											sendText(sender, "Hamari best product AKG handsfree hai.")
+											sendText(sender, "Although sb market se handpicked hain aur achi hain. Hum apko AKG handsfree recommend krtay hain.")
 											productOffer(sender, prd)
 										}
 									})
