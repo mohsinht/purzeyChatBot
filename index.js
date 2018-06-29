@@ -268,6 +268,21 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value == 'asking_botAge'){
 		 					sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
 		 				}
+		 				if(intent.value == 'showproduct_best'){
+		 					if(product){
+		 						if(product.value === 'Handsfree'){
+		 							getProduct("AKG Earphones")
+									.then((prd) => {
+										if(prd !== null){
+											sendText(sender, "Hamari best product AKG handsfree hai.")
+											productOffer(sender, prd)
+										}
+									})
+		 						}
+		 					}else{
+		 						sendText(sender, "Aap shop se pasand kr k btayiye please.")
+		 					}
+		 				}
 		 			}
 
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
