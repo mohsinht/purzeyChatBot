@@ -269,9 +269,9 @@ app.post('/webhook/', function(req, res){
 		 					sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
 		 				}
 		 				if(intent.value == 'showproduct_best'){
-		 					sendText(sender, JSON.stringify(intent))
-		 					if(product){
-		 						if(product.value === 'Handsfree'){
+		 					const gproduct = firstEntity(guess, 'product')
+		 					if(gproduct){
+		 						if(gproduct.value === 'Handsfree'){
 		 							getProduct('AKG Earphones')
 									.then((prd) => {
 										if(prd !== null){
