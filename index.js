@@ -263,7 +263,7 @@ app.post('/webhook/', function(req, res){
 		 					
 		 				}
 		 				if(intent.value == 'asking_botName'){
-		 					sendText(sender, "Main BOT hun bhai. BOT ko aap jo marzi bula lo. BOT Khan kaisa naam hai? :P")
+		 					sendText(sender, "Mera naam HoverBot hai")
 		 				}
 		 				if(intent.value == 'asking_botAge'){
 		 					sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
