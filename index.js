@@ -84,6 +84,10 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'HISTORY_PAYLOAD'){
   	    		sendText(sender, "Ye feature abhi testing k marahil main hai.")
   	    	}
+  	    	if(event.postback.title === 'Get Started'){
+  	    		sendText(sender, "Purzey ko choose krnay ka shukria.")
+  	    		askShuruKrain(sender)
+  	    	}
   	    	continue
       	}
     	if(event.message.attachments){
