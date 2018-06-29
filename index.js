@@ -285,9 +285,9 @@ app.post('/webhook/', function(req, res){
 		 					}
 		 				}
 		 				if(intent.value == 'showproduct_cheapest'){
-		 					const gproduct = firstEntity(guess, 'product')
-		 					if(gproduct){
-		 						if(gproduct.value === 'Handsfree'){
+		 					const g2product = firstEntity(guess, 'product')
+		 					if(g2product){
+		 						if(g2product.value === 'Handsfree'){
 		 							getProduct('Samsung Handsfree')
 									.then((prd) => {
 										if(prd !== null){
