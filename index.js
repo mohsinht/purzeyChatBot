@@ -69,6 +69,10 @@ app.post('/webhook/', function(req, res){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		pushOrder(sender, prdo, 1)
   	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
+  	    		getUserProfile(event.sender.id)
+				.then((prdC) => {
+					sendText(sender, JSON.stringify(prdC))
+				})
   	    	}
   	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
   	    		getUserProfile(event.sender.id)
@@ -751,4 +755,16 @@ function sendMarkSeen(sender){
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+
+function getUserCart(senderID){
+	 var db = admin.database()
+     var msgnrRef = db.ref("server/messenger");
+     var ref = msgnrRef.child("customer " + senderID + "/order")
+     return ref.once('value')
+         .then((snapshot) => {
+             return snapshot.val()
+         })
 }
