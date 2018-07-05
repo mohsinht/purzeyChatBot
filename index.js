@@ -65,6 +65,10 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
+  	    	if(event.postback.payload.includes === 'productOrder_'){
+  	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
+  	    		sendText(sender, "You have ordered " + prdo)
+  	    	}
   	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
   	    		getUserProfile(event.sender.id)
 				.then((cuser) => {
@@ -306,10 +310,10 @@ app.post('/webhook/', function(req, res){
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
 		 				if(intent.value === 'order'){
 		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
-		 					const product = event.message.nlp.entities['product']
+		 					const productOrder = event.message.nlp.entities['product']
 		 					let t32 = ""
-							for(var key1 in product) {
-								t32 = t32 + product[key1].value + "\n"
+							for(var key1 in productOrder) {
+								t32 = t32 + productOrder[key1].value + "\n"
 							}
 							sendText(sender, "You have ordered:\n" + t32)
 		 				}
@@ -351,9 +355,7 @@ app.listen(app.get('port'), function(){
 function saveDataInDatabase(sender, text){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
-
 	var senderRef = ref.child("customer " + sender + "/chat");
-
 	var chatRef = senderRef.push();
 	chatRef.set({
 	  msg: text
@@ -581,7 +583,7 @@ function productOffer(sender, prd) {
 				    }, {
 					    "type": "postback",
 					    "title": "Order",
-					    "payload": "ordering a product",
+					    "payload": "productOrder_" + prd.name
 				    }],
 			    }]
 		    }
