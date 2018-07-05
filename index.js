@@ -67,11 +67,28 @@ app.post('/webhook/', function(req, res){
   	    	}
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
+  	    		var itemCount = 0
   	    		pushOrder(sender, prdo, 1)
   	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
   	    		getUserCart(event.sender.id)
 				.then((prdC) => {
-					sendText(sender, JSON.stringify(prdC))
+					//sendText(sender, JSON.stringify(prdC))
+					var arr = [];
+					Object.keys(prdC).forEach(function(key) {
+					  var found = false;
+					  for(var i = 0; i<arr.length; i++){
+					    if(arr[i] === prdC[key].product){
+					      found = true;
+					      break;
+					    }
+					  }
+					  if(!found)
+					  {
+					    itemCount++;
+					  }
+					  arr.push(prdC[key].product);
+					});
+					sendCartInfo(sender, itemCount)
 				})
   	    	}
   	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
@@ -767,4 +784,49 @@ function getUserCart(senderID){
          .then((snapshot) => {
              return snapshot.val()
          })
+}
+
+
+function sendCartInfo(sender, itemCount){
+let messageData = {
+	    	"attachment":{
+		      "type":"template",
+		      "payload":{
+		        "template_type":"button",
+		        "text":"You have " + itemCount + " products in your cart. Confirm this order to proceed.",
+		        "buttons":[
+					{
+					  "type": "postback",
+					  "title": "Continue Shopping",
+					  "payload": "continueOrder"
+					},
+					{
+					  "type": "postback",
+					  "title": "Cancel Order",
+					  "payload": "cancelOrder"
+					},
+					{
+					  "type": "postback",
+					  "title": "Confirm Order",
+					  "payload": "confirmOrder"
+					}
+		        ]
+		      }
+		    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
 }
