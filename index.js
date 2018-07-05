@@ -50,6 +50,7 @@ function firstEntity(nlp, name) {
   return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
 }
 
+
 app.post('/webhook/', function(req, res){
 	let messaging_events = req.body.entry[0].messaging
 	for(let i = 0; i<messaging_events.length; i++){
@@ -305,12 +306,12 @@ app.post('/webhook/', function(req, res){
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
 		 				if(intent.value === 'order'){
 		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
-		 					const product = nlp.entities['product']
+		 					const product = event.message.nlp.entities['product']
 		 					let t32 = ""
 							for(var key1 in product) {
 								t32 = t32 + product[key1].value + "\n"
 							}
-							sendText(sender, JSON.stringify(product))
+							sendText(sender, "You have ordered:\n" + t32)
 		 				}
 		 			}
 
