@@ -69,7 +69,7 @@ app.post('/webhook/', function(req, res){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		pushOrder(sender, prdo, 1)
   	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
-  	    		getUserProfile(event.sender.id)
+  	    		getUserOrder(event.sender.id)
 				.then((prdC) => {
 					sendText(sender, JSON.stringify(prdC))
 				})
