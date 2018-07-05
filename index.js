@@ -546,7 +546,7 @@ function askShuruKrain(sender) {
 function pushOrder(sender, prdID, qty){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
-	var custRef = ref.child("customer " + sender + "/order");
+	var custRef = ref.child("customer " + sender + "/order").push();
 	custRef.set({
 	  product: prdID,
 	  quantity: qty
