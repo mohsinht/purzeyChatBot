@@ -311,8 +311,8 @@ app.post('/webhook/', function(req, res){
 								for(var key1 in product) {
 								    t32 = t32 + product[key1].value + "\n"
 								}
-								//JSON.stringify(prod)
-								sendText(sender, "You have ordered:\n" + t32)
+								//
+								sendText(sender, JSON.stringify(product))
 		 					}
 		 				}
 		 			}
