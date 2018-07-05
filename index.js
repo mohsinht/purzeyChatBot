@@ -308,10 +308,11 @@ app.post('/webhook/', function(req, res){
 		 					const product = firstEntity(guess, 'product')
 		 					if(product && product.confidence > 0.8){
 		 						let t32 = ""
-								for(var key in product) {
-								    t32 = t32 + product[key].value + "\n"
+								for(var key1 in product) {
+								    t32 = t32 + product[key1].value + "\n"
 								}
-								sendText(sender, "You have ordered:\n" + t32)
+								
+								sendText(sender, JSON.stringify(product))
 		 					}
 		 				}
 		 			}
