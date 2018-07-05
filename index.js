@@ -493,14 +493,20 @@ function askUniversity(sender) {
 }
 function askShuruKrain(sender) {
     let messageData = {
-	     "text": "Purzey main khushaamdid! Agar aap Purzey se kuch order krna chahtay hain, to chand sawalat k jawab de kr order confirm kr dein.",
-	    "quick_replies":[
-	      {
-	        "content_type":"text",
-	        "title":"Shuru Krain",
-	        "payload":"shuru",
+	 "attachment":{
+	      "type":"template",
+	      "payload":{
+	        "template_type":"button",
+	        "text":"Purzey main khushaamdid! Purzey se baat shuru kijiye.",
+	        "buttons":[
+	          {
+	            "type":"text",
+	            "title":"Shuru Krain",
+	            "payload":"shuru"
+	          }
+	        ]
 	      }
-	    ]
+	    }
 	}
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
