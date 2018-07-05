@@ -94,6 +94,11 @@ app.post('/webhook/', function(req, res){
   	    		//sendText(sender, "Purzey ko choose krnay ka shukria.")
   	    		askShuruKrain(sender)
   	    	}
+  	    	if(event.postback.payload === 'shuru'){
+  	    		//sendText(sender, "Purzey ko choose krnay ka shukria.")
+  	    		//askShuruKrain(sender)
+  	    		askUniversity(sender)
+  	    	}
   	    	continue
       	}
     	if(event.message.attachments){
@@ -509,11 +514,11 @@ function askShuruKrain(sender) {
 	        "template_type":"button",
 	        "text":"Purzey main khushaamdid! Purzey se baat shuru kijiye.",
 	        "buttons":[
-	          {
-	            "type":"text",
-	            "title":"Shuru Krain",
-	            "payload":"shuru"
-	          }
+			{
+			  "type": "postback",
+			  "title": "Shuru Krain",
+			  "payload": "shuru"
+			}
 	        ]
 	      }
 	    }
