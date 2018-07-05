@@ -65,7 +65,7 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
-  	    	if(event.postback.payload.includes === 'productOrder_'){
+  	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		sendText(sender, "You have ordered " + prdo)
   	    	}
