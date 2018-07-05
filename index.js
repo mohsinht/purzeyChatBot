@@ -69,10 +69,6 @@ app.post('/webhook/', function(req, res){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		pushOrder(sender, prdo, 1)
   	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
-  	    		getCartInfo(sender)
-  	    		.then((orderC)=> {
-  	    			sendText(sender, JSON.stringify(orderC))
-  	    		})
   	    	}
   	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
   	    		getUserProfile(event.sender.id)
@@ -755,35 +751,4 @@ function sendMarkSeen(sender){
 		    console.log('Error: ', response.body.error)
 	    }
     })
-}
-
-
-
-function sendCartMsg(sender){
-	request({
-	    url: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token:token},
-	    method: 'POST',
-	    json: {
-		    recipient: {id:sender},
-		    sender_action: "mark_seen",
-	    }
-    }, function(error, response, body) {
-	    if (error) {
-		    console.log('Error sending messages: ', error)
-	    } else if (response.body.error) {
-		    console.log('Error: ', response.body.error)
-	    }
-    })
-}
-
-
-function getCartInfo(sender){
-	 var db = admin.database()
-     var msgnrRef = db.ref("server/messenger");
-     var ref = msgnrRef.child("customer " + senderID "/order")
-     return ref.once('value')
-         .then((snapshot) => {
-             return snapshot.val()
-         })
 }
