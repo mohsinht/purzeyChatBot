@@ -67,7 +67,8 @@ app.post('/webhook/', function(req, res){
   	    	}
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
-  	    		sendText(sender, "You have ordered " + prdo)
+  	    		pushOrder(sender, prdo, 1)
+  	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
   	    	}
   	    	if(event.postback.payload === 'PROFILE_PAYLOAD'){
   	    		getUserProfile(event.sender.id)
@@ -537,12 +538,13 @@ function askShuruKrain(sender) {
 
 
 
-function pushOrder(sender, prdID){
+function pushOrder(sender, prdID, qty){
 	var db = admin.database();
 	var ref = db.ref("server/messenger");
 	var custRef = ref.child("customer/" + sender + "/order");
 	custRef.set({
-	  product: prdID
+	  product: prdID,
+	  quantity: qty
 	});
 }
 
