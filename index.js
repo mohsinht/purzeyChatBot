@@ -160,7 +160,7 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
 							setTimeout(function() { askMobileNumber(sender) }, 3000)
-						}else if(text === "inmay se koi nai"){
+						}else if(text === "inmay se koi nai" || text === "none"){
 							saveinDB(sender, 'University', 'no university')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapki University jald shamil kr li jayegi. Filhal 5 universities cover ki ja rhi hain. :)")
@@ -305,6 +305,10 @@ app.post('/webhook/', function(req, res){
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
 		 				if(intent.value === 'order'){
 		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
+		 					const product = firstEntity(guess, 'product')
+		 					if(product && product.confidence > 0.8){
+		 						confirmOrder(sender, product.value)
+		 					}
 		 				}
 		 			}
 
@@ -555,6 +559,46 @@ function getUserProfile(senderID){
          .then((snapshot) => {
              return snapshot.val()
          })
+}
+
+confirmOrder(sender, prd){
+ let messageData = {
+	    "attachment": {
+		    "type": "template",
+		    "payload": {
+				"template_type": "generic",
+			    "elements": [{
+					"title": prd.name,
+				    "subtitle": prd.price + ".00rs only",
+				    "image_url": prd.img,
+				    "buttons": [{
+					    "type": "web_url",
+					    "url": prd.link,
+					    "title": "View"
+				    }, {
+					    "type": "postback",
+					    "title": "Add to cart",
+					    "payload": "ordering a product",
+				    }],
+			    }]
+		    }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
 }
 
 function productOffer(sender, prd) {
