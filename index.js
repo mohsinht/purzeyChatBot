@@ -306,14 +306,11 @@ app.post('/webhook/', function(req, res){
 		 				if(intent.value === 'order'){
 		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
 		 					const product = nlp.entities['product']
-		 					if(product && product.confidence > 0.8){
-		 						let t32 = ""
-								for(var key1 in product) {
-								    t32 = t32 + product[key1].value + "\n"
-								}
-								//
-								sendText(sender, JSON.stringify(product))
-		 					}
+		 					let t32 = ""
+							for(var key1 in product) {
+								t32 = t32 + product[key1].value + "\n"
+							}
+							sendText(sender, "You have ordered:\n" + t32)
 		 				}
 		 			}
 
