@@ -835,13 +835,14 @@ let messageData = {
 
 
 function sendReceipt(sender){
+
 	getUserProfile(sender)
 	.then((cuser) => {
 		var itemCount = 0;
-var elements = [];
-var arr = [];
-var ind = 0;
-var k = "-LGfGdMSeBJge5nS85Md"
+		var elements = [];
+		var arr = [];
+		var ind = 0;
+		var k = "-LGfGdMSeBJge5nS85Md"
 		var prdC = cuser.order
 		Object.keys(prdC).forEach(function(key) {
 					  var found = false;
