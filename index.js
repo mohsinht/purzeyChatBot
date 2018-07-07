@@ -347,6 +347,12 @@ app.post('/webhook/', function(req, res){
 		 					const productOrder = event.message.nlp.entities['product']
 		 					let t32 = ""
 							for(var key1 in productOrder) {
+								getProduct(productOrder[key1].value)
+								.then((prd) => {
+									if(prd !== null){
+										productOffer(sender, prd)
+									}
+								})
 								t32 = t32 + productOrder[key1].value + "\n"
 							}
 							sendText(sender, "You have ordered:\n" + t32)
