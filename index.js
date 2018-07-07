@@ -845,7 +845,7 @@ function sendReceipt(sender){
 	var p2 = getAllProducts();
 	Promise.all([p1, p2]).then(function(values) {
 		sendText(sender, "Hi, " + values[0].Name.value + ". Here is " + values[1]["A4tech Wireless Mouse G3-200N"].name)
-	}
+	});
 }
 function getAllProducts(){
      var db = admin.database()
