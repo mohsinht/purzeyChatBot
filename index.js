@@ -876,10 +876,14 @@ function sendReceipt(sender){
 		});
 		var kk = ""
 		var orgPrd = {};
+		var tprice= 0;
 		for(var i=1; i<=elements.length; i++){
 			orgPrd = values[1][elements[i-1].name];
-			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price + "rs\n"; 
+			tprice = tprice + orgPrd.price*elements[i-1].qty
+			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price*elements[i-1].qty + "rs\n"; 
 		}
+		kk+="\nTotal: " + tprice;
+
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
 }
