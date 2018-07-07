@@ -835,27 +835,56 @@ let messageData = {
 
 
 function sendReceipt(sender){
-		var obj = getProductnProfile();
-		sendText(sender, "Hi, " + obj[1].Name.value)
+	var mk = getAllProducts()
+	getUserProfile(sender)
+	.then((cuser) => {
+		var itemCount = 0;
+		var elements = [];
+		var arr = [];
+		var ind = 0;
+		var k = "-LGfGdMSeBJge5nS85Md"
+		var prdC = cuser.order
+		Object.keys(prdC).forEach(function(key) {
+					  var found = false;
+					  for(var i = 0; i<arr.length; i++){
+					    if(arr[i] === prdC[key].product){
+					      found = true;
+                          ind = i;
+					      break;
+					    }
+					  }
+               
+					  if(!found)
+					  {
+                        var obj = {
+                          "name": prdC[key].product,
+                          "qty": prdC[key].quantity
+                        }
+					    itemCount++;
+                        arr.push(prdC[key].product);
+                        elements.push(obj)
+					  }else{
+                        elements[ind].qty++;
+                      }
+
+					});
+		var kk = ""
+		for(var i=1; i<=elements.length; i++){
+			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
+		}
+		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
+	})
 }
 
 function getProductnProfile(sender){
-	var k1 = [];
-  	getAllProducts().then((data)=>{
-    	k1.push(data)
-  	});
-  	getUserProfile(sender).then((data) =>{
-    	k1.push(data)
-  	}).then(function(){
-    	return k1;
-  	});
+	var k = [];
+  getAllProducts().then((data)=>{
+    k.push(data)
+  });
+  getUserProfile(sender).then((data) =>{
+    k.push(data)
+  }).then(function(){
+    return k;
+  });
 }
 
-function getAllProducts(){
-	var db = admin.database()
-     var ref = db.ref('products')
-     return ref.once('value')
-        .then((snapshot) => {
-            return snapshot.val()
-      })
-}
