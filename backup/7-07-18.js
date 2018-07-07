@@ -65,12 +65,7 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
-
-  	    	if(event.postback.payload === 'viewReceipt'){
-  	    		sendReceipt(sender)
-  	    	}
-
-
+  	    	
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		var itemCount = 0
@@ -831,31 +826,4 @@ let messageData = {
 		    console.log('Error: ', response.body.error)
 	    }
     })
-}
-
-
-function sendReceipt(sender){
-	getUserProfile(sender)
-	.then((cuser) => {
-		var Receipt_elements = []
-		var tprice = 0
-		Object.keys(cuser.order).forEach(function(key) {
-			sendText(sender, "Generating receipt...")
-			getProduct(prdC[key].product)
-			.then((prd) => {
-				if(prd !== null){
-					obj = {
-						"title": prd.name,
-						"subtitle":prd.des,
-						"quantity":prdC[key].quantity,
-						"price": prd.price,
-						"currency":"PKR",
-						"image_url": prd.img
-					}
-					tprice = tprice + prd.price
-				}
-				Receipt_elements.push(obj)
-			})
-		}
-		sendText(sender, "Total Price: " + tprice)
 }
