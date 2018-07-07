@@ -835,7 +835,7 @@ let messageData = {
 
 
 function sendReceipt(sender){
-
+	var mk = getAllProducts()
 	getUserProfile(sender)
 	.then((cuser) => {
 		var itemCount = 0;
@@ -870,9 +870,18 @@ function sendReceipt(sender){
 					});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-			var mk = getProduct(elements[i-1].name)
+
 			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	})
+}
+
+function getAllProducts(){
+     var db = admin.database()
+     var ref = db.ref('products')
+     return ref.once('value')
+         .then((snapshot) => {
+             return snapshot.val()
+         })
 }
