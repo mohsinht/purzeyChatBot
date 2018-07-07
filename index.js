@@ -875,8 +875,10 @@ function sendReceipt(sender){
 
 		});
 		var kk = ""
+		var orgPrd = {};
 		for(var i=1; i<=elements.length; i++){
-			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
+			orgPrd = values[1][elements[i-1].name];
+			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price + "rs\n"; 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
