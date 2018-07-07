@@ -66,33 +66,7 @@ app.post('/webhook/', function(req, res){
   	    		sendContactInfo(sender)
   	    	}
   	    	if(event.postback.payload.includes("viewReceipt")){
-  	    		getUserCart(event.sender.id)
-				.then((prdC) => {
-					var Receipt_elements = []
-					var tprice = 0
-					Object.keys(prdC).forEach(function(key) {
-					sendText(sender, "Generating receipt...")
-						getProduct(prdC[key].product)
-						.then((prd) => {
-							if(prd !== null){
-								obj = {
-									"title": prd.name,
-						            "subtitle":prd.des,
-						            "quantity":prdC[key].quantity,
-						            "price": prd.price,
-						            "currency":"PKR",
-						            "image_url": prd.img
-								}
-								tprice = tprice + prd.price
-							}
-							Receipt_elements.push(obj)
-						})
-					}
-					getUserProfile(sender)
-					.then((cuser) => {
-						sendReceipt(sender, cuser, Receipt_elements, tprice)
-					})
-				})
+  	    		sendReceipt(sender)
   	    	}
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
@@ -857,34 +831,27 @@ let messageData = {
 }
 
 
-function sendReceipt(sender, cuser, Receipt_elements, tprice){
+sendReceipt(sender){
 	let messageData = {
-	    "attachment":{
-	      "type":"template",
-	      "payload":{
-	        "template_type":"receipt",
-	        "recipient_name": cuser.name.value,
-	        "order_number":"5891",
-	        "currency":"PKR",
-	        "payment_method":"Cash on Delivery",        
-	        "order_url":"https://www.facebook.com/purzey",
-	        "address":{
-	          "street_1":cuser.University.value,
-	          "street_2":"",
-	          "city":"Lahore",
-	          "postal_code":"54000",
-	          "state":"PK",
-	          "country":"PK"
-	        },
-	        "summary":{
-	          "subtotal":tprice,
-	          "shipping_cost":0.00,
-	          "total_tax":0.00,
-	          "total_cost":tprice
-	        },
-	        "elements":Receipt_elements
-	      }
-	    }
+	    	"attachment":{
+		      "type":"template",
+		      "payload":{
+		        "template_type":"button",
+		        "text":"You have " + 25 + " products in your cart. Confirm this order to proceed.",
+		        "buttons":[
+					{
+					  "type": "postback",
+					  "title": "View Receipt",
+					  "payload": "viewReceipt"
+					},
+					{
+					  "type": "web_url",
+					  "url": "https://www.facebook.com/purzey/shop",
+					  "title": "Add More"
+					}
+		        ]
+		      }
+		    }
     }
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -900,5 +867,6 @@ function sendReceipt(sender, cuser, Receipt_elements, tprice){
 	    } else if (response.body.error) {
 		    console.log('Error: ', response.body.error)
 	    }
-    })	
+    })
 }
+
