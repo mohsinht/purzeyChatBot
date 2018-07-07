@@ -844,7 +844,7 @@ function sendReceipt(sender){
 	var p1 = getUserProfile(sender);
 	var p2 = getAllProducts();
 	Promise.all([p1, p2]).then(function(values) {
-		sendText(sender, "Hi, " + values[0].Name.value + ". Here is " + values[1]["A4tech Wireless Mouse G3-200N"].name)
+		//sendText(sender, "Hi, " + values[0].Name.value + ". Here is " + values[1]["A4tech Wireless Mouse G3-200N"].name)
 		var itemCount = 0;
 		var elements = [];
 		var arr = [];
@@ -876,7 +876,7 @@ function sendReceipt(sender){
 		});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
+			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
