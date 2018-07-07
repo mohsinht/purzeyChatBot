@@ -840,5 +840,31 @@ function sendReceipt(sender){
 		var Receipt_elements = []
 		var tprice = 0
 		sendText(sender, "Hi " + cuser.Name.value)
+		getUserCart(event.sender.id)
+				.then((prdC) => {
+					//sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
+					//sendText(sender, JSON.stringify(prdC))
+					var arr = [];
+					Object.keys(prdC).forEach(function(key) {
+					  var found = false;
+					  for(var i = 0; i<arr.length; i++){
+					    if(arr[i] === prdC[key].product){
+					      found = true;
+					      break;
+					    }
+					  }
+					  if(!found)
+					  {
+					    itemCount++;
+					    arr.push(prdC[key].product);
+					  }
+
+					});
+					var prdstr = ""
+					for(x in arr){
+						prdstr = prdstr + arr[x] + "\n"
+					}
+					sendText(sender, "Hi, " + cuser.Name.value + ". You have following in your cart:\n" + prdstr)
+				})
 	})
 }
