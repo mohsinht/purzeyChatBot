@@ -841,9 +841,10 @@ function sendReceipt(sender){
 		var Receipt_elements = []
 		var tprice = 0
 		prdC = cuser.order
+		return prdC
 		//sendText(sender, "Hi, " + JSON.stringify(cuser.order))
 	})
-	.then(() => {
+	.then((prdC) => {
 		getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
 		.then((prd) =>{
 			sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
