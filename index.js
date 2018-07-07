@@ -835,10 +835,9 @@ let messageData = {
 
 
 function sendReceipt(sender){
-	getAllPrds()
-	.then((prds) => {
-		getUserProfile(sender)
-		.then((cuser) => {
+
+	getUserProfile(sender)
+	.then((cuser) => {
 		var itemCount = 0;
 		var elements = [];
 		var arr = [];
@@ -871,21 +870,8 @@ function sendReceipt(sender){
 		});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-			kk += i + ". " + prds[elements[i-1].name].name + " (×" + elements[i-1].qty + ") \n" 
+			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
-		})
 	})
-}
-
-
-function getAllPrds(){
-		 var db = firebase.database()
-     var ref = db.ref('products')
-     var m = ""
-     return ref.once('value')
-         .then((snapshot) => {
-             //console.log(snapshot.val())
-             return snapshot.val()
-     })
 }
