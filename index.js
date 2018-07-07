@@ -843,8 +843,10 @@ function sendReceipt(sender){
 		prdC = cuser.order
 		//sendText(sender, "Hi, " + JSON.stringify(cuser.order))
 	})
-	getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
-	.then((prd) => {
-		sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
+	.then(() => {
+		getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
+		.then((prd) =>{
+			sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
+		})
 	})
 }
