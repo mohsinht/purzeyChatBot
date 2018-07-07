@@ -343,7 +343,7 @@ app.post('/webhook/', function(req, res){
 
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
 		 				if(intent.value === 'order'){
-		 					sendText(sender, "Products k naam aur quantity mention kr dijiye, kuch der main order confirm kr dia jayega.")
+		 					sendText(sender, "Products k naam sahi se mention kijiye. Aik se zyada dfa order pr click krnay se quantity increase hogi")
 		 					const productOrder = event.message.nlp.entities['product']
 		 					let t32 = ""
 							for(var key1 in productOrder) {
@@ -882,7 +882,7 @@ function sendReceipt(sender){
 			tprice = tprice + orgPrd.price*elements[i-1].qty
 			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price*elements[i-1].qty + "rs\n"; 
 		}
-		kk+="\nTotal: " + tprice;
+		kk+="\nTotal: " + tprice + "rs only";
 
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
