@@ -867,10 +867,11 @@ function sendReceipt(sender){
                         elements[ind].qty++;
                       }
 
-		});
+					});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
+			var mk = getProduct(elements[i-1].name)
+			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	})
