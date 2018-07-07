@@ -835,15 +835,16 @@ let messageData = {
 
 
 function sendReceipt(sender){
+	var prdC
 	getUserProfile(sender)
 	.then((cuser) => {
 		var Receipt_elements = []
 		var tprice = 0
-		var prdC = cuser.order
-		getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
-		.then((prd) => {
-			sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
-		})
+		prdC = cuser.order
 		//sendText(sender, "Hi, " + JSON.stringify(cuser.order))
+	})
+	getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
+	.then((prd) => {
+		sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
 	})
 }
