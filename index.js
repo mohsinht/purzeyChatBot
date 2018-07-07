@@ -859,10 +859,7 @@ function sendReceipt(sender){
 					  }
 
 					});
-					var prdstr = ""
-					for(x in arr){
-						prdstr = prdstr + arr[x] + "\n"
-					}
+					var prdstr = arr[0]
 					sendText(sender, "Hi, " + cuser.Name.value + ". You have following in your cart:\n" + prdstr)
 				})
 	})
