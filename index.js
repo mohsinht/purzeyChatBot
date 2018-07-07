@@ -835,19 +835,21 @@ let messageData = {
 
 
 function sendReceipt(sender){
-	var prdC
-	getUserProfile(sender)
-	.then((cuser) => {
-		var Receipt_elements = []
-		var tprice = 0
-		prdC = cuser.order
-		return prdC
-		//sendText(sender, "Hi, " + JSON.stringify(cuser.order))
-	})
-	.then((prdC) => {
-		getProduct(prdC["-LGfGdMSeBJge5nS85Md"].product)
-		.then((prd) =>{
-			sendText(sender, "Hi, product info: \n" + prd.name + "\n" + prd.price)
-		})
-	})
+	 var db = firebase.database()
+     var ref = db.ref('products')
+     var m = ""
+     ref.once('value')
+         .then((snapshot) => {
+             //console.log(snapshot.val())
+             m = snapshot.val()
+     })
+     .then(function(){
+	     var msgnrRef = db.ref("server/messenger");
+	     var dref = msgnrRef.child("customer 1623919947697956")
+	     dref.once('value')
+         .then((snapshot) => {
+         	var prf = snapshot.val()
+         	sendText(sender, "Hi, " + prf.Name.value + ". You have following in your cart: " + m["A4tech Wireless Mouse G3-200N"].name + " -> " + m["A4tech Wireless Mouse G3-200N"].price)
+         })
+     })
 }
