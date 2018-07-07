@@ -69,9 +69,10 @@ app.post('/webhook/', function(req, res){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		var itemCount = 0
   	    		pushOrder(sender, prdo, 1)
-  	    		sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
+  	    		
   	    		getUserCart(event.sender.id)
 				.then((prdC) => {
+					sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
 					//sendText(sender, JSON.stringify(prdC))
 					var arr = [];
 					Object.keys(prdC).forEach(function(key) {
@@ -797,18 +798,13 @@ let messageData = {
 		        "buttons":[
 					{
 					  "type": "postback",
-					  "title": "Continue Shopping",
-					  "payload": "continueOrder"
+					  "title": "View Receipt",
+					  "payload": "viewReceipt"
 					},
 					{
-					  "type": "postback",
-					  "title": "Cancel Order",
-					  "payload": "cancelOrder"
-					},
-					{
-					  "type": "postback",
-					  "title": "Confirm Order",
-					  "payload": "confirmOrder"
+					  "type": "web_url",
+					  "url": "https://www.facebook.com/purzey/shop",
+					  "title": "Add More"
 					}
 		        ]
 		      }
