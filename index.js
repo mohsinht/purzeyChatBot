@@ -65,6 +65,35 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'CONTACT_INFO_PAYLOAD'){
   	    		sendContactInfo(sender)
   	    	}
+  	    	if(event.postback.payload.includes("viewReceipt")){
+  	    		getUserCart(event.sender.id)
+				.then((prdC) => {
+					var Receipt_elements = []
+					var tprice = 0
+					Object.keys(prdC).forEach(function(key) {
+					sendText(sender, "Generating receipt...")
+						getProduct(prdC[key].product)
+						.then((prd) => {
+							if(prd !== null){
+								obj = {
+									"title": prd.name,
+						            "subtitle":prd.des,
+						            "quantity":prdC[key].quantity,
+						            "price": prd.price,
+						            "currency":"PKR",
+						            "image_url": prd.img
+								}
+								tprice = tprice + prd.price
+							}
+							Receipt_elements.push(obj)
+						})
+					}
+					getUserProfile(sender)
+					.then((cuser) => {
+						sendReceipt(sender, cuser, Receipt_elements, tprice)
+					})
+				})
+  	    	}
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
   	    		var itemCount = 0
@@ -825,4 +854,51 @@ let messageData = {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+
+function sendReceipt(sender, cuser, Receipt_elements, tprice){
+	let messageData = {
+	    "attachment":{
+	      "type":"template",
+	      "payload":{
+	        "template_type":"receipt",
+	        "recipient_name": cuser.name.value,
+	        "order_number":"5891",
+	        "currency":"PKR",
+	        "payment_method":"Cash on Delivery",        
+	        "order_url":"https://www.facebook.com/purzey",
+	        "address":{
+	          "street_1":cuser.University.value,
+	          "street_2":"",
+	          "city":"Lahore",
+	          "postal_code":"54000",
+	          "state":"PK",
+	          "country":"PK"
+	        },
+	        "summary":{
+	          "subtotal":tprice,
+	          "shipping_cost":0.00,
+	          "total_tax":0.00,
+	          "total_cost":tprice
+	        },
+	        "elements":Receipt_elements
+	      }
+	    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })	
 }
