@@ -835,15 +835,14 @@ let messageData = {
 
 
 function sendReceipt(sender){
-	var mk = getAllProducts()
-	getUserProfile(sender)
-	.then((cuser) => {
+	getEverything()
+	.then((obj) => {
 		var itemCount = 0;
 		var elements = [];
 		var arr = [];
 		var ind = 0;
-		var k = "-LGfGdMSeBJge5nS85Md"
 		var prdC = cuser.order
+		var products = obj.products
 		Object.keys(prdC).forEach(function(key) {
 					  var found = false;
 					  for(var i = 0; i<arr.length; i++){
@@ -853,7 +852,7 @@ function sendReceipt(sender){
 					      break;
 					    }
 					  }
-               
+               			
 					  if(!found)
 					  {
                         var obj = {
@@ -871,15 +870,15 @@ function sendReceipt(sender){
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
 
-			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
+			kk += i + ". " + products[elements[i-1].name].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	})
 }
 
-function getAllProducts(){
+function getEverything(){
      var db = admin.database()
-     var ref = db.ref('products')
+     var ref = db.ref()
      return ref.once('value')
          .then((snapshot) => {
              return snapshot.val()
