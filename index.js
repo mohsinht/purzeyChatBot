@@ -839,23 +839,5 @@ function sendReceipt(sender){
 	.then((cuser) => {
 		var Receipt_elements = []
 		var tprice = 0
-		Object.keys(cuser.order).forEach(function(key) {
-			sendText(sender, "Generating receipt...")
-			getProduct(prdC[key].product)
-			.then((prd) => {
-				if(prd !== null){
-					obj = {
-						"title": prd.name,
-						"subtitle":prd.des,
-						"quantity":prdC[key].quantity,
-						"price": prd.price,
-						"currency":"PKR",
-						"image_url": prd.img
-					}
-					tprice = tprice + prd.price
-				}
-				Receipt_elements.push(obj)
-			})
-		}
-		sendText(sender, "Total Price: " + tprice)
+		sendText(sender, "Hi " + cuser.Name.value)
 }
