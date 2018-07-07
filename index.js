@@ -839,28 +839,22 @@ function sendReceipt(sender){
 	.then((cuser) => {
 		var Receipt_elements = []
 		var tprice = 0
-		getUserCart(sender)
-				.then((prdC) => {
-					//sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
-					//sendText(sender, JSON.stringify(prdC))
-					var arr = [];
-					Object.keys(prdC).forEach(function(key) {
-					  var found = false;
-					  for(var i = 0; i<arr.length; i++){
-					    if(arr[i] === prdC[key].product){
-					      found = true;
-					      break;
-					    }
-					  }
-					  if(!found)
-					  {
-					    itemCount++;
-					    arr.push(prdC[key].product);
-					  }
-
-					});
-					var prdstr = arr[0]
-					sendText(sender, "Hi, " + cuser.Name.value + ". You have following in your cart:\n" + prdstr)
-				})
+		var arr = [];
+		Object.keys(cuser.order).forEach(function(key) {
+			var found = false
+			for(var i = 0; i<arr.length; i++){
+				if(arr[i] === cuser.order[key].product){
+					found = true
+					break
+				    }
+				}
+				if(!found)
+				{
+					itemCount++
+					arr.push(cuser.order[key].product)
+				}
+		})
+		var prdstr = arr[0]
+		sendText(sender, "Hi, " + cuser.Name.value + ". You have following in your cart:\n" + prdstr)
 	})
 }
