@@ -836,7 +836,7 @@ let messageData = {
 
 function sendReceipt(sender){
 		var obj = getProductnProfile();
-		sendText(sender, "Hi, " + obj[1].Name)
+		sendText(sender, "Hi, " + obj[1].Name.value)
 }
 
 function getProductnProfile(sender){
