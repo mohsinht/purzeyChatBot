@@ -839,7 +839,6 @@ function sendReceipt(sender){
 	.then((cuser) => {
 		var Receipt_elements = []
 		var tprice = 0
-		sendText(sender, "Hi " + cuser.Name.value)
 		getUserCart(sender)
 				.then((prdC) => {
 					//sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
