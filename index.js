@@ -869,8 +869,8 @@ function sendReceipt(sender){
 					});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-
-			kk += i + ". " + products[elements[i-1].name].name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
+			var mk = products[elements[i-1].name]
+			kk += i + ". " + mk.name + " (×" + elements[i-1].qty + ") => " + mk.price + "rs\n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	})
