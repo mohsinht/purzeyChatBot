@@ -835,21 +835,42 @@ let messageData = {
 
 
 function sendReceipt(sender){
-	 var db = firebase.database()
-     var ref = db.ref('products')
-     var m = ""
-     ref.once('value')
-         .then((snapshot) => {
-             //console.log(snapshot.val())
-             m = snapshot.val()
-     })
-     .then(function(){
-	     var msgnrRef = db.ref("server/messenger");
-	     var dref = msgnrRef.child("customer 1623919947697956")
-	     dref.once('value')
-         .then((snapshot) => {
-         	var prf = snapshot.val()
-         	sendText(sender, "Hi, " + prf.Name.value + ". You have following in your cart: " + m["A4tech Wireless Mouse G3-200N"].name + " -> " + m["A4tech Wireless Mouse G3-200N"].price)
-         })
-     })
+	getUserProfile(sender)
+	.then((cuser) => {
+		var itemCount = 0;
+var elements = [];
+var arr = [];
+var ind = 0;
+var k = "-LGfGdMSeBJge5nS85Md"
+		var prdC = cuser.order
+		Object.keys(prdC).forEach(function(key) {
+					  var found = false;
+					  for(var i = 0; i<arr.length; i++){
+					    if(arr[i] === prdC[key].product){
+					      found = true;
+                          ind = i;
+					      break;
+					    }
+					  }
+               
+					  if(!found)
+					  {
+                        var obj = {
+                          "name": prdC[key].product,
+                          "qty": prdC[key].quantity
+                        }
+					    itemCount++;
+                        arr.push(prdC[key].product);
+                        elements.push(obj)
+					  }else{
+                        elements[ind].qty++;
+                      }
+
+					});
+		var kk = ""
+		for(var i=1; i<=elements.length; i++){
+			kk = i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
+		}
+		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
+	})
 }
