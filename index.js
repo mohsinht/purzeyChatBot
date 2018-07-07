@@ -840,18 +840,18 @@ function sendReceipt(sender){
 }
 
 function getProductnProfile(sender){
-	var k = [];
-  getAllProducts().then((data)=>{
-    k.push(data)
-  });
-  getUserProfile(sender).then((data) =>{
-    k.push(data)
-  }).then(function(){
-    return k;
-  });
+	var k1 = [];
+  	getAllProducts().then((data)=>{
+    	k1.push(data)
+  	});
+  	getUserProfile(sender).then((data) =>{
+    	k1.push(data)
+  	}).then(function(){
+    	return k1;
+  	});
 }
 
-getAllProducts = function(){
+function getAllProducts(){
 	var db = admin.database()
      var ref = db.ref('products')
      return ref.once('value')
