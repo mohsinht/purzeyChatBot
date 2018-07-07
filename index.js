@@ -840,4 +840,5 @@ function sendReceipt(sender){
 		var Receipt_elements = []
 		var tprice = 0
 		sendText(sender, "Hi " + cuser.Name.value)
+	})
 }
