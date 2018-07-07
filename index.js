@@ -869,10 +869,7 @@ var k = "-LGfGdMSeBJge5nS85Md"
 					});
 		var kk = ""
 		for(var i=1; i<=elements.length; i++){
-			getProduct(elements[i-1].name)
-			.then(prd){
-				kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ")" + prd.price + "rs\n"
-			}
+			kk += i + ". " + elements[i-1].name + " (×" + elements[i-1].qty + ") \n" 
 		}
 		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	})
