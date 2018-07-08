@@ -870,7 +870,7 @@ function sendCart(sender){
 		var arr = [];
 		var ind = 0;
 		var prdC = values[0].order
-		if(prdC === null){
+		if(values[0].order == null){
 			sendText(sender, "Aapki cart main iss waqt koi item nai.")
 			orderKrain(sender)
 		}
