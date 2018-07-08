@@ -987,6 +987,7 @@ function sendReceipt(sender){
 			}
 
 		});
+		sendText(sender, "Receipt generating...")
 		var kk = ""
 		var orgPrd = {};
 		var tprice= 0;
