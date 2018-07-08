@@ -1008,6 +1008,8 @@ function sendReceipt(sender){
 		}
 		sendText(sender, "Receipt generating..." + receipt_elements[1]["title"])
 		sendReceiptLoad(sender, receipt_elements, values[0], tprice)
+
+		setTimeout(function() { sendText(sender, "Order krnay ka shukria.\n Aap apnay iss week ka free time-slot bta dein. Campus Ambassador aap se jald hi rabta kray ga.") }, 2000)
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
 }
