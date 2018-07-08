@@ -1006,8 +1006,8 @@ function sendReceipt(sender){
 			}
 			receipt_elements.push(aPrdEl);
 		}
-		sendText(sender, "Receipt generating...")
-		sendReceiptLoad(sender, receipt_elements, values[0], totalprice);
+		sendText(sender, "Receipt generating..." + receipt_elements[1]["title"])
+		sendReceiptLoad(sender, receipt_elements, values[0], tprice)
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
 }
