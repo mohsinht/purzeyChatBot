@@ -836,7 +836,7 @@ function sendCartInfo(sender, itemCount){
 				{
 					"type": "web_url",
 					"url": "https://www.facebook.com/purzey/shop",
-					"title": "Add More"
+					"title": "More Products"
 				}
 				]
 			}
