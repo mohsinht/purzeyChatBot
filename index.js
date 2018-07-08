@@ -1036,7 +1036,11 @@ function sendReceipt(sender){
 		if(univ === 'PUCIT (New)'){
 			sendText(1516289145146115, "Mustaghees aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1516289145146115, receipt_elements, values[0], tprice)
-		}	
+		}
+		if(univ === 'COMSATS'){
+			sendText(1588275797934439, "Khunshan aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1588275797934439, receipt_elements, values[0], tprice)
+		}		
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
 }
