@@ -71,7 +71,9 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'viewCart'){
   	    		sendCart(sender)
   	    	}
-
+  	    	if(event.postback.payload === 'editCart'){
+  	    		editCart(sender)
+  	    	}
 
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
@@ -905,6 +907,11 @@ function cartButtons(sender, msg){
 					"type": "postback",
 					"title": "Confirm Order",
 					"payload": "viewReceipt"
+				},
+				{
+					"type": "postback",
+					"title": "Edit Cart",
+					"payload": "editCart"
 				}
 				]
 			}
@@ -1076,4 +1083,38 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 			console.log('Error: ', response.body.error)
 		}
 	})
+}
+
+function editCart(sender){
+	var obj1 = {};
+	var elements1 = [];
+	for(var k = 1; k< 10; k++){
+		obj1 = 	{
+			"content_type":"text",
+			"title":"Delete item " + k,
+			"payload":"deletingAnItem"
+		}
+		elements1.push(obj1);
+	}
+
+	let messageData = {
+		"text": "Kuch delete krnay k liye \'Delete item num\' pr click krein",
+		"quick_replies": elements1
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {access_token:token},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+
 }
