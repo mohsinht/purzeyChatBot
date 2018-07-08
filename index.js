@@ -1021,11 +1021,10 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 			"payload":{
 				"template_type":"receipt",
 				"recipient_name": profile.Name.value,
-				"order_number":"1239",
+				"order_number": sender%10000,
 				"currency":"PKR",
 				"payment_method":"Cash on Delivery",        
-				"order_url":"https://www.facebook.com/purzey/",
-				"timestamp":"1428444852",         
+				"order_url":"https://www.facebook.com/purzey/",     
 				"address":{
 					"street_1":profile.University.value,
 					"street_2":"",
