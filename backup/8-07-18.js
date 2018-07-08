@@ -183,7 +183,7 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'ITU')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
-							setTimeout(function() { askMobileNumber(sender) }, 3000)
+							setTimeout(askMobileNumber(sender), 3000)
 						}
 						else if(text.includes("comsats")){
 							saveinDB(sender, 'University', 'COMSATS')
@@ -1021,10 +1021,6 @@ function sendReceipt(sender){
 		if(univ === 'PUCIT (New)'){
 			sendText(1516289145146115, "Mustaghees aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1516289145146115, receipt_elements, values[0], tprice)
-		}
-		if(univ === 'ITU'){
-			sendText(1866894876687881, "Mubeen aapko " + cName + " ki traf se aik order aya hai.")
-			sendReceiptLoad(1866894876687881, receipt_elements, values[0], tprice)
 		}	
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
