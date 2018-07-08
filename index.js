@@ -987,25 +987,26 @@ function sendReceipt(sender){
 			}
 
 		});
-		sendText(sender, "Receipt generating...")
+		//sendText(sender, "Receipt generating...")
 		var kk = ""
 		var orgPrd = {};
 		var tprice= 0;
-		var obj = {};
+		var aPrdEl = {};
 		var receipt_elements = [];
 		for(var i=1; i<=elements.length; i++){
 			orgPrd = values[1][elements[i-1].name];
 			tprice = tprice + orgPrd.price*elements[i-1].qty
-			obj = {
-				"title":orgPrd.name,
-				"subtitle":orgPrd.des.slice(0, 30) + "...",
+			aPrdEl = {
+				"title": orgPrd.name,
+				"subtitle": orgPrd.des.slice(0, 30) + "...",
 				"quantity": elements[i-1].qty,
 				"price": orgPrd.price,
 				"currency":"PKR",
 				"image_url": orgPrd.img
 			}
-			receipt_elements.push(obj);
+			receipt_elements.push(aPrdEl);
 		}
+		sendText(sender, "Receipt generating...")
 		sendReceiptLoad(sender, receipt_elements, values[0], totalprice);
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
