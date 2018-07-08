@@ -1009,6 +1009,12 @@ function sendReceipt(sender){
 		//sendText(sender, "Receipt generating..." + receipt_elements[1]["title"])
 		sendReceiptLoad(sender, receipt_elements, values[0], tprice)
 		setTimeout(function() { sendText(sender, "Order krnay ka shukria. :)\nAap apnay iss week ka free time-slot bta dein. Campus Ambassador aap se jald hi rabta kray ga.") }, 2000)
+		var univ = values[0].University.value;
+		var cName = values[0].Name.value;
+		if(univ === 'Fast-NU'){
+			sendText(1623919947697956, "Mohsin aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1623919947697956, receipt_elements, values[0], tprice)
+		}	
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
 }
