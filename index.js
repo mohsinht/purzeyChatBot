@@ -1040,24 +1040,7 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 					"total_tax":0.00,
 					"total_cost":totalprice
 				},
-				"elements":[
-				{
-					"title":"Fast Charging Data Cable",
-					"subtitle":"Charging cable for mobile phones",
-					"quantity":5,
-					"price":80,
-					"currency":"PKR",
-					"image_url":"https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-0/c90.0.540.540/p180x540/27071429_1426627234132952_1745812753085366272_n.jpg?_nc_cat=0&oh=e54d45cb970a1be37bfe3fcee970ca5a&oe=5BA0E43B"
-				},
-				{
-					"title":"Logitech Mouse Pad",
-					"subtitle":"With microfiber cloth on top and rubber texture",
-					"quantity":1,
-					"price":80,
-					"currency":"PKR",
-					"image_url":"https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-9/c0.45.510.510/26757515_1960323324040676_7032655651780165632_n.jpg?_nc_cat=0&oh=8f16394de7e0ca30ae1e6cc93e756672&oe=5BA8E4F2"
-				}
-				]
+				"elements":receipt_elements
 			}
 		}
 	}
