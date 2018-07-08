@@ -1020,13 +1020,14 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 			"type":"template",
 			"payload":{
 				"template_type":"receipt",
-				"recipient_name": profile.Name.value,
-				"order_number":"14212",
+				"recipient_name": "Mohsin",
+				"order_number":"1239",
 				"currency":"PKR",
 				"payment_method":"Cash on Delivery",        
-				"order_url":"https://www.facebook.com/purzey/",     
+				"order_url":"https://www.facebook.com/purzey/",
+				"timestamp":"1428444852",         
 				"address":{
-					"street_1":profile.University.value,
+					"street_1":"ITU, Arfa Karim Towers",
 					"street_2":"",
 					"city":"Lahore",
 					"postal_code":"54000",
@@ -1034,12 +1035,29 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 					"country":"PK"
 				},
 				"summary":{
-					"subtotal":totalprice,
+					"subtotal":160.00,
 					"shipping_cost":0.00,
-					"total_tax":0.00,
-					"total_cost":totalprice
+					"total_tax":160.00,
+					"total_cost":160.00
 				},
-				"elements": receipt_elements
+				"elements":[
+				{
+					"title":"Fast Charging Data Cable",
+					"subtitle":"Charging cable for mobile phones",
+					"quantity":1,
+					"price":80,
+					"currency":"PKR",
+					"image_url":"https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-0/c90.0.540.540/p180x540/27071429_1426627234132952_1745812753085366272_n.jpg?_nc_cat=0&oh=e54d45cb970a1be37bfe3fcee970ca5a&oe=5BA0E43B"
+				},
+				{
+					"title":"Logitech Mouse Pad",
+					"subtitle":"With microfiber cloth on top and rubber texture",
+					"quantity":1,
+					"price":80,
+					"currency":"PKR",
+					"image_url":"https://scontent.flhe3-1.fna.fbcdn.net/v/t45.5328-9/c0.45.510.510/26757515_1960323324040676_7032655651780165632_n.jpg?_nc_cat=0&oh=8f16394de7e0ca30ae1e6cc93e756672&oe=5BA8E4F2"
+				}
+				]
 			}
 		}
 	}
