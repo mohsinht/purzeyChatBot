@@ -175,6 +175,9 @@ app.post('/webhook/', function(req, res){
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
+					if(text === 'purzeybot'){
+						sendText(sender, "Hi! Kya khidmat krun aapki?")
+					}
 					if(cuser.Progress.value === 0){
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 							saveinDB(sender, 'University', 'ITU')
@@ -228,7 +231,7 @@ app.post('/webhook/', function(req, res){
 					if (greeting && greeting.confidence > 0.8) {
 						var k = Math.random()
 						if(k>0.8){
-							sendText(sender, "Hello! How you doing?")
+							sendText(sender, "Hello! Kya khidmat krun aapki?")
 						}else if(k>0.6){
 							sendText(sender, "Hey! Welcome to Purzey!")
 						}else if(k>0.4){
@@ -236,7 +239,7 @@ app.post('/webhook/', function(req, res){
 						}else if(k>0.2){
 							sendText(sender, "Hi! Did you see our shop?")
 						}else{
-							sendText(sender, "Hey! :) " )
+							sendText(sender, "Hey! :) PurzeyBot se baat kijiye" )
 						}
 					}
 					const byed = firstEntity(guess, 'bye');
@@ -304,7 +307,7 @@ app.post('/webhook/', function(req, res){
 
 										}
 										if(intent.value == 'asking_botName'){
-											sendText(sender, "Mera naam HoverBot hai")
+											sendText(sender, "Mera naam PurzeyBot hai")
 										}
 										if(intent.value == 'asking_botAge'){
 											sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
