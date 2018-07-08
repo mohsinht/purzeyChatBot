@@ -80,7 +80,7 @@ app.post('/webhook/', function(req, res){
   	    		
   	    		getUserCart(event.sender.id)
   	    		.then((prdC) => {
-  	    			sendText(sender, "You have successfully added \"" + prdo + "\" to your cart")
+  	    			sendText(sender, "You have successfully added \"" + prdo + "\" to your cart. Press Order Multiple times to add more quantity.")
 					//sendText(sender, JSON.stringify(prdC))
 					var arr = [];
 					Object.keys(prdC).forEach(function(key) {
@@ -1014,6 +1014,10 @@ function sendReceipt(sender){
 		if(univ === 'Fast-NU'){
 			sendText(1623919947697956, "Mohsin aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1623919947697956, receipt_elements, values[0], tprice)
+		}		
+		if(univ === 'PUCIT'){
+			sendText(1516289145146115, "Mustaghees aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1516289145146115, receipt_elements, values[0], tprice)
 		}	
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
