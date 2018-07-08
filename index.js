@@ -1015,7 +1015,7 @@ function sendReceipt(sender){
 			sendText(1623919947697956, "Mohsin aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1623919947697956, receipt_elements, values[0], tprice)
 		}		
-		if(univ === 'PUCIT'){
+		if(univ === 'PUCIT (New)'){
 			sendText(1516289145146115, "Mustaghees aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1516289145146115, receipt_elements, values[0], tprice)
 		}	
