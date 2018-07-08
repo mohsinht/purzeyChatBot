@@ -71,7 +71,9 @@ app.post('/webhook/', function(req, res){
   	    	if(event.postback.payload === 'viewCart'){
   	    		sendCart(sender)
   	    	}
-
+  	    	if(event.postback.payload === 'editCart'){
+  	    		editCart(sender)
+  	    	}
 
   	    	if(event.postback.payload.includes("productOrder_")){
   	    		let prdo = event.postback.payload.slice(13, event.postback.payload.length)
@@ -175,21 +177,24 @@ app.post('/webhook/', function(req, res){
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
-					if(text === 'no'){
-						sendText(sender, "I see.")
-					}
-					if(text === 'yes'){
-						sendText(sender, "Great!")
+					if(text === 'shuru krain'){
+						sendText(sender, "Hi! PurzeyBot apki khidmant main hazir hai")
 					}
 					if(text === 'purzeybot'){
 						sendText(sender, "Hi! Kya khidmat krun aapki?")
+					}
+
+					if(text.includes("delete item ")){
+						sendText(sender, "Delete kr di jayegi. Wait.")
+						var cartItem = Number(text.slice(12, 14))
+						deleteItemFromCart(sender, cartItem)
 					}
 					if(cuser.Progress.value === 0){
 						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 							saveinDB(sender, 'University', 'ITU')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
-							setTimeout(askMobileNumber(sender), 3000)
+							setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}
 						else if(text.includes("comsats")){
 							saveinDB(sender, 'University', 'COMSATS')
@@ -297,15 +302,6 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'shouting_name'){
 							sendText(sender, "Puurrrzeeeey!!!")
-						}
-						if(intent.value == 'asking_whoisdeveloper'){
-							sendText(sender, "Mohsin developed me. Do you want me to send him a message?")
-						}
-						if(intent.value == 'asking_howareyou'){
-							sendText(sender, "I'm good. How are you?")
-						}
-						if(intent.value == 'asking_whatCanDo'){
-							sendText(sender, "I can do a lot of stuff. Try ordering something.")
 						}
 						if(intent.value == 'asking_ca'){
 							var CAM = ""
@@ -920,6 +916,11 @@ function cartButtons(sender, msg){
 					"type": "postback",
 					"title": "Confirm Order",
 					"payload": "viewReceipt"
+				},
+				{
+					"type": "postback",
+					"title": "Edit Cart",
+					"payload": "editCart"
 				}
 				]
 			}
@@ -1036,6 +1037,10 @@ function sendReceipt(sender){
 		if(univ === 'PUCIT (New)'){
 			sendText(1516289145146115, "Mustaghees aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1516289145146115, receipt_elements, values[0], tprice)
+		}
+		if(univ === 'ITU'){
+			sendText(1866894876687881, "Mubeen aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1866894876687881, receipt_elements, values[0], tprice)
 		}	
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
@@ -1088,3 +1093,42 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 		}
 	})
 }
+
+function editCart(sender){
+	var obj1 = {};
+	var elements1 = [];
+	for(var k = 1; k< 10; k++){
+		obj1 = 	{
+			"content_type":"text",
+			"title":"Delete item " + k,
+			"payload":"deletingAnItem"
+		}
+		elements1.push(obj1);
+	}
+
+	let messageData = {
+		"text": "Kuch delete krnay k liye \'Delete item num\' pr click krein",
+		"quick_replies": elements1
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {access_token:token},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+
+}
+
+function deleteItemFromCart(sender, cartItem){
+
+}
+
