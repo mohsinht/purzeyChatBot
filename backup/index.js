@@ -66,8 +66,8 @@ app.post('/webhook/', function(req, res){
   	    		sendContactInfo(sender)
   	    	}
 
-  	    	if(event.postback.payload === 'viewCart'){
-  	    		sendCart(sender)
+  	    	if(event.postback.payload === 'viewReceipt'){
+  	    		sendReceipt(sender)
   	    	}
 
 
@@ -801,46 +801,46 @@ function getUserCart(senderID){
 
 
 function sendCartInfo(sender, itemCount){
-	let messageData = {
-		"attachment":{
-			"type":"template",
-			"payload":{
-				"template_type":"button",
-				"text":"You have " + itemCount + " products in your cart. Confirm this order to proceed.",
-				"buttons":[
-				{
-					"type": "postback",
-					"title": "View Cart",
-					"payload": "viewCart"
-				},
-				{
-					"type": "web_url",
-					"url": "https://www.facebook.com/purzey/shop",
-					"title": "Add More"
-				}
-				]
-			}
-		}
-	}
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
+let messageData = {
+	    	"attachment":{
+		      "type":"template",
+		      "payload":{
+		        "template_type":"button",
+		        "text":"You have " + itemCount + " products in your cart. Confirm this order to proceed.",
+		        "buttons":[
+					{
+					  "type": "postback",
+					  "title": "View Receipt",
+					  "payload": "viewReceipt"
+					},
+					{
+					  "type": "web_url",
+					  "url": "https://www.facebook.com/purzey/shop",
+					  "title": "Add More"
+					}
+		        ]
+		      }
+		    }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
 }
 
 
-function sendCart(sender){
+function sendReceipt(sender){
 	var p1 = getUserProfile(sender);
 	var p2 = getAllProducts();
 	Promise.all([p1, p2]).then(function(values) {
@@ -883,45 +883,10 @@ function sendCart(sender){
 			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price*elements[i-1].qty + "rs\n"; 
 		}
 		kk+="\nTotal: " + tprice + "rs only";
-		cartButtons(sender, "You have " + itemCount + " products in your cart: \n" + kk)
-		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
+
+		sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
 }
-
-function cartButtons(sender, msg){
-	let messageData = {
-		"attachment":{
-			"type":"template",
-			"payload":{
-				"template_type":"button",
-				"text":msg,
-				"buttons":[
-				{
-					"type": "postback",
-					"title": "Confirm Order",
-					"payload": "viewReceipt"
-				}
-				]
-			}
-		}
-	}
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
-}
-
 function getAllProducts(){
      var db = admin.database()
      var collectionRef = db.ref('products')
