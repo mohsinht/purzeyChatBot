@@ -174,7 +174,7 @@ app.post('/webhook/', function(req, res){
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
 					const prdGuess = firstEntity(guess, 'product');
 					if(prdGuess && prdGuess.confidence > 0.8){
-						sendText(sender, "hmmm... 🤔\nDid you say " + prdGuess.value + "?")
+						sendText(sender, "hmmm... 🤔\nDid you mean " + prdGuess.value + "?")
 					}
 					if(text === 'generic'){
 						sendGenericMessage(sender)
@@ -379,7 +379,7 @@ app.post('/webhook/', function(req, res){
 		 						})
 		 						t32 = t32 + productOrder[key1].value + "\n"
 		 					}
-		 					//sendText(sender, "You have ordered:\n" + t32)
+		 					//(sender, "You have ordered:\n" + t32)
 		 				}
 		 			}
 
