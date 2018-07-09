@@ -172,6 +172,10 @@ app.post('/webhook/', function(req, res){
 					});
     			}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
+					const prdGuess = firstEntity(guess, 'product');
+					if(prdGuess){
+						sendText(sender, "hmmm... 🤔\nDid you say " + prdGuess.value + "?")
+					}
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
