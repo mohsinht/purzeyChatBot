@@ -340,7 +340,7 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'asking_whatCanDo'){
 							sendText(sender, "I can do a lot of stuff. Try ordering something.")
-							whatCanDo(sender)
+							setTimeout(function() { whatCanDo(sender) }, 2000)
 						}
 						if(intent.value == 'asking_wherefrom'){
 							sendText(sender, "I'm from Lahore. :)")
