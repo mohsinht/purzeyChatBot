@@ -274,6 +274,9 @@ app.post('/webhook/', function(req, res){
 						if(intent.value == "asking_website"){
 							sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
 						}
+						if(intent.value == "asking_companyName"){
+							sendText(sender, "Hamari company ka naam Purzey hai." )	
+						}
 						if(intent.value == "asking_email"){
 							sendText(sender, "You can email us at our email address: info@purzey.pk")
 						}
