@@ -274,7 +274,7 @@ app.post('/webhook/', function(req, res){
 
 					const sentiment = firstEntity(guess, 'sentiment');
 					if (sentiment && sentiment.confidence > 0.8) {
-						sendText(sender, "Shukria. Khuda Hafiz!")
+						//sendText(sender, "Shukria. Khuda Hafiz!")
 					}
 					if(intent && intent.confidence > 0.7){
 						if(intent.value == "asking_website"){
