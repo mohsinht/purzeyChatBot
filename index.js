@@ -189,6 +189,7 @@ app.post('/webhook/', function(req, res){
 					}
 					if(text === 'purzeybot'){
 						sendText(sender, "Hi! Kya khidmat krun aapki?")
+						setTimeout(function() { whatCanDo(sender) }, 2000)
 					}
 					if(cuser.Progress.value === 0){
 						if(text === "❌"){
