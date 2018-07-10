@@ -186,7 +186,13 @@ app.post('/webhook/', function(req, res){
 						sendText(sender, "Hi! Kya khidmat krun aapki?")
 					}
 					if(cuser.Progress.value === 0){
-						if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
+						if(text === "❌"){
+							saveinDB(sender, 'University', 'none')
+							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
+							sendText(sender, "Aapki university save nai ki gyi.")	
+							setTimeout(function() { askMobileNumber(sender) }, 3000)
+						}
+						else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 							saveinDB(sender, 'University', 'ITU')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
@@ -222,7 +228,11 @@ app.post('/webhook/', function(req, res){
 					}
 				}
 				if(cuser.Progress.value === 1){
-
+					if(text === "❌"){
+							saveinDB(sender, 'Phone', 'none')
+							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
+							sendText(sender, "Aapka phone nai save kia gya.")
+					}
 					const phNum = firstEntity(guess, 'phone_number');
 					if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
 							//let phn = text.substring(phNum.start, phNum.end)
@@ -262,9 +272,6 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'slang'){
 							sendText(sender, ":D :P")
-						}
-						if(intent.value == 'product_inquiry'){
-							sendText(sender, "Aapka sawal darj kr lia gya, brah-e-mehrbani intazar farmaiye.")
 						}
 						if(intent.value == 'abuse'){
 							sendText(sender, "Abusing will cause a permanent ban.")
@@ -480,6 +487,11 @@ function askMobileNumber(sender){
 		"quick_replies":[
 		{
 			"content_type":"user_phone_number"
+		},
+		{
+			"content_type":"text",
+			"title":"❌",
+			"payload":"phone_none",
 		}
 		]
 	}
@@ -567,7 +579,7 @@ function askUniversity(sender) {
 		},
 		{
 			"content_type":"text",
-			"title":"Inmay se koi nai",
+			"title":"❌",
 			"payload":"uni_none",
 		}
 		]
