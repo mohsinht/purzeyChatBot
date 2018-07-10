@@ -270,12 +270,21 @@ app.post('/webhook/', function(req, res){
 					if (byed && byed.confidence > 0.8) {
 						sendText(sender, "Shukria. Khuda Hafiz!")
 					}
+
+					const sentiment = firstEntity(guess, 'sentiment');
+					if (sentiment && sentiment.confidence > 0.8) {
+						sendText(sender, "Shukria. Khuda Hafiz!")
+					}
 					if(intent && intent.confidence > 0.7){
 						if(intent.value == "asking_website"){
 							sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
 						}
 						if(intent.value == "asking_companyName"){
 							sendText(sender, "Hamari company ka naam Purzey hai." )	
+						}
+						if(intent.value == "asking_services"){
+							sendText(sender, "We can deliver selected products to your campus in fastest possible time. We also accept custom orders." )	
+							orderKrain(sender)
 						}
 						if(intent.value == "asking_aboutCompany"){
 							sendText(sender, "Purzey is a company created by students, for students. Purzey delivers any product a student would want in university campus. Campus ambassadors in all naming universities have been appointed to deliver orders in fastest possible time." )	
