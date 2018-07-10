@@ -399,7 +399,7 @@ app.post('/webhook/', function(req, res){
 						if(intent.value == 'showproduct_best'){
 							const gproduct = firstEntity(guess, 'product')
 							if(gproduct){
-								if(gproduct.value === 'Handsfree'){
+								if(gproduct.value === 'Samsung handsfree C7'){
 									getProduct('AKG Earphones')
 									.then((prd) => {
 										if(prd !== null){
@@ -415,7 +415,7 @@ app.post('/webhook/', function(req, res){
 						if(intent.value == 'showproduct_cheapest'){
 							const g2product = firstEntity(guess, 'product')
 							if(g2product){
-								if(g2product.value === 'Handsfree'){
+								if(g2product.value === 'Samsung handsfree C7'){
 									getProduct('Samsung Handsfree')
 									.then((prd) => {
 										if(prd !== null){
