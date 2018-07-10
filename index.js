@@ -839,9 +839,14 @@ function sendCartInfo(sender, itemCount){
 					"payload": "viewCart"
 				},
 				{
+					"type": "postback",
+					"title": "Confirm",
+					"payload": "viewReceipt"
+				},
+				{
 					"type": "web_url",
 					"url": "https://www.facebook.com/purzey/shop",
-					"title": "More Products"
+					"title": "More"
 				}
 				]
 			}
