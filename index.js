@@ -173,6 +173,10 @@ app.post('/webhook/', function(req, res){
     			}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
 					var newDate = new Date()
+					var oldDate = cuser.LastHour.value
+					if(oldDate == null){
+						oldDate = "Tue Jul 10 2018 15:00:08 GMT+0000 (UTC)"
+					}
 					saveinDB(sender, 'LastHour', newDate.toString())
 					if(text === 'generic'){
 						sendGenericMessage(sender)
