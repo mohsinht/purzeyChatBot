@@ -149,7 +149,6 @@ app.post('/webhook/', function(req, res){
     		let text = event.message.text.toLowerCase()
     		let guess = event.message.nlp
     		const intent = firstEntity(guess, 'intent')
-    		var newDate = new Date()
     		getUserProfile(event.sender.id)
     		.then((cuser) => {
     			if(cuser === null){
@@ -173,7 +172,8 @@ app.post('/webhook/', function(req, res){
 					});
     			}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
-					saveinDB(sender, 'LastHour', newDate);
+					var newDate = new Date()
+					saveinDB(sender, 'LastHour', newDate.toString())
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
