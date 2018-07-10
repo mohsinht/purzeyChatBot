@@ -237,6 +237,7 @@ app.post('/webhook/', function(req, res){
 						saveinDB(sender, 'Phone', 'none')
 						saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 						sendText(sender, "Aapka phone nai save kia gya.")
+						whatCanDo(sender)
 					}
 					const phNum = firstEntity(guess, 'phone_number');
 					if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
@@ -244,6 +245,7 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Phone', phNum.value)
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
+							whatCanDo(sender)
 						}else if(text !== "❌"){
 							askMobileNumber(sender)
 						}
@@ -544,6 +546,50 @@ function orderKrain(sender) {
 				]
 			}
 		}
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {access_token:token},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
+
+
+function whatCanDo(sender){
+		let messageData = {
+		"text": "PurzeyBot is here to help.",
+		"quick_replies":[
+		{
+			"content_type":"text",
+			"title":"I want an aux cable",
+			"payload":"wantHandsfree",
+		},
+		{
+			"content_type":"text",
+			"title":"which one is the cheapest handsfree",
+			"payload":"cheapestHandsfree",
+		},
+		{
+			"content_type":"text",
+			"title":"what do you know about me?",
+			"payload":"showProfile",
+		},
+		{
+			"content_type":"text",
+			"title":"who is my campus ambassador?",
+			"payload":"whoIsCA",
+		}
+		]
 	}
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
