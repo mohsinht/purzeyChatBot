@@ -320,6 +320,7 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'asking_whatCanDo'){
 							sendText(sender, "I can do a lot of stuff. Try ordering something.")
+							whatCanDo(sender)
 						}
 						if(intent.value == 'asking_wherefrom'){
 							sendText(sender, "I'm from Lahore. :)")
@@ -576,17 +577,17 @@ function whatCanDo(sender){
 		},
 		{
 			"content_type":"text",
-			"title":"which one is the cheapest handsfree",
+			"title":"cheapest handsfree?",
 			"payload":"cheapestHandsfree",
 		},
 		{
 			"content_type":"text",
-			"title":"what do you know about me?",
+			"title":"show me my profile",
 			"payload":"showProfile",
 		},
 		{
 			"content_type":"text",
-			"title":"who is my campus ambassador?",
+			"title":"my campus ambassador?",
 			"payload":"whoIsCA",
 		}
 		]
