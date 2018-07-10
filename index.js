@@ -239,7 +239,7 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Phone', phNum.value)
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
-						}else{
+						}else if(text !== "❌"){
 
 							askMobileNumber(sender)
 						}
