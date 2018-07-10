@@ -597,7 +597,7 @@ function whatCanDo(sender){
 		},
 		{
 			"content_type":"text",
-			"title":"my campus ambassador?",
+			"title":"campus ambassador?",
 			"payload":"whoIsCA",
 		}
 		]
