@@ -300,13 +300,36 @@ app.post('/webhook/', function(req, res){
 							sendText(sender, "Puurrrzeeeey!!!")
 						}
 						if(intent.value == 'asking_whoisdeveloper'){
-							sendText(sender, "Mohsin developed me. Do you want me to send him a message?")
+							sendText(sender, "Mohsin developed me. Hire him! I'd recommend him.")
 						}
 						if(intent.value == 'asking_howareyou'){
 							sendText(sender, "I'm good. How are you?")
 						}
 						if(intent.value == 'asking_whatCanDo'){
 							sendText(sender, "I can do a lot of stuff. Try ordering something.")
+						}
+						if(intent.value == 'asking_wherefrom'){
+							sendText(sender, "I'm from Lahore. :)")
+						}
+						if(intent.value == 'showProfile'){
+							let profMsg = '';
+							if(cuser.Name.value!=null){
+								profMsg += "\n*Name:* " + cuser.Name.value
+							}
+							if(cuser.University.value!=null){
+								profMsg += "\n*University:* " + cuser.University.value
+							}
+							if(cuser.Phone.value!=null){
+								profMsg += "\n*Phone #:* " + cuser.Phone.value
+							}
+							profMsg = profMsg + "\n*Order Count:* 0"
+							sendText(sender, "We have your profile saved with us: " + profMsg)	
+						}
+						if(intent.value == 'asking_deliverytime'){
+							sendText(sender, "You'll be delivered your order as soon as possible. Let us know your available time slot.")
+						}
+						if(intent.value == 'asking_howmanyneuralnetworks'){
+							sendText(sender, "I have many neural networks. Talk to me more to add more.")
 						}
 						if(intent.value == 'asking_ca'){
 							var CAM = ""
