@@ -149,6 +149,7 @@ app.post('/webhook/', function(req, res){
     		let text = event.message.text.toLowerCase()
     		let guess = event.message.nlp
     		const intent = firstEntity(guess, 'intent')
+    		var newDate = new Date()
     		getUserProfile(event.sender.id)
     		.then((cuser) => {
     			if(cuser === null){
@@ -172,7 +173,7 @@ app.post('/webhook/', function(req, res){
 					});
     			}else{
 					//sendText(sender, "Hello Mr. " + cuser.Name.value)
-
+					saveinDB(sender, 'LastHour', newDate);
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
@@ -229,9 +230,9 @@ app.post('/webhook/', function(req, res){
 				}
 				if(cuser.Progress.value === 1){
 					if(text === "❌"){
-							saveinDB(sender, 'Phone', 'none')
-							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-							sendText(sender, "Aapka phone nai save kia gya.")
+						saveinDB(sender, 'Phone', 'none')
+						saveinDB(sender, 'Progress', cuser.Progress.value + 1)
+						sendText(sender, "Aapka phone nai save kia gya.")
 					}
 					const phNum = firstEntity(guess, 'phone_number');
 					if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
@@ -240,7 +241,6 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
 						}else if(text !== "❌"){
-
 							askMobileNumber(sender)
 						}
 					}
@@ -340,57 +340,68 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'asking_ca'){
 							var CAM = ""
-							if(cuser.University.value === "Fast-NU"){CAM = "Mohsin Hayat"}
-								if(cuser.University.value === "ITU"){CAM = "Mubeen Ikram"}
-									if(cuser.University.value === "COMSATS"){CAM = "Khunshan Butt"}
-										if(cuser.University.value === "PUCIT (New)"){CAM = "Mustaghees Butt"}
-											if(CAM !== ""){	
-												sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
-											}
-										}
-										if(intent.value == 'asking_howtoorder'){
-											orderKrain(sender)
+							if(cuser.University.value === "Fast-NU"){
+								CAM = "Mohsin Hayat"
+							}
+							if(cuser.University.value === "ITU"){
+								CAM = "Mubeen Ikram"
+							}
+							if(cuser.University.value === "COMSATS"){
+								CAM = "Khunshan Butt"
+							}
+							if(cuser.University.value === "PUCIT (New)"){
+								CAM = "Mustaghees Butt"
+							}
+							if(CAM !== ""){	
+								sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
+							}
+							if(cuser.University.value === "none"){
+								sendText(sender, "Aap nay koi university select nai ki hui.")
+							}
+						}
+						if(intent.value == 'asking_howtoorder'){
+							orderKrain(sender)
 
+						}
+						if(intent.value == 'asking_botName'){
+							sendText(sender, "Mera naam PurzeyBot hai")
+						}
+						if(intent.value == 'asking_botAge'){
+							sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
+						}
+						if(intent.value == 'showproduct_best'){
+							const gproduct = firstEntity(guess, 'product')
+							if(gproduct){
+								if(gproduct.value === 'Handsfree'){
+									getProduct('AKG Earphones')
+									.then((prd) => {
+										if(prd !== null){
+											sendText(sender, "Although sb market se handpicked hain aur achi hain. Hum apko AKG handsfree recommend krtay hain.")
+											productOffer(sender, prd)
 										}
-										if(intent.value == 'asking_botName'){
-											sendText(sender, "Mera naam PurzeyBot hai")
+									})
+								}
+							}else{
+								sendText(sender, "Aap shop se pasand kr k btayiye please.")
+							}
+						}
+						if(intent.value == 'showproduct_cheapest'){
+							const g2product = firstEntity(guess, 'product')
+							if(g2product){
+								if(g2product.value === 'Handsfree'){
+									getProduct('Samsung Handsfree')
+									.then((prd) => {
+										if(prd !== null){
+											sendText(sender, "Sab say sasti handsfree hamaray pas Samsung Handsfree hai.")
+											productOffer(sender, prd)
 										}
-										if(intent.value == 'asking_botAge'){
-											sendText(sender, "BOT ki age jaan kr kya krogay bhai?")
-										}
-										if(intent.value == 'showproduct_best'){
-											const gproduct = firstEntity(guess, 'product')
-											if(gproduct){
-												if(gproduct.value === 'Handsfree'){
-													getProduct('AKG Earphones')
-													.then((prd) => {
-														if(prd !== null){
-															sendText(sender, "Although sb market se handpicked hain aur achi hain. Hum apko AKG handsfree recommend krtay hain.")
-															productOffer(sender, prd)
-														}
-													})
-												}
-											}else{
-												sendText(sender, "Aap shop se pasand kr k btayiye please.")
-											}
-										}
-										if(intent.value == 'showproduct_cheapest'){
-											const g2product = firstEntity(guess, 'product')
-											if(g2product){
-												if(g2product.value === 'Handsfree'){
-													getProduct('Samsung Handsfree')
-													.then((prd) => {
-														if(prd !== null){
-															sendText(sender, "Sab say sasti handsfree hamaray pas Samsung Handsfree hai.")
-															productOffer(sender, prd)
-														}
-													})
-												}
-											}else{
-												sendText(sender, "Aap shop se pasand kr k btayiye please.")
-											}
-										}
-									}
+									})
+								}
+							}else{
+								sendText(sender, "Aap shop se pasand kr k btayiye please.")
+							}
+						}
+					}
 
 		 			if(intent && intent.confidence > 0.8){ //PRODUCT GUESS!
 		 				if(intent.value === 'order'){
