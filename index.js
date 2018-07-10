@@ -237,7 +237,8 @@ app.post('/webhook/', function(req, res){
 						saveinDB(sender, 'Phone', 'none')
 						saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 						sendText(sender, "Aapka phone nai save kia gya.")
-						whatCanDo(sender)
+						setTimeout(function() { whatCanDo(sender) }, 2000)
+						
 					}
 					const phNum = firstEntity(guess, 'phone_number');
 					if (phNum && phNum.confidence > 0.8 && phNum.value.length > 10 && phNum.value.length < 15) {
@@ -245,7 +246,7 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Phone', phNum.value)
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
 							sendText(sender, "Aapka mobile number darj kr lia gya hai: " + phNum.value + ". Mustaqbil main issi number pr tafseelat di jayengi.")
-							whatCanDo(sender)
+							setTimeout(function() { whatCanDo(sender) }, 2000)
 						}else if(text !== "❌"){
 							askMobileNumber(sender)
 						}
