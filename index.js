@@ -1241,7 +1241,7 @@ function sendGuesses(sender, intent){
 	if(intent.value == 'asking_ceo'){
 		sendText(sender, "We don't have any CEO yet. We are a company created by 5 students from ITU, FAST and COMSATS.")
 	}
-	if(intent.value == 'aasking_deliveryCharges'){
+	if(intent.value == 'asking_deliveryCharges'){
 		sendText(sender, "If you are ordering this in your university, there are no delivery charges. Otherwise, it delivery charges depend on your location, product/s and time-slot.")
 	}
 	if(intent.value == 'asking_whytoBot '){
