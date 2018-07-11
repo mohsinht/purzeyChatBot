@@ -1212,6 +1212,9 @@ function sendGuesses(sender, intent){
 	if(intent.value == 'slang'){
 		sendText(sender, ":D :P")
 	}
+	if(intent.value == 'asking_howtoCustomOrder'){
+		sendText(sender, "To add a custom order: \n1. Send us proper name of the product.\n2. Tell us quantity you want. \nWe'll send you price and all details within 24-hours.")
+	}
 	if(intent.value == 'abuse'){
 		sendText(sender, "Abusing will cause a permanent ban.")
 	}
