@@ -152,6 +152,16 @@ app.post('/webhook/', function(req, res){
     		if(intent && intent.confidence > 0.7){
     			sendGuesses(sender, intent)
     		}
+    		const sentiment = firstEntity(guess, 'sentiment')
+    		if(sentiment && sentiment.confidence > 0.8){
+    			if(sentiment.value === 'positive'){
+    				sendText(sender, "Thank you so much :)\nIt means to us a lot.")
+    			}
+    			if(sentiment.value === 'negative'){
+    				sendText(sender, "You've made PurzeyBot sad. :(")
+    			}
+    		}
+
     		getUserProfile(event.sender.id)
     		.then((cuser) => {
     			if(cuser === null){
@@ -1248,7 +1258,8 @@ function sendGuesses(sender, intent){
 		sendText(sender, "PurzeyBot is a little bit shy 🤭. Cheer him up by asking more questions. It'll learn them and answer them next time you chat :)")
 	}
 	if(intent.value == 'tareef'){
-		sendText(sender, "Thank you so much :)\n It means to us a lot.")
+		sendText(sender, ":)")
+		//sendText(sender, "Thank you so much :)\nIt means to us a lot.")
 	}
 	if(intent.value == 'asking_wherefrom'){
 		sendText(sender, "I'm from Lahore. :)")
