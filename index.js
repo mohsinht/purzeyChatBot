@@ -1267,4 +1267,7 @@ function sendGuesses(sender, intent){
 	if(intent.value == 'asking_wherefrom'){
 		sendText(sender, "I'm from Lahore. :)")
 	}
+	if(intent.value == 'asking_PurzeyUni'){
+		sendText(sender, "Purzey iss waqt 5 universities main operate kr rha hai:\n1. FAST-NU\n2. ITU\n3. PUCIT\n4. UMT\n5. COMSATS\n\nHum iss waqt sirf Lahore main operate kr rhay hain.")
+	}
 }
