@@ -149,6 +149,9 @@ app.post('/webhook/', function(req, res){
     		let text = event.message.text.toLowerCase()
     		let guess = event.message.nlp
     		const intent = firstEntity(guess, 'intent')
+    		if(intent && intent.confidence > 0.7){
+    			sendGuesses(sender, intent)
+    		}
     		getUserProfile(event.sender.id)
     		.then((cuser) => {
     			if(cuser === null){
@@ -277,95 +280,23 @@ app.post('/webhook/', function(req, res){
 						//sendText(sender, "Shukria. Khuda Hafiz!")
 					}
 					if(intent && intent.confidence > 0.7){
-						if(intent.value == "asking_website"){
-							sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
-						}
-						if(intent.value == "asking_companyName"){
-							sendText(sender, "Hamari company ka naam Purzey hai." )	
-						}
-						if(intent.value == "asking_services"){
-							sendText(sender, "We can deliver selected products to your campus in fastest possible time. We also accept custom orders." )	
-							orderKrain(sender)
-						}
-						if(intent.value == "asking_aboutCompany"){
-							sendText(sender, "Purzey is a company created by students, for students. Purzey delivers any product a student would want in university campus. Campus ambassadors in all naming universities have been appointed to deliver orders in fastest possible time." )	
-						}
-						if(intent.value == "asking_burayi"){
-							sendText(sender, "Purzey best services denay k liye koshan hai. Aap kuch order kr k dekhiye, phir judge kijiye." )	
-						}
-						if(intent.value == "asking_email"){
-							sendText(sender, "You can email us at our email address: info@purzey.pk")
-						}
-						if(intent.value == 'slang'){
-							sendText(sender, ":D :P")
-						}
-						if(intent.value == 'abuse'){
-							sendText(sender, "Abusing will cause a permanent ban.")
-						}
-						if(intent.value == 'order_received'){
-							sendText(sender, "Have a good day :) Kindly rate our services and share Purzey with your friends.")
-						}
-						if(intent.value == 'asking_phone'){
-							sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
-						}
-						if(intent.value == 'wantsToBecomeCA'){
-							sendText(sender, "Agar aap campus ambassador bnna chahtay hain to apna cnic, phone number, university ka naam aur aik chotay se paragraph jismay ap btayen k aap Purzey kiun join krna chahtay hain, humain chat pr bhejain. Aap ko reply kr dia jayega :)")
-						}
 						if(intent.value == 'asking_selfName'){
 							sendText(sender, "Aapka naam " + cuser.Name.value + " hai.")
 						}
 						if(intent.value == 'asking_delivery'){
 							sendText(sender, "Aap ko aapki delivery " + cuser.University.value + " main tehh krda time pr pohncha di jayegi. Wait kijiye :)")
 						}
-						if(intent.value == 'order_cancel'){
-							sendText(sender, "Kya aap order cancel krna chahtay hain?")
-						}
-						if(intent.value == 'product_inquiry'){
-							sendText(sender, "Iss product k baray main apka sawal note kr lia gya hai. Brah-e-mehrbani wait kijiye :)")
-						}
-						if(intent.value == 'custom_order'){
-							sendText(sender, "Custom Order main apni product ka naam aur identification main asani ki liye koi link ya picture bhej dein. Hum aapko apki tafseelat jald muhayya krein gay. Shukria :)")
-						}
-						if(intent.value == 'greeting_answer'){
-							sendText(sender, "How may I help you? :)")
-						}
-						if(intent.value == 'shouting_name'){
-							sendText(sender, "Puurrrzeeeey!!!")
-						}
-						if(intent.value == 'asking_whoisdeveloper'){
-							sendText(sender, "Mohsin developed me. Hire him! I'd recommend him.")
-						}
-						if(intent.value == 'asking_howareyou'){
-							sendText(sender, "I'm good. How are you?")
-						}
-						if(intent.value == 'asking_caNumber'){
-							sendText(sender, "Campus ambassador is yet to be assigned. Once assigned, we'll let you know his number. Meanwhile you can leave your number here so we could update you with more details.")
-						}
-						if(intent.value == 'asking_ceo'){
-							sendText(sender, "We don't have any CEO yet. We are a company created by 5 students from ITU, FAST and COMSATS.")
-						}
-						if(intent.value == 'aasking_deliveryCharges'){
-							sendText(sender, "If you are ordering this in your university, there are no delivery charges. Otherwise, it delivery charges depend on your location, product/s and time-slot.")
-						}
-						if(intent.value == 'asking_whytoBot '){
-							sendText(sender, "PurzeyBot is a little bit shy 🤭")
-						}
-						if(intent.value == 'tareef'){
-							sendText(sender, "Thank you so much :)\n It means to us a lot.")
-						}
+						
 						if(intent.value == 'show_cart'){
 							sendCart(sender)
 						}
 						if(intent.value == 'show_cart'){
 							sendText(sender, "I'm good. How are you?")
 						}
-						
+
 						if(intent.value == 'asking_whatCanDo'){
 							sendText(sender, "I can do a lot of stuff. Try ordering something.")
 							setTimeout(function() { whatCanDo(sender) }, 2000)
-						}
-						if(intent.value == 'asking_wherefrom'){
-							sendText(sender, "I'm from Lahore. :)")
 						}
 						if(intent.value == 'showProfile'){
 							let profMsg = '';
@@ -1244,4 +1175,82 @@ function sendReceiptLoad(sender, receipt_elements, profile, totalprice){
 			console.log('Error: ', response.body.error)
 		}
 	})
+}
+
+
+
+function sendGuesses(sender, intent){
+	if(intent.value == "asking_website"){
+		sendText(sender, "Hamari website purzey.pk hai jo abhi bnnay k marahil main hai. Aap Facebook k zariye sb kuch order kr sktay hain." )	
+	}
+	if(intent.value == "asking_companyName"){
+		sendText(sender, "Hamari company ka naam Purzey hai." )	
+	}
+	if(intent.value == "asking_services"){
+		sendText(sender, "We can deliver selected products to your campus in fastest possible time. We also accept custom orders." )	
+		orderKrain(sender)
+	}
+	if(intent.value == "asking_aboutCompany"){
+		sendText(sender, "Purzey is a company created by students, for students. Purzey delivers any product a student would want in university campus. Campus ambassadors in all naming universities have been appointed to deliver orders in fastest possible time." )	
+	}
+	if(intent.value == "asking_burayi"){
+		sendText(sender, "Purzey best services denay k liye koshan hai. Aap kuch order kr k dekhiye, phir judge kijiye." )	
+	}
+	if(intent.value == "asking_email"){
+		sendText(sender, "You can email us at our email address: info@purzey.pk")
+	}
+	if(intent.value == 'slang'){
+		sendText(sender, ":D :P")
+	}
+	if(intent.value == 'abuse'){
+		sendText(sender, "Abusing will cause a permanent ban.")
+	}
+	if(intent.value == 'order_received'){
+		sendText(sender, "Have a good day :) Kindly rate our services and share Purzey with your friends.")
+	}
+	if(intent.value == 'asking_phone'){
+		sendText(sender, "Hamaray inn numbers pr contact kijiye:\n03364256811\n03214441444")
+	}
+	if(intent.value == 'wantsToBecomeCA'){
+		sendText(sender, "Agar aap campus ambassador bnna chahtay hain to apna cnic, phone number, university ka naam aur aik chotay se paragraph jismay ap btayen k aap Purzey kiun join krna chahtay hain, humain chat pr bhejain. Aap ko reply kr dia jayega :)")
+	}
+	if(intent.value == 'order_cancel'){
+		sendText(sender, "Kya aap order cancel krna chahtay hain?")
+	}
+	if(intent.value == 'product_inquiry'){
+		sendText(sender, "Iss product k baray main apka sawal note kr lia gya hai. Brah-e-mehrbani wait kijiye :)")
+	}
+	if(intent.value == 'custom_order'){
+		sendText(sender, "Custom Order main apni product ka naam aur identification main asani ki liye koi link ya picture bhej dein. Hum aapko apki tafseelat jald muhayya krein gay. Shukria :)")
+	}
+	if(intent.value == 'greeting_answer'){
+		sendText(sender, "How may I help you? :)")
+	}
+	if(intent.value == 'shouting_name'){
+		sendText(sender, "Puurrrzeeeey!!!")
+	}
+	if(intent.value == 'asking_whoisdeveloper'){
+		sendText(sender, "Mohsin developed me. Hire him! I'd recommend him.")
+	}
+	if(intent.value == 'asking_howareyou'){
+		sendText(sender, "I'm good. How are you?")
+	}
+	if(intent.value == 'asking_caNumber'){
+		sendText(sender, "Campus ambassador is yet to be assigned. Once assigned, we'll let you know his number. Meanwhile you can leave your number here so we could update you with more details.")
+	}
+	if(intent.value == 'asking_ceo'){
+		sendText(sender, "We don't have any CEO yet. We are a company created by 5 students from ITU, FAST and COMSATS.")
+	}
+	if(intent.value == 'aasking_deliveryCharges'){
+		sendText(sender, "If you are ordering this in your university, there are no delivery charges. Otherwise, it delivery charges depend on your location, product/s and time-slot.")
+	}
+	if(intent.value == 'asking_whytoBot '){
+		sendText(sender, "PurzeyBot is a little bit shy 🤭")
+	}
+	if(intent.value == 'tareef'){
+		sendText(sender, "Thank you so much :)\n It means to us a lot.")
+	}
+	if(intent.value == 'asking_wherefrom'){
+		sendText(sender, "I'm from Lahore. :)")
+	}
 }
