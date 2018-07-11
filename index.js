@@ -1244,8 +1244,8 @@ function sendGuesses(sender, intent){
 	if(intent.value == 'asking_deliveryCharges'){
 		sendText(sender, "We don't charge any delivery fee for orders in university campuses. For custom orders, we charge a flat 50rs for each delivery.")
 	}
-	if(intent.value == 'asking_whytoBot '){
-		sendText(sender, "PurzeyBot is a little bit shy 🤭")
+	if(intent.value == 'asking_whytoBot'){
+		sendText(sender, "PurzeyBot is a little bit shy 🤭. Cheer him up by asking more questions. It'll learn them and answer them next time you chat :)")
 	}
 	if(intent.value == 'tareef'){
 		sendText(sender, "Thank you so much :)\n It means to us a lot.")
