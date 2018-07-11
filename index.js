@@ -105,15 +105,15 @@ app.post('/webhook/', function(req, res){
   	    		.then((cuser) => {
   	    			let profMsg = '';
   	    			if(cuser.Name.value!=null){
-  	    				profMsg += "\n*Name:* " + cuser.Name.value
+  	    				profMsg += "\nName: " + cuser.Name.value
   	    			}
   	    			if(cuser.University.value!=null){
-  	    				profMsg += "\n*University:* " + cuser.University.value
+  	    				profMsg += "\nUniversity: " + cuser.University.value
   	    			}
   	    			if(cuser.Phone.value!=null){
-  	    				profMsg += "\n*Phone #:* " + cuser.Phone.value
+  	    				profMsg += "\nPhone #: " + cuser.Phone.value
   	    			}
-  	    			profMsg = profMsg + "\n*Order Count:* 0"
+  	    			profMsg = profMsg + "\nOrder Count: 0"
   	    			sendText(sender, "We have your profile saved with us: " + profMsg)	
   	    		})
   	    	}
@@ -338,6 +338,28 @@ app.post('/webhook/', function(req, res){
 						if(intent.value == 'asking_howareyou'){
 							sendText(sender, "I'm good. How are you?")
 						}
+						if(intent.value == 'asking_caNumber'){
+							sendText(sender, "Campus ambassador is yet to be assigned. Once assigned, we'll let you know his number. Meanwhile you can leave your number here so we could update you with more details.")
+						}
+						if(intent.value == 'asking_ceo'){
+							sendText(sender, "We don't have any CEO yet. We are a company created by 5 students from ITU, FAST and COMSATS.")
+						}
+						if(intent.value == 'aasking_deliveryCharges'){
+							sendText(sender, "If you are ordering this in your university, there are no delivery charges. Otherwise, it delivery charges depend on your location, product/s and time-slot.")
+						}
+						if(intent.value == 'asking_whytoBot '){
+							sendText(sender, "PurzeyBot is a little bit shy 🤭")
+						}
+						if(intent.value == 'tareef'){
+							sendText(sender, "Thank you so much :)\n It means to us a lot.")
+						}
+						if(intent.value == 'show_cart'){
+							sendCart(sender)
+						}
+						if(intent.value == 'show_cart'){
+							sendText(sender, "I'm good. How are you?")
+						}
+						
 						if(intent.value == 'asking_whatCanDo'){
 							sendText(sender, "I can do a lot of stuff. Try ordering something.")
 							setTimeout(function() { whatCanDo(sender) }, 2000)
@@ -348,15 +370,15 @@ app.post('/webhook/', function(req, res){
 						if(intent.value == 'showProfile'){
 							let profMsg = '';
 							if(cuser.Name.value!=null){
-								profMsg += "\n*Name:* " + cuser.Name.value
+								profMsg += "\nName: " + cuser.Name.value
 							}
 							if(cuser.University.value!=null){
-								profMsg += "\n*University:* " + cuser.University.value
+								profMsg += "\nUniversity: " + cuser.University.value
 							}
 							if(cuser.Phone.value!=null){
-								profMsg += "\n*Phone #:* " + cuser.Phone.value
+								profMsg += "\nPhone #: " + cuser.Phone.value
 							}
-							profMsg = profMsg + "\n*Order Count:* 0"
+							profMsg = profMsg + "\nOrder Count: 0"
 							sendText(sender, "We have your profile saved with us: " + profMsg)	
 						}
 						if(intent.value == 'asking_deliverytime'){
@@ -587,7 +609,7 @@ function orderKrain(sender) {
 
 
 function whatCanDo(sender){
-		let messageData = {
+	let messageData = {
 		"text": "PurzeyBot is here to help.",
 		"quick_replies":[
 		{
