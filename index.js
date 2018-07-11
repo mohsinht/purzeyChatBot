@@ -1242,7 +1242,7 @@ function sendGuesses(sender, intent){
 		sendText(sender, "We don't have any CEO yet. We are a company created by 5 students from ITU, FAST and COMSATS.")
 	}
 	if(intent.value == 'asking_deliveryCharges'){
-		sendText(sender, "If you are ordering this in your university, there are no delivery charges. Otherwise, it delivery charges depend on your location, product/s and time-slot.")
+		sendText(sender, "We don't charge any delivery fee for orders in university campuses. For custom orders, we charge a flat 50rs for each delivery.")
 	}
 	if(intent.value == 'asking_whytoBot '){
 		sendText(sender, "PurzeyBot is a little bit shy 🤭")
