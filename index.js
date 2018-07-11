@@ -1204,7 +1204,7 @@ function sendGuesses(sender, intent){
 		sendText(sender, "Purzey is a company created by students, for students. Purzey delivers any product a student would want in university campus. Campus ambassadors in all naming universities have been appointed to deliver orders in fastest possible time." )	
 	}
 	if(intent.value == "asking_burayi"){
-		sendText(sender, "Purzey best services denay k liye koshan hai. Aap kuch order kr k dekhiye, phir judge kijiye." )	
+		sendText(sender, "Hum behad maazrat khwan hain. Ap details bta dein, apki complaint forward kr di jayegi." )	
 	}
 	if(intent.value == "asking_email"){
 		sendText(sender, "You can email us at our email address: info@purzey.pk")
