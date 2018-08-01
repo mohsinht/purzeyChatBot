@@ -1134,7 +1134,17 @@ function sendReceipt(sender){
 		if(univ === 'COMSATS'){
 			sendText(1588275797934439, "Khunshan aapko " + cName + " ki traf se aik order aya hai.")
 			sendReceiptLoad(1588275797934439, receipt_elements, values[0], tprice)
-		}		
+			
+			sendText(1778135312278640, "Mustafa aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1778135312278640, receipt_elements, values[0], tprice)
+		}
+		if(univ === 'ITU'){
+			sendText(1866894876687881, "Mubeen aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1866894876687881, receipt_elements, values[0], tprice)
+
+			sendText(1814711075241321, "Momin aapko " + cName + " ki traf se aik order aya hai.")
+			sendReceiptLoad(1814711075241321, receipt_elements, values[0], tprice)
+		}			
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});	
 }
