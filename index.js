@@ -330,20 +330,25 @@ app.post('/webhook/', function(req, res){
 						}
 						if(intent.value == 'asking_ca'){
 							var CAM = ""
+							var CAMphn = ""
 							if(cuser.University.value === "Fast-NU"){
 								CAM = "Mohsin Hayat"
+								CAMphn = "+923364256811"
 							}
 							if(cuser.University.value === "ITU"){
 								CAM = "Mubeen Ikram"
+								CAMphn = "+923331421741"
 							}
 							if(cuser.University.value === "COMSATS"){
 								CAM = "Khunshan Butt"
+								CAMphn = "+923214441444"
 							}
 							if(cuser.University.value === "PUCIT (New)"){
 								CAM = "Mustaghees Butt"
+								CAMphn = "+923164855152"
 							}
 							if(CAM !== ""){	
-								sendText(sender, "Aap ki university k Campus Ambassador " + CAM + " hain.")
+								sendCAMInfo(sender, CAM, CAMphn)
 							}
 							if(cuser.University.value === "none"){
 								sendText(sender, "Aap nay koi university select nai ki hui.")
@@ -802,6 +807,39 @@ function sendGenericMessage(sender) {
 	})
 }
 
+function sendCAMInfo(sender, name, phone) {
+	let messageData = {
+		"attachment":{
+			"type":"template",
+			"payload":{
+				"template_type":"button",
+				"text":"Aapki University k campus ambassador " + name + " hain.\nPhone: " + phone + " 📞",
+				"buttons":[
+				{
+					"type":"phone_number",
+					"title":"Call " + name,
+					"payload":phone
+				}
+				]
+			}
+		}
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {access_token:token},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
 
 
 function sendContactInfo(sender) {
@@ -906,12 +944,18 @@ function getUserCart(senderID){
 
 
 function sendCartInfo(sender, itemCount){
+	var textS = ""
+	if(itemCount = 1){
+		textS = "You have one product in your cart. Confirm this order to proceed."
+	}else{
+		textS = "You have " + itemCount + " products in your cart. Confirm this order to proceed.",
+	}
 	let messageData = {
 		"attachment":{
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"You have " + itemCount + " products in your cart. Confirm this order to proceed.",
+				"text": textS,
 				"buttons":[
 				{
 					"type": "postback",
