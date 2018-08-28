@@ -214,13 +214,15 @@ app.post('/webhook/', function(req, res){
 						else if(text.includes("itu") || text.includes("information technology") || text.includes("arfa") || text.includes("plan9")){
 							saveinDB(sender, 'University', 'ITU')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-							sendText(sender, "ITU University save kr li gyi hai. Apko apka order Mubeen Ikram pohncha dengay.")	
+							sendText(sender, "ITU University save kr li gyi hai.")
+							sendCAMInfo(sender, "Mubeen Ikram", "+923331421741")	
 							setTimeout(askMobileNumber(sender), 3000)
 						}
 						else if(text.includes("comsats")){
 							saveinDB(sender, 'University', 'COMSATS')
 							saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-							sendText(sender, "COMSATS University save kr li gyi hai. Apko apka order Khunshan Butt pohncha dengay.")	
+							sendText(sender, "COMSATS University save kr li gyi hai.")
+							sendCAMInfo(sender, "Khunshan Butt", "+923214441444")	
 							setTimeout(function() { askMobileNumber(sender) }, 3000)
 						}
 						else if(text.includes("fast university") || text.includes("fast lahore") || 
@@ -228,13 +230,15 @@ app.post('/webhook/', function(req, res){
 							|| (text.includes("fast") && (text.includes("university") || text.includes("uni")) || text === 'fast')){
 							saveinDB(sender, 'University', 'Fast-NU')
 						saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-						sendText(sender, "FAST University save kr li gyi hai. Apko apka order Mohsin Hayat pohncha dengay.")	
+						sendText(sender, "FAST University save kr li gyi hai.")
+						sendCAMInfo(sender, "Mohsin Hayat", "+923364256811")		
 						setTimeout(function() { askMobileNumber(sender) }, 3000)
 					}
 					else if(text.includes("pucit - new") || text.includes("punjab university")){
 						saveinDB(sender, 'University', 'PUCIT (New)')
 						saveinDB(sender, 'Progress', cuser.Progress.value + 1)
-						sendText(sender, "PUCIT New Campus save kr li gyi hai. Apko apka order Mustaghees Butt pohncha dengay.")	
+						sendText(sender, "PUCIT New Campus save kr li gyi hai.")
+						sendCAMInfo(sender, "Mustaghees Butt", "+923164855152")		
 						setTimeout(function() { askMobileNumber(sender) }, 3000)
 					}else if(text === "inmay se koi nai" || text === "none"){
 						saveinDB(sender, 'University', 'no university')
@@ -764,12 +768,12 @@ function sendCAMInfo(sender, name, phone) {
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"Aapki University k campus ambassador " + name + " hain.\nPhone: " + phone + " 📞",
+				"text":"Aapki University k campus ambassador " + name + " hain.\n📞 " + phone + " ",
 				"buttons":[
 				{
 					"type":"phone_number",
 					"title":"Call " + name,
-					"payload":phone
+					"payload": phone
 				}
 				]
 			}
