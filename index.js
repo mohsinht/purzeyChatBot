@@ -944,8 +944,8 @@ function getUserCart(senderID){
 
 
 function sendCartInfo(sender, itemCount){
-	var textS = ""
-	if(itemCount = 1){
+	let textS = "";
+	if(itemCount == 1){
 		textS = "You have one product in your cart. Confirm this order to proceed."
 	}else{
 		textS = "You have " + itemCount + " products in your cart. Confirm this order to proceed.",
