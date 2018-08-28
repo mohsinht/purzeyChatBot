@@ -1047,7 +1047,12 @@ function sendCart(sender){
 			kk += i + ". " + orgPrd.name + " (×" + elements[i-1].qty + ") @" + orgPrd.price*elements[i-1].qty + "rs\n"; 
 		}
 		kk+="\nTotal: " + tprice + "rs only";
-		cartButtons(sender, "You have " + itemCount + " products in your cart: \n" + kk)
+		if(itemCount === 1){
+			cartButtons(sender, "You have one product in your cart: \n" + kk)
+		}else{
+			cartButtons(sender, "You have " + itemCount + " products in your cart: \n" + kk)
+		}
+		
 		//sendText(sender, "You have " + itemCount + " products in your cart: \n" + kk)
 	});
 }
