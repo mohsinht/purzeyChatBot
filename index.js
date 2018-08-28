@@ -950,12 +950,18 @@ function getUserCart(senderID){
 
 
 function sendCartInfo(sender, itemCount){
+	let send_text = "";
+	if(itemCount === 1) {
+		send_text += "one product";
+	}else{
+		send_text += "" + itemCount + " products";
+	}
 	let messageData = {
 		"attachment":{
 			"type":"template",
 			"payload":{
 				"template_type":"button",
-				"text":"You have " + itemCount + " products in your cart. Confirm this order to proceed.",
+				"text":"You have " +  send_text + " in your cart. Confirm this order to proceed.",
 				"buttons":[
 				{
 					"type": "postback",
