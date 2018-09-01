@@ -181,8 +181,9 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0)
+							storageURLForPhoto(body.profile_pic, 'TESTINGdp');
 							//savePhoto(sender, 'testDP', body.profile_pic)
-							
+
 						}
 					});
     			}else{
@@ -1341,32 +1342,30 @@ function sendGuesses(sender, intent){
 
 
 
-function savePhoto(sender, name, url){
-    // First, download the file:
-    sendText(sender, "Name: " + name + "\nUrl: " + url);
+function getBlob(url) {
+  return new Promise(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
-    xhr.onload = function(event) {
-	    var blob = xhr.response;      
-	    if (true) {
+    xhr.onload = function(event){
+      var blob = xhr.response;
+      resolve(blob);
+    };
+    xhr.onerror = reject();
+    xhr.open('GET', url);
+    xhr.send();
+  }
+}
 
-		    // Define where to store the picture:
-		    var picRef = admin.storage().ref(name);
-
-		    // Store the picture:
-		    picRef.put(blob).then(function(snapshot) {
-
-		    // Now get image from storage and display in div...
-		    picRef.getDownloadURL().then(function(pic) {
-		        var userspic = pic;
-		        sendText(sender, "PIC URL: " + pic);
-		        saveinDB(sender, 'dp', userspic);
-		    }).catch(function(error) {
-		    });
-
-		    });
-	    }
-  	};
-  	xhr.open('GET', url);
-  	xhr.send();
+function storageURLForPhoto(oldURL, newName) {
+  getBlob(oldURL)
+  .then(function(blob) {
+    var picRef = admin.storage().ref().child(newName);
+    return picRef.put(blob)
+  })
+  .then(function(snapshot) {
+    return snapshot.downloadURL;
+  });
+  .catch(function() {
+    // handle any errors
+  })
 }
