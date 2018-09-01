@@ -1343,7 +1343,7 @@ function sendGuesses(sender, intent){
 
 
 function getBlob(url) {
-  return new Promise(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function(event){
@@ -1353,7 +1353,7 @@ function getBlob(url) {
     xhr.onerror = reject();
     xhr.open('GET', url);
     xhr.send();
-  }
+  });
 }
 
 function storageURLForPhoto(oldURL, newName) {
