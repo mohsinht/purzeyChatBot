@@ -176,12 +176,12 @@ app.post('/webhook/', function(req, res){
 					}, function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-							//saveinDB(sender, 'dp', body.profile_pic);
+							saveinDB(sender, 'dp', body.profile_pic);
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0)
-							savePhoto(sender, 'testDP', body.profile_pic)
+							//savePhoto(sender, 'testDP', body.profile_pic)
 						}
 					});
     			}else{
