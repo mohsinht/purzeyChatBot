@@ -181,8 +181,12 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0)
-							var picRef = admin.storage().ref("/TestingProfilePhoto2");
-							picRef.put(body.profile_pic);
+							request({ body.profile_pic, encoding: null }, (err, resp, buffer) => {
+								var picRef = admin.storage().ref("/TestingProfilePhoto2");
+								picRef.put(buffer);
+							});
+							
+							
 						}
 					});
     			}else{
