@@ -176,7 +176,8 @@ app.post('/webhook/', function(req, res){
 					}, function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-							saveinDB(sender, 'dp', body.profile_pic);
+							savePhoto(body.first_name + body.last_name + 'DP', body.profile_pic);
+							//saveinDB(sender, 'dp', body.profile_pic);
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
@@ -1335,4 +1336,34 @@ function sendGuesses(sender, intent){
 	if(intent.value == 'asking_PurzeyUni'){
 		sendText(sender, "Purzey iss waqt 5 universities main operate kr rha hai:\n1. FAST-NU\n2. ITU\n3. PUCIT\n4. UMT\n5. COMSATS\n\nHum iss waqt sirf Lahore main operate kr rhay hain.")
 	}
+}
+
+
+
+function savePhoto(name, url){
+    // First, download the file:
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function(event) {
+	    var blob = xhr.response;      
+	    if (true) {
+
+		    // Define where to store the picture:
+		    var picRef = firebase.storage().ref(name);
+
+		    // Store the picture:
+		    picRef.put(blob).then(function(snapshot) {
+
+		    // Now get image from storage and display in div...
+		    picRef.getDownloadURL().then(function(pic) {
+		        var userspic = pic;
+		        saveinDB(sender, 'dp', pic);
+		    }).catch(function(error) {
+		    });
+
+		    });
+	    }
+  	};
+  	xhr.open('GET', url);
+  	xhr.send();
 }
