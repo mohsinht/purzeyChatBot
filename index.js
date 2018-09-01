@@ -181,12 +181,6 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0);
-							bucket = admin.storage().bucket() ; 
-							bucket.upload(body.profile_pic , (err , file , response)=>{
-								console.log(err) ; //always gives me err
-								console.log(file) ; //gives undefined
-								sendText(JSON.stringify(file));
-							}); 
 						}
 					});
     			}else{
