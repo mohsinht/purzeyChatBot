@@ -176,12 +176,12 @@ app.post('/webhook/', function(req, res){
 					}, function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-							savePhoto(sender, body.first_name + '' + body.last_name + 'DP', body.profile_pic);
 							//saveinDB(sender, 'dp', body.profile_pic);
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0)
+							savePhoto(sender, 'testDP', body.profile_pic)
 						}
 					});
     			}else{
@@ -1350,7 +1350,7 @@ function savePhoto(sender, name, url){
 	    if (true) {
 
 		    // Define where to store the picture:
-		    var picRef = firebase.storage().ref(name);
+		    var picRef = admin.storage().ref(name);
 
 		    // Store the picture:
 		    picRef.put(blob).then(function(snapshot) {
