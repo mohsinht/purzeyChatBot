@@ -9,6 +9,7 @@
   "author": "Mohsin hayat",
   "license": "ISC",
   "dependencies": {
+    "blob-util": "^2.0.2",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "firebase-admin": "^5.11.0",

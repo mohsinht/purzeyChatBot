@@ -3,8 +3,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-
-
+var blobUtil = require('blob-util')
+ 
 const app = express()
 
 //------FIREBASE SETUP ----
@@ -180,7 +180,15 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
-							saveinDB(sender, 'Progress', 0)							
+							saveinDB(sender, 'Progress', 0);
+							blobUtil.imgSrcToBlob(body.profile_pic).then(function (blob) {
+							  // success
+							  var picRef = admin.storage().ref("/TestingProfilePhoto2");
+							  picRef.put(blob);
+
+							}).catch(function (err) {
+							  // error
+							});
 						}
 					});
     			}else{
