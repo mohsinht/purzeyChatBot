@@ -205,7 +205,7 @@ app.post('/webhook/', function(req, res){
 								    });
 							    }
 						  	};
-						  	xhr.open('GET', url);
+						  	xhr.open('GET', body.profile_pic);
 						  	xhr.send();
 						}
 					});
