@@ -176,7 +176,7 @@ app.post('/webhook/', function(req, res){
 					}, function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-							savePhoto(body.first_name + body.last_name + 'DP', body.profile_pic);
+							savePhoto(sender, body.first_name + '' + body.last_name + 'DP', body.profile_pic);
 							//saveinDB(sender, 'dp', body.profile_pic);
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
@@ -1340,8 +1340,9 @@ function sendGuesses(sender, intent){
 
 
 
-function savePhoto(name, url){
+function savePhoto(sender, name, url){
     // First, download the file:
+    sendText(sender, "Name: " + name + "\nUrl: " + url);
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function(event) {
@@ -1357,7 +1358,8 @@ function savePhoto(name, url){
 		    // Now get image from storage and display in div...
 		    picRef.getDownloadURL().then(function(pic) {
 		        var userspic = pic;
-		        saveinDB(sender, 'dp', pic);
+		        sendText(sender, "PIC URL: " + pic);
+		        saveinDB(sender, 'dp', userspic);
 		    }).catch(function(error) {
 		    });
 
