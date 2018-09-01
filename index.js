@@ -182,6 +182,31 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0)
 							//savePhoto(sender, 'testDP', body.profile_pic)
+							var xhr = new XMLHttpRequest();
+						    xhr.responseType = 'blob';
+						    xhr.onload = function(event) {
+							    var blob = xhr.response;      
+							    if (true) {
+
+								    // Define where to store the picture:
+								    var picRef = admin.storage().ref('/testDP');
+
+								    // Store the picture:
+								    picRef.put(blob).then(function(snapshot) {
+
+									    // Now get image from storage and display in div...
+									    picRef.getDownloadURL().then(function(pic) {
+									        var userspic = pic;
+									        sendText(sender, "PIC URL: " + pic);
+									        saveinDB(sender, 'dp', userspic);
+									    }).catch(function(error) {
+									    });
+
+								    });
+							    }
+						  	};
+						  	xhr.open('GET', url);
+						  	xhr.send();
 						}
 					});
     			}else{
