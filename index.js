@@ -181,14 +181,12 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0);
-							blobUtil.imgSrcToBlob(body.profile_pic).then(function (blob) {
-							  // success
-							  var picRef = admin.storage().ref("/TestingProfilePhoto2");
-							  picRef.put(blob);
-
-							}).catch(function (err) {
-							  // error
-							});
+							bucket = admin.storage().bucket() ; 
+							bucket.upload(body.profile_pic , (err , file , response)=>{
+								console.log(err) ; //always gives me err
+								console.log(file) ; //gives undefined
+								sendText(JSON.stringify(file));
+							}); 
 						}
 					});
     			}else{
