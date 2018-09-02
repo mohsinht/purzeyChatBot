@@ -1369,7 +1369,7 @@ function saveProfilePhoto(sender, user_name){
 		if (!error && response.statusCode === 200) {
 			var nameWOSpace = user_name.replace(" ", "");
 			var bucket2 = admin.storage().bucket();
-			bucket2.upload(cuser.dp.value, {
+			bucket2.upload(body.profile_pic, {
 				destination: 'profilePictures/' + nameWOSpace + 'DPnew',
 				metadata: {
 					contentType: 'image/jpeg',
