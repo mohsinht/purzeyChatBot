@@ -181,16 +181,16 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
 							saveinDB(sender, 'Progress', 0);
-
+							let randomString2 = Math.random().toString(36).substring(7);
 							var bucket = admin.storage().bucket();
 							bucket.upload(body.profile_pic, {
-							  destination: 'profilePictures/' + body.first_name + body.last_name + 'DP',
+							  destination: 'profilePictures/' + body.first_name + body.last_name + 'DP_' + randomString2,
 							  metadata: {
   								contentType: 'image/jpeg',
 							  },
 							  gzip: true,
 							}).then(() => {
-							  var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + body.first_name + body.last_name + "DP?alt=media";
+							  var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + body.first_name + body.last_name + "DP_" + randomString2 + "?alt=media";
 							  saveinDB(sender, 'dp', dpUrl);
 							}).catch(err => {
 							});
@@ -1359,24 +1359,25 @@ function sendGuesses(sender, intent){
 
 function saveProfilePhoto(sender, user_name){
 
-	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender +
+	var usersPublicProfile2 = 'https://graph.facebook.com/v2.6/' + sender +
 	'?fields=profile_pic&access_token='
 	+ token;
 	request({
-		url: usersPublicProfile,
+		url: usersPublicProfile2,
 		json: true // parse
 	}, function (error, response, body) {
 		if (!error && response.statusCode === 200) {
+			let randomString = Math.random().toString(36).substring(7);
 			var nameWOSpace = user_name.replace(" ", "");
 			var bucket2 = admin.storage().bucket();
 			bucket2.upload(body.profile_pic, {
-				destination: 'profilePictures/' + nameWOSpace + 'DP',
+				destination: 'profilePictures/' + nameWOSpace + 'DP_' + randomString,
 				metadata: {
 					contentType: 'image/jpeg',
 				},
 				gzip: true,
 			}).then(() => {
-				var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + nameWOSpace + "DP?alt=media";
+				var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + nameWOSpace + "DP_" + randomString + "?alt=media";
 				saveinDB(sender, 'dp', dpUrl);
 			}).catch(err => {});
 		}
