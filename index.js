@@ -176,7 +176,7 @@ app.post('/webhook/', function(req, res){
 					}, function (error, response, body) {
 						if (!error && response.statusCode === 200) {
 							saveinDB(sender, 'Name', body.first_name + ' ' + body.last_name);
-							saveinDB(sender, 'dp', body.profile_pic);
+							//saveinDB(sender, 'dp', body.profile_pic);
 							saveinDB(sender, 'Gender', body.gender);
 							saveinDB(sender, 'University', 'none');
 							saveinDB(sender, 'Phone', 'none');
@@ -190,7 +190,8 @@ app.post('/webhook/', function(req, res){
 							  },
 							  gzip: true,
 							}).then(() => {
-							  sendText(sender, "PIC SAVED!");
+							  var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + body.first_name + body.last_name + "DP?alt=media";
+							  saveinDB(sender, 'dp', dpUrl);
 							}).catch(err => {
 							});
 						}
