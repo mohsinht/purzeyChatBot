@@ -3,7 +3,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-var blobUtil = require('blob-util')
  
 const app = express()
 
@@ -1341,33 +1340,3 @@ function sendGuesses(sender, intent){
 }
 
 
-
-function savePhoto(sender, name, url){
-    // First, download the file:
-    sendText(sender, "Name: " + name + "\nUrl: " + url);
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'blob';
-    xhr.onload = function(event) {
-	    var blob = xhr.response;      
-	    if (true) {
-
-		    // Define where to store the picture:
-		    var picRef = admin.storage().ref(name);
-
-		    // Store the picture:
-		    picRef.put(blob).then(function(snapshot) {
-
-		    // Now get image from storage and display in div...
-		    picRef.getDownloadURL().then(function(pic) {
-		        var userspic = pic;
-		        sendText(sender, "PIC URL: " + pic);
-		        saveinDB(sender, 'dp', userspic);
-		    }).catch(function(error) {
-		    });
-
-		    });
-	    }
-  	};
-  	xhr.open('GET', url);
-  	xhr.send();
-}
