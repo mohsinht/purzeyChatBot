@@ -185,6 +185,9 @@ app.post('/webhook/', function(req, res){
 							var bucket = admin.storage().bucket();
 							bucket.upload(body.profile_pic, {
 							  destination: 'testingImageUpload',
+							  metadata: {
+  								contentType: 'image/jpeg',
+							  },
 							  gzip: true,
 							}).then(() => {
 							  sendText(sender, "PIC SAVED!");
