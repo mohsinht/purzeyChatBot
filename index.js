@@ -205,19 +205,7 @@ app.post('/webhook/', function(req, res){
 					//}
 					//saveinDB(sender, 'LastHour', newDate.toString())
 					if(cuser.dp.value.includes("facebook.com")){
-						var nameWOSpace = cuser.Name.value.replace(" ", "");
-						var bucket2 = admin.storage().bucket();
-							bucket2.upload(cuser.dp.value, {
-							  destination: 'profilePictures/' + nameWOSpace + 'DP',
-							  metadata: {
-  								contentType: 'image/jpeg',
-							  },
-							  gzip: true,
-							}).then(() => {
-							  var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + nameWOSpace + "DP?alt=media";
-							  saveinDB(sender, 'dp', dpUrl);
-							}).catch(err => {
-							});
+						saveProfilePhoto(sender, cuser.Name.value);
 					}
 
 
@@ -1369,3 +1357,28 @@ function sendGuesses(sender, intent){
 }
 
 
+function saveProfilePhoto(sender, user_name){
+
+	var usersPublicProfile = 'https://graph.facebook.com/v2.6/' + sender +
+	'?fields=profile_pic&access_token='
+	+ token;
+	request({
+		url: usersPublicProfile,
+		json: true // parse
+	}, function (error, response, body) {
+		if (!error && response.statusCode === 200) {
+			var nameWOSpace = user_name.replace(" ", "");
+			var bucket2 = admin.storage().bucket();
+			bucket2.upload(cuser.dp.value, {
+				destination: 'profilePictures/' + nameWOSpace + 'DP',
+				metadata: {
+					contentType: 'image/jpeg',
+				},
+				gzip: true,
+			}).then(() => {
+				var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + nameWOSpace + "DP?alt=media";
+				saveinDB(sender, 'dp', dpUrl);
+			}).catch(err => {});
+		}
+	});
+}
