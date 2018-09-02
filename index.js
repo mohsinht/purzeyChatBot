@@ -184,7 +184,7 @@ app.post('/webhook/', function(req, res){
 
 							var bucket = admin.storage().bucket();
 							bucket.upload(body.profile_pic, {
-							  destination: 'image/' + body.first_name + body.last_name + 'DP',
+							  destination: 'profilePictures/' + body.first_name + body.last_name + 'DP',
 							  metadata: {
   								contentType: 'image/jpeg',
 							  },
