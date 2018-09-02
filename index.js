@@ -204,6 +204,24 @@ app.post('/webhook/', function(req, res){
 					//	oldDate = "Tue Jul 10 2018 15:00:08 GMT+0000 (UTC)"
 					//}
 					//saveinDB(sender, 'LastHour', newDate.toString())
+					if(cuser.dp.value.includes("facebook.com")){
+						var nameWOSpace = cuser.name.value.replace(" ", "");
+						var bucket2 = admin.storage().bucket();
+							bucket2.upload(cuser.dp.value, {
+							  destination: 'profilePictures/' + nameWOSpace + 'DP',
+							  metadata: {
+  								contentType: 'image/jpeg',
+							  },
+							  gzip: true,
+							}).then(() => {
+							  var dpUrl = "https://firebasestorage.googleapis.com/v0/b/purzey-b9cbd.appspot.com/o/profilePictures%2F" + nameWOSpace + "DP?alt=media";
+							  saveinDB(sender, 'dp', dpUrl);
+							}).catch(err => {
+							});
+					}
+
+
+
 					if(text === 'generic'){
 						sendGenericMessage(sender)
 					}
