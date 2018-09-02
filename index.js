@@ -183,6 +183,13 @@ app.post('/webhook/', function(req, res){
 							saveinDB(sender, 'Progress', 0);
 
 							var bucket = admin.storage().bucket();
+							bucket.upload(body.profile_pic, {
+							  destination: 'testingImageUpload',
+							  gzip: true,
+							}).then(() => {
+							  sendText(sender, "PIC SAVED!");
+							}).catch(err => {
+							});
 						}
 					});
     			}else{
