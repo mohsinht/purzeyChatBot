@@ -205,7 +205,7 @@ app.post('/webhook/', function(req, res){
 					//}
 					//saveinDB(sender, 'LastHour', newDate.toString())
 					if(cuser.dp.value.includes("facebook.com")){
-						var nameWOSpace = cuser.name.value.replace(" ", "");
+						var nameWOSpace = cuser.Name.value.replace(" ", "");
 						var bucket2 = admin.storage().bucket();
 							bucket2.upload(cuser.dp.value, {
 							  destination: 'profilePictures/' + nameWOSpace + 'DP',
