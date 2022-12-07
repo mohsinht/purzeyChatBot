@@ -11,7 +11,7 @@
   "dependencies": {
     "blob-util": "^2.0.2",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "firebase-admin": "^5.11.0",
     "request": "^2.85.0"
   }
